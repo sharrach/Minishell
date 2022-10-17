@@ -6,38 +6,47 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/07/18 18:22:42 by sharrach         ###   ########.fr        #
+#    Updated: 2022/10/17 11:55:29 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	:	minishell
+NAME	=	minishell
 
-HEADER	:	minishell.h
+HEADER	=	minishell.h
 
-SRCS	:	main.c
-			hh.c\
+SRCS	=	main.c
 
-OBJS	:	$(SRCS:.c=.o)
+OBJS	=	$(SRCS:.c=.o)
 
-CC		:	gcc
+CC		=	gcc
 
-CFLAGS	:	-Wall -Wextra -Werror
+# CFLAGS	=	-Wall -Wextra -Werror
 
-RM		:	rm -f
+RM		=	rm -f
 
-$(NAME)	:	$(OBJS) $(HEADER)
-			$(CC) $(CFLAGS) $(SRCS) -o $(NAME)
+LIBFT	=	libft
+
+LIB		=	$(LIBFT)/libft.a
+
+%.o:%.c		$(HEADER)
+			$(CC) $(CFLAGS) -I/usr/include/readline/include -c $< -o $@ 
+
+$(NAME)	:	$(LIB) $(OBJS) $(HEADER)
+			$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME) -lreadline -L/usr/include/readline/lib
+
+$(LIB):
+			make -C $(LIBFT)
 
 all		:	$(NAME)
 
 clean	:
 			$(RM) $(OBJS)
-			make clean -C libft
+			make clean -C $(LIBFT)
 
 fclean	:	clean
 			$(RM) $(NAME)
-			make fclean -C libft
+			make fclean -C $(LIBFT)
 
-re		:	fclean all 
+re		:	fclean all
 
-.phony	:	all clean fclean re
+.PHONY	:	all clean fclean re
