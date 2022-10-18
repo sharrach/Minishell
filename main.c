@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:36:50 by sharrach          #+#    #+#             */
-/*   Updated: 2022/10/17 10:35:22 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/10/18 12:42:06 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,13 @@ static  void handle_signals(int signo) {
   }
 }
 
+int pipe[2]
+
 int main (int argc, char **argv)
 {
   char *input;
   char *shell_prompt = "Tzz-shell> ";
+  signal(SIGINT, handle_signals);
   if (signal(SIGINT, handle_signals) == SIG_ERR) {
     printf("failed to register interrupts with kernel\n");
   }
