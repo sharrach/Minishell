@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "signal.h": "c",
-        "history.h": "c"
+        "history.h": "c",
+        "minishell.h": "c",
+        "typeinfo": "c"
     }
 }

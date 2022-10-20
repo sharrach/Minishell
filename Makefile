@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/10/17 11:55:29 by sharrach         ###   ########.fr        #
+#    Updated: 2022/10/18 15:13:41 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,16 @@ NAME	=	minishell
 
 HEADER	=	minishell.h
 
-SRCS	=	main.c
+SRCS	=	main.c\
+			ft_llist_redir.c\
+			ft_llist_mini.c\
+			utils.c
 
 OBJS	=	$(SRCS:.c=.o)
 
 CC		=	gcc
 
-# CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror
 
 RM		=	rm -f
 
