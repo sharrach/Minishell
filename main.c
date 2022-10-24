@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:36:50 by sharrach          #+#    #+#             */
-/*   Updated: 2022/10/20 16:35:52 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/10/24 15:56:12 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,43 +41,46 @@ t_lst	*ft_tokenization(char *input)
 	char	*content;
 	int		type;
 	int 	i;
-	int		start;
+	int		size;
 	int		quote;
 
+	// || (quote = 0 && !ft_strchr(&input[i + size], quote))
 	tokens = NULL;
+	quote  = 0;
 	i = 0;
-	while (input[i] == ' ')
-		i++;
-	start = i;
-	quote = 0;
-	while(1)
+	while(input[i])
 	{
-		if (quote == 0 && (input[i] == '"' || input[i] == '\''))
-			quote = input[i];
-		else if (quote == input[i])
-			quote = 0;
-		if (quote == 0 && ft_strchr("|<> \0", input[i]) && i != 0)
+		if (input[i] == ' ')
 		{
-			// if ((input[i] == '<' && input[i + 1] == '<') 
-			// 	|| (input[i] == '>' && input[i + 1] == '>'))
-			// {
-			// 	type = ft_token_type(content);
-			// 	ft_lst_lstadd_back(&tokens, ft_lst_lstnew(content, type));
-			// }
-			content = ft_substr(input, start, (i - start));
-			type = ft_token_type(content);
-			ft_lst_lstadd_back(&tokens, ft_lst_lstnew(content, type));
-			while (input[i] == ' ')
-				i++;
-			start = i;
+			i ++;
+			continue ;
 		}
-		if (!input[i])
-			break;
-		i ++;
+		size = 0;
+		if ((input[i + size] == '>' && input[i + size + 1] == '>')
+				|| (input[i + size] == '<' && input[i + size + 1] == '<'))
+			size += 2;
+		else if (ft_strchr("|<>" ,input[i + size]))
+			size++;
+		else
+		{
+			while (input[i + size] && (quote != 0 || (quote == 0 && !ft_strchr("| <>" , input[i + size]))))
+			{
+				if (quote == 0 && (input[i + size] == '"' || input[i + size] == '\''))
+					quote = input[i + size];
+				else if (quote == input[i + size])
+					quote = 0;
+				size++;
+				if ((quote != 0 && !ft_strchr(&input[i + size], quote)))
+					break;
+			}
+		}
+		content = ft_substr(input, i, size);
+		type = ft_token_type(content);
+		ft_lst_lstadd_back(&tokens, ft_lst_lstnew(content, type));
+		i += size;
 	}
 	return (tokens);
 }
-
 static  void handle_signals(int signo) {
 	if (signo == SIGINT) {
 		printf("You pressed Ctrl+C\n");
