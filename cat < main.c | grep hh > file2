@@ -1,0 +1,10 @@
+cat < main.c | grep hh > file2
+
+cat     WORD
+<       IN_RED
+main.c  WORD
+|       PIPE
+grep
+hh
+>
+file2

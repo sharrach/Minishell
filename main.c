@@ -6,11 +6,28 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:36:50 by sharrach          #+#    #+#             */
-/*   Updated: 2022/10/24 15:56:12 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/10/26 16:12:03 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	syntax_error(t_lst	*tokens)
+{
+
+	if (tokens->type == PIPE)
+		return (1);
+	while(tokens)
+	{
+		if (tokens->type != WORD
+			&& (!tokens->next || (tokens->next && tokens->next->type != WORD)))
+			return (1);
+		if (tokens->type == QUOTE || tokens->type == DB_QUOTE)
+			return (1);
+		tokens = tokens->next;
+	}
+	return (0);
+}
 
 int	ft_token_type(char *content)
 {
@@ -42,11 +59,8 @@ t_lst	*ft_tokenization(char *input)
 	int		type;
 	int 	i;
 	int		size;
-	int		quote;
 
-	// || (quote = 0 && !ft_strchr(&input[i + size], quote))
 	tokens = NULL;
-	quote  = 0;
 	i = 0;
 	while(input[i])
 	{
@@ -63,17 +77,18 @@ t_lst	*ft_tokenization(char *input)
 			size++;
 		else
 		{
-			while (input[i + size] && (quote != 0 || (quote == 0 && !ft_strchr("| <>" , input[i + size]))))
+			while (input[i + size] && !ft_strchr("| <>" , input[i + size]))
 			{
-				if (quote == 0 && (input[i + size] == '"' || input[i + size] == '\''))
-					quote = input[i + size];
-				else if (quote == input[i + size])
-					quote = 0;
-				size++;
-				if ((quote != 0 && !ft_strchr(&input[i + size], quote)))
+				if ((input[i + size] == '"' || input[i + size] == '\'')
+					&& input[i + size + 1] && ft_strchr(&input[i + size + 1] , input[i + size]))
+					size = ft_strlen(input) - ft_strlen(ft_strchr(&input[i + size + 1] , input[i + size]));
+				else if (input[i + size] == '"' || input[i + size] == '\'')
 					break;
+				size++;
 			}
 		}
+		if (size == 0 && input[i] == input[i + size])
+			size = 1;
 		content = ft_substr(input, i, size);
 		type = ft_token_type(content);
 		ft_lst_lstadd_back(&tokens, ft_lst_lstnew(content, type));
@@ -81,18 +96,71 @@ t_lst	*ft_tokenization(char *input)
 	}
 	return (tokens);
 }
+
 static  void handle_signals(int signo) {
 	if (signo == SIGINT) {
 		printf("You pressed Ctrl+C\n");
 	}
 }
 
+t_mini	*ft_parsing(t_lst *tokens)
+{
+	t_mini	*cmds;
+	char	**cmd;
+	int		w_count;
+	int 	i;
+	t_lst	*tmp;
+
+	cmds = NULL;
+	w_count = 0;
+	i = 0;
+	tmp = tokens;
+	while(tmp && tmp->type != PIPE)
+	{
+		if (tmp->type == WORD)
+			w_count++;
+		tmp = tmp->next;
+	}
+	cmd = (char **)ft_calloc(w_count + 1, sizeof(char *));
+	if (!cmd)
+		return (NULL);
+	while (tokens)
+	{
+		if (tokens->type == WORD)
+		{
+			cmd[i] = tokens->content;
+			i++;
+		}
+		if (tokens->type == PIPE || !tokens->next)
+		{
+			ft_mini_lstadd_back(&cmds, ft_mini_lstnew(cmd, NULL));
+			w_count = 0;
+			i = 0;
+			tmp = tokens;
+			while(tmp && tmp->type != PIPE)
+			{
+				if (tmp->type == WORD)
+					w_count++;
+				tmp = tmp->next;
+			}
+			cmd = (char **)ft_calloc(w_count + 1, sizeof(char *));
+			if (!cmd)
+				return (NULL);
+		}
+		tokens = tokens->next;
+	}
+	return (cmds);
+}
+
 int main ()
 {
 	t_lst *tokens;
+	t_mini	*cmds;
+	int 	i;
 	char *input;
 	char *shell_prompt = "Tzz-shell> ";
 
+	i = 0;
 	signal(SIGINT, handle_signals);
 	if (signal(SIGINT, handle_signals) == SIG_ERR)
 		printf("failed to register interrupts with kernel\n");
@@ -105,12 +173,34 @@ int main ()
 		tokens = ft_tokenization(input);
 		if (!tokens)
 			break;
-		while (tokens != NULL)
+		//////////////////////
+		t_lst *tmp = tokens;
+		while (tmp != NULL)
 		{
-			printf("content: '%s'\n", tokens->content);
-			printf("type: %d\n\n", tokens->type);
-			tokens = tokens->next;
+			printf("content: '%s'\n", tmp->content);
+			printf("type: %d\n\n", tmp->type);
+			tmp = tmp->next;
 		}
+		//////////////////////
+		if (syntax_error(tokens))
+		{
+			printf("Syntax error\n");
+			continue;
+		}
+		cmds = ft_parsing(tokens);
+		//////////////////////
+		t_mini *tmp_cmds = cmds;
+		while (tmp_cmds)
+		{
+			while (tmp_cmds->cmd[i])
+			{
+				printf("%d %s\n", i, tmp_cmds->cmd[i]);
+				i++;
+			}
+			tmp_cmds = tmp_cmds->next;
+		}
+		//////////////////////
+		
 	}
 	return 0;
 }

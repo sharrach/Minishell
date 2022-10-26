@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/10/22 17:39:39 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/10/26 13:54:35 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef	struct  s_mini
 
 //linked list minishell
 void	ft_mini_lstclear(t_mini **lst);
-t_mini	*ft_mini_lstnew(char **cmd, int pipe[2], t_lst *redir);
+t_mini	*ft_mini_lstnew(char **cmd, t_lst *redir);
 void	ft_mini_lstadd_back(t_mini **lst, t_mini *new);
 t_mini	*ft_mini_lstlast(t_mini *lst);
 

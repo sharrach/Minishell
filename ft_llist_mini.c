@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:02:41 by sharrach          #+#    #+#             */
-/*   Updated: 2022/10/20 12:09:13 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/10/26 13:54:23 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_mini_lstadd_back(t_mini **lst, t_mini *new)
 		*lst = new;
 }
 
-t_mini	*ft_mini_lstnew(char **cmd, int pipe[2], t_lst *redir)
+t_mini	*ft_mini_lstnew(char **cmd, t_lst *redir)
 {
 	t_mini	*new;
 
@@ -39,8 +39,8 @@ t_mini	*ft_mini_lstnew(char **cmd, int pipe[2], t_lst *redir)
 	if (new == 0)
 		return (NULL);
 	new->cmd = cmd;
-    new->pipe[0] = pipe[0];
-    new->pipe[1] = pipe[1];
+    new->pipe[STDIN_FILENO] = STDIN_FILENO;
+    new->pipe[STDOUT_FILENO] = STDOUT_FILENO;
 	new->redir = redir;
 	new->next = NULL;
 	return (new);
