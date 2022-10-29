@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:36:50 by sharrach          #+#    #+#             */
-/*   Updated: 2022/10/26 16:12:03 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/10/29 14:49:48 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,14 @@ static  void handle_signals(int signo) {
 t_mini	*ft_parsing(t_lst *tokens)
 {
 	t_mini	*cmds;
+	t_lst	*redir;
 	char	**cmd;
 	int		w_count;
 	int 	i;
 	t_lst	*tmp;
 
 	cmds = NULL;
+	redir = NULL;
 	w_count = 0;
 	i = 0;
 	tmp = tokens;
@@ -121,19 +123,26 @@ t_mini	*ft_parsing(t_lst *tokens)
 			w_count++;
 		tmp = tmp->next;
 	}
+	printf("count: %d\n", w_count);
 	cmd = (char **)ft_calloc(w_count + 1, sizeof(char *));
 	if (!cmd)
 		return (NULL);
 	while (tokens)
 	{
 		if (tokens->type == WORD)
-		{
-			cmd[i] = tokens->content;
-			i++;
-		}
+			cmd[i++] = tokens->content;
 		if (tokens->type == PIPE || !tokens->next)
 		{
-			ft_mini_lstadd_back(&cmds, ft_mini_lstnew(cmd, NULL));
+			ft_mini_lstadd_back(&cmds, ft_mini_lstnew(cmd, redir));
+			redir = NULL;
+		}
+		if (tokens->type == IN_RED || tokens->type == OUT_RED
+			|| tokens->type == IN_REDD || tokens->type == OUT_REDD)
+		{
+			ft_lst_lstadd_back(&redir, ft_lst_lstnew(tokens->next->content, tokens->type));
+		}
+		if (tokens->type == PIPE && tokens->next)
+		{
 			w_count = 0;
 			i = 0;
 			tmp = tokens;
@@ -143,6 +152,7 @@ t_mini	*ft_parsing(t_lst *tokens)
 					w_count++;
 				tmp = tmp->next;
 			}
+			printf("count: %d\n", w_count);
 			cmd = (char **)ft_calloc(w_count + 1, sizeof(char *));
 			if (!cmd)
 				return (NULL);
@@ -160,7 +170,6 @@ int main ()
 	char *input;
 	char *shell_prompt = "Tzz-shell> ";
 
-	i = 0;
 	signal(SIGINT, handle_signals);
 	if (signal(SIGINT, handle_signals) == SIG_ERR)
 		printf("failed to register interrupts with kernel\n");
@@ -174,13 +183,13 @@ int main ()
 		if (!tokens)
 			break;
 		//////////////////////
-		t_lst *tmp = tokens;
-		while (tmp != NULL)
-		{
-			printf("content: '%s'\n", tmp->content);
-			printf("type: %d\n\n", tmp->type);
-			tmp = tmp->next;
-		}
+		// t_lst *tmp = tokens;
+		// while (tmp != NULL)
+		// {
+		// 	printf("content: '%s'\n", tmp->content);
+		// 	printf("type: %d\n\n", tmp->type);
+		// 	tmp = tmp->next;
+		// }
 		//////////////////////
 		if (syntax_error(tokens))
 		{
@@ -192,11 +201,18 @@ int main ()
 		t_mini *tmp_cmds = cmds;
 		while (tmp_cmds)
 		{
+			i = 0;
 			while (tmp_cmds->cmd[i])
 			{
 				printf("%d %s\n", i, tmp_cmds->cmd[i]);
 				i++;
 			}
+			while (tmp_cmds->redir)
+			{
+				printf("redir: %d - %s\n", tmp_cmds->redir->type, tmp_cmds->redir->content);
+				tmp_cmds->redir = tmp_cmds->redir->next;
+			}
+			printf("\n");
 			tmp_cmds = tmp_cmds->next;
 		}
 		//////////////////////
