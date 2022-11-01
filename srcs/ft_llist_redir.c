@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_llist_mini.c                                    :+:      :+:    :+:   */
+/*   ft_llist_redir.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:02:41 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/01 15:45:32 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/01 17:22:14 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
-t_mini	*ft_mini_lstlast(t_mini *lst)
+t_lst	*ft_lst_lstlast(t_lst *lst)
 {
 	while (lst)
 	{
@@ -23,36 +23,35 @@ t_mini	*ft_mini_lstlast(t_mini *lst)
 	return (lst);
 }
 
-void	ft_mini_lstadd_back(t_mini **lst, t_mini *new)
+void	ft_lst_lstadd_back(t_lst **lst, t_lst *new)
 {
 	if (*lst)
 	{
-		new->prev = ft_mini_lstlast(*lst);
-		ft_mini_lstlast(*lst)->next = new;
+		new->prev = ft_lst_lstlast(*lst);
+		ft_lst_lstlast(*lst)->next = new;
+
 	}
 	else
 		*lst = new;
 }
 
-t_mini	*ft_mini_lstnew(char **cmd, t_lst *redir)
+t_lst	*ft_lst_lstnew(char *content, int type)
 {
-	t_mini	*new;
+	t_lst	*new;
 
-	new = malloc(sizeof(t_mini) * 1);
+	new = malloc(sizeof(t_lst) * 1);
 	if (new == 0)
 		return (NULL);
-	new->cmd = cmd;
-    new->pipe[STDIN_FILENO] = STDIN_FILENO;
-    new->pipe[STDOUT_FILENO] = STDOUT_FILENO;
-	new->redir = redir;
+	new->content = content;
+    new->type = type;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
 }
 
-void	ft_mini_lstclear(t_mini **lst)
+void	ft_lst_lstclear(t_lst **lst)
 {
-	t_mini	*holder;
+	t_lst	*holder;
 
 	if (!lst)
 		return;
@@ -60,8 +59,7 @@ void	ft_mini_lstclear(t_mini **lst)
 	{
 		holder = *lst;
 		*lst = (*lst)->next;
-        free_2d(holder->cmd);
-		ft_lst_lstclear(&holder->redir);
+        free(holder->content);
         free(holder);
 	}
 	*lst = NULL;

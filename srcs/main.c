@@ -6,11 +6,11 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:36:50 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/01 17:15:54 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/01 17:22:23 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int	syntax_error(t_lst	*tokens)
 {

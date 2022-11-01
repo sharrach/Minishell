@@ -6,11 +6,11 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 11:40:16 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/01 16:46:26 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/01 17:22:08 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	ft_open_pipes(t_mini *cmds)
 {

@@ -6,25 +6,26 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/01 16:05:46 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/01 17:21:54 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
-#include "libft/libft.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <error.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+# define MINISHELL_H
+
+# include "../libft/libft.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <string.h>
+# include <stdlib.h>
+# include <signal.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <error.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 enum e_tokens {
 	PIPE,
@@ -75,6 +76,5 @@ void	ft_open_redirs(t_mini *cmds);
 
 //add path
 int ft_get_cmd_path(char **cmd, char *env[]);
-
 
 #endif

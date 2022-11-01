@@ -6,11 +6,11 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:06:26 by sharrach          #+#    #+#             */
-/*   Updated: 2022/10/31 20:24:49 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/01 17:22:17 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 static char    **get_paths(char *env[])
 {

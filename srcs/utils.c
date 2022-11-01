@@ -6,11 +6,11 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:34:22 by sharrach          #+#    #+#             */
-/*   Updated: 2022/10/18 13:36:18 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/01 17:22:27 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void    free_2d(char **arr)
 {
