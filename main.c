@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:36:50 by sharrach          #+#    #+#             */
-/*   Updated: 2022/10/29 14:49:48 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/01 17:15:54 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,17 +119,20 @@ t_mini	*ft_parsing(t_lst *tokens)
 	tmp = tokens;
 	while(tmp && tmp->type != PIPE)
 	{
-		if (tmp->type == WORD)
+		if (tmp->type == WORD && (tmp->prev == NULL
+			|| (tmp->prev->type != IN_RED && tmp->prev->type != OUT_RED
+				&& tmp->prev->type != IN_REDD && tmp->prev->type != OUT_REDD)))
 			w_count++;
 		tmp = tmp->next;
 	}
-	printf("count: %d\n", w_count);
 	cmd = (char **)ft_calloc(w_count + 1, sizeof(char *));
 	if (!cmd)
 		return (NULL);
 	while (tokens)
 	{
-		if (tokens->type == WORD)
+		if (tokens->type == WORD && (tokens->prev == NULL
+			|| (tokens->prev->type != IN_RED && tokens->prev->type != OUT_RED
+				&& tokens->prev->type != IN_REDD && tokens->prev->type != OUT_REDD)))
 			cmd[i++] = tokens->content;
 		if (tokens->type == PIPE || !tokens->next)
 		{
@@ -148,11 +151,12 @@ t_mini	*ft_parsing(t_lst *tokens)
 			tmp = tokens;
 			while(tmp && tmp->type != PIPE)
 			{
-				if (tmp->type == WORD)
+				if (tmp->type == WORD && (tmp->prev == NULL
+					|| (tmp->prev->type != IN_RED && tmp->prev->type != OUT_RED
+						&& tmp->prev->type != IN_REDD && tmp->prev->type != OUT_REDD)))
 					w_count++;
 				tmp = tmp->next;
 			}
-			printf("count: %d\n", w_count);
 			cmd = (char **)ft_calloc(w_count + 1, sizeof(char *));
 			if (!cmd)
 				return (NULL);
@@ -162,11 +166,48 @@ t_mini	*ft_parsing(t_lst *tokens)
 	return (cmds);
 }
 
-int main ()
+void	ft_exec_command(t_mini *cmds, char *env[])
 {
+	pid_t	pid;
+
+	ft_open_pipes(cmds);
+	ft_open_redirs(cmds);
+	while(cmds)
+	{
+		pid = fork();
+		if (pid == -1)
+			perror("fork");
+		if (pid == 0)
+		{
+			if (cmds->pipe[STDIN_FILENO] != STDIN_FILENO)
+			{
+				dup2(cmds->pipe[STDIN_FILENO], STDIN_FILENO);
+				close(cmds->pipe[STDIN_FILENO]);
+			}
+			if (cmds->pipe[STDOUT_FILENO] != STDOUT_FILENO)
+			{
+				dup2(cmds->pipe[STDOUT_FILENO], STDOUT_FILENO);
+				close(cmds->pipe[STDOUT_FILENO]);
+			}
+			if (!ft_get_cmd_path(&cmds->cmd[0], env))
+			{
+				printf("%s: command not found\n", cmds->cmd[0]);
+				return ;
+			}
+			execve(cmds->cmd[0], cmds->cmd, env);
+		}
+		cmds = cmds->next;
+	}
+	waitpid(pid, NULL, 0);
+	write(2, "123\n", 4);
+}
+
+int main (int ac, char *av[], char *env[])
+{
+	(void)ac;
+	(void)av;
 	t_lst *tokens;
 	t_mini	*cmds;
-	int 	i;
 	char *input;
 	char *shell_prompt = "Tzz-shell> ";
 
@@ -198,24 +239,25 @@ int main ()
 		}
 		cmds = ft_parsing(tokens);
 		//////////////////////
-		t_mini *tmp_cmds = cmds;
-		while (tmp_cmds)
-		{
-			i = 0;
-			while (tmp_cmds->cmd[i])
-			{
-				printf("%d %s\n", i, tmp_cmds->cmd[i]);
-				i++;
-			}
-			while (tmp_cmds->redir)
-			{
-				printf("redir: %d - %s\n", tmp_cmds->redir->type, tmp_cmds->redir->content);
-				tmp_cmds->redir = tmp_cmds->redir->next;
-			}
-			printf("\n");
-			tmp_cmds = tmp_cmds->next;
-		}
-		//////////////////////
+		// t_mini *tmp_cmds = cmds;
+		// while (tmp_cmds)
+		// {
+		// 	int i = 0;
+		// 	while (tmp_cmds->cmd[i])
+		// 	{
+		// 		printf("%d %s\n", i, tmp_cmds->cmd[i]);
+		// 		i++;
+		// 	}
+		// 	while (tmp_cmds->redir)
+		// 	{
+		// 		printf("redir: %d - %s\n", tmp_cmds->redir->type, tmp_cmds->redir->content);
+		// 		tmp_cmds->redir = tmp_cmds->redir->next;
+		// 	}
+		// 	printf("\n");
+		// 	tmp_cmds = tmp_cmds->next;
+		// }
+		////////////////////
+		ft_exec_command(cmds, env);
 		
 	}
 	return 0;

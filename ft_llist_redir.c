@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:02:41 by sharrach          #+#    #+#             */
-/*   Updated: 2022/10/19 23:38:48 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/01 15:48:22 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ t_lst	*ft_lst_lstlast(t_lst *lst)
 void	ft_lst_lstadd_back(t_lst **lst, t_lst *new)
 {
 	if (*lst)
+	{
+		new->prev = ft_lst_lstlast(*lst);
 		ft_lst_lstlast(*lst)->next = new;
+
+	}
 	else
 		*lst = new;
 }
@@ -41,6 +45,7 @@ t_lst	*ft_lst_lstnew(char *content, int type)
 	new->content = content;
     new->type = type;
 	new->next = NULL;
+	new->prev = NULL;
 	return (new);
 }
 

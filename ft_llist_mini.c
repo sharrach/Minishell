@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:02:41 by sharrach          #+#    #+#             */
-/*   Updated: 2022/10/26 13:54:23 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/01 15:45:32 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ t_mini	*ft_mini_lstlast(t_mini *lst)
 void	ft_mini_lstadd_back(t_mini **lst, t_mini *new)
 {
 	if (*lst)
+	{
+		new->prev = ft_mini_lstlast(*lst);
 		ft_mini_lstlast(*lst)->next = new;
+	}
 	else
 		*lst = new;
 }
@@ -43,6 +46,7 @@ t_mini	*ft_mini_lstnew(char **cmd, t_lst *redir)
     new->pipe[STDOUT_FILENO] = STDOUT_FILENO;
 	new->redir = redir;
 	new->next = NULL;
+	new->prev = NULL;
 	return (new);
 }
 

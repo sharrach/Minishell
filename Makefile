@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/10/18 15:13:41 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/01 16:49:50 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ HEADER	=	minishell.h
 SRCS	=	main.c\
 			ft_llist_redir.c\
 			ft_llist_mini.c\
+			execute.c\
+			get_command.c\
 			utils.c
 
 OBJS	=	$(SRCS:.c=.o)
@@ -38,17 +40,17 @@ $(NAME)	:	$(LIB) $(OBJS) $(HEADER)
 			$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME) -lreadline -L/usr/include/readline/lib
 
 $(LIB):
-			make -C $(LIBFT)
+			# make -C $(LIBFT)
 
 all		:	$(NAME)
 
 clean	:
 			$(RM) $(OBJS)
-			make clean -C $(LIBFT)
+			# make clean -C $(LIBFT)
 
 fclean	:	clean
 			$(RM) $(NAME)
-			make fclean -C $(LIBFT)
+			# make fclean -C $(LIBFT)
 
 re		:	fclean all
 

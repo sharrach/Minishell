@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/10/26 13:54:35 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/01 16:05:46 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <error.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -39,6 +42,7 @@ typedef	struct s_lst
 	char			*content;
 	int				type;
 	struct s_lst	*next;
+	struct s_lst	*prev;
 }	t_lst;
 
 typedef	struct  s_mini
@@ -47,6 +51,7 @@ typedef	struct  s_mini
 	int				pipe[2];
 	t_lst			*redir;
 	struct s_mini	*next;
+	struct s_mini	*prev;
 }	t_mini;
 
 //linked list minishell
@@ -61,8 +66,15 @@ void	ft_lst_lstadd_back(t_lst **lst, t_lst *new);
 t_lst	*ft_lst_lstnew(char *name, int type);
 void	ft_lst_lstclear(t_lst **lst);
 
+//using function
 void    free_2d(char **arr);
 
+/// execution
+void	ft_open_pipes(t_mini *cmds);
+void	ft_open_redirs(t_mini *cmds);
+
+//add path
+int ft_get_cmd_path(char **cmd, char *env[]);
 
 
 #endif

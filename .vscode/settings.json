@@ -8,6 +8,7 @@
         "string_view": "c",
         "initializer_list": "c",
         "utility": "c",
-        "error.h": "c"
+        "error.h": "c",
+        "random": "c"
     }
 }
