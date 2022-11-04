@@ -1,46 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/18 13:34:22 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/04 10:19:09 by sharrach         ###   ########.fr       */
+/*   Created: 2022/11/04 09:48:38 by sharrach          #+#    #+#             */
+/*   Updated: 2022/11/04 10:15:52 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int ft_strcmp(const char *s1, const char *s2)
+
+int	ft_cd(char	*path)
 {
-    int i;
-
-    i = 0;
-    while(s1[i] && s2[i] && s1[i] == s2[i])
-        i ++;
-    return (s1[i] - s2[i]);
-}
-
-size_t	ft_arrlen(char **arr)
-{
-	size_t	arrlen;
-
-	arrlen = 0;
-	while (arr[arrlen])
-		arrlen ++;
-	return (arrlen);
-}
-
-void    free_2d(char **arr)
-{
-    int i;
-     
-    i = 0;
-    while(arr[i])
-    {
-        free(arr[i]);
-        i ++;
-    }
-    free(arr);
+	// if (chdir(path) == 0)
+	// {
+		
+	// }
+	printf("%s\n", path);
+	return (0);
 }

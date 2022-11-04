@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/01 17:23:34 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/04 12:25:25 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,18 @@ NAME	=	minishell
 HEADER	=	includes/minishell.h
 
 SRCS	=	srcs/main.c\
-			srcs/ft_llist_redir.c\
-			srcs/ft_llist_mini.c\
 			srcs/pipes_red.c\
-			srcs/get_command.c\
+			srcs/ft_llist_mini.c\
+			srcs/ft_llist_redir.c\
+			srcs/ft_tokenization.c\
+			srcs/ft_parsing.c\
+			srcs/ft_get_command.c\
+			srcs/ft_exec_command.c\
+			srcs/ft_env_dup.c\
+			srcs/ft_env.c\
+			srcs/ft_cd.c\
+			srcs/ft_pwd.c\
+			srcs/ft_echo.c\
 			srcs/utils.c
 
 OBJS	=	$(SRCS:.c=.o)

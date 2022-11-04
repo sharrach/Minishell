@@ -1,46 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_env_dup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/18 13:34:22 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/04 10:19:09 by sharrach         ###   ########.fr       */
+/*   Created: 2022/11/04 09:50:09 by sharrach          #+#    #+#             */
+/*   Updated: 2022/11/04 09:50:28 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int ft_strcmp(const char *s1, const char *s2)
+void	ft_duplicate_env(t_vars *vars, char **env)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while(s1[i] && s2[i] && s1[i] == s2[i])
-        i ++;
-    return (s1[i] - s2[i]);
-}
-
-size_t	ft_arrlen(char **arr)
-{
-	size_t	arrlen;
-
-	arrlen = 0;
-	while (arr[arrlen])
-		arrlen ++;
-	return (arrlen);
-}
-
-void    free_2d(char **arr)
-{
-    int i;
-     
-    i = 0;
-    while(arr[i])
-    {
-        free(arr[i]);
-        i ++;
-    }
-    free(arr);
+	vars->env = ft_calloc(ft_arrlen(env) + 1, sizeof(char *));
+	if (!vars->env)
+		return ;
+	i = 0;
+	while(env[i])
+	{
+		vars->env[i] = ft_strdup(env[i]);
+		i++;
+	}
 }
