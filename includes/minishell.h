@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/04 12:25:04 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/05 19:50:20 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	ft_duplicate_env(t_vars *vars, char **env);
 int		ft_pwd(void);
 void	ft_duplicate_env(t_vars *vars, char **env);
 void	ft_env(char **env);
-void	ft_echo(char **arg);
+int		ft_echo(char **arg);
+int		ft_cd(char	*path);
 
 #endif
