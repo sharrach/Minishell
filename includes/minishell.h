@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/05 19:50:20 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/06 14:02:54 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	ft_close_pipes(t_mini *cmds);
 void	ft_open_redirs(t_mini *cmds);
 
 //add path
-int ft_get_cmd_path(char **cmd, char *env[]);
+int 	ft_get_cmd_path(char **cmd, char *env[]);
 
 //minishell
 t_mini	*ft_parsing(t_lst *tokens);
@@ -103,6 +103,9 @@ int		ft_pwd(void);
 void	ft_duplicate_env(t_vars *vars, char **env);
 void	ft_env(char **env);
 int		ft_echo(char **arg);
-int		ft_cd(char	*path);
+int		ft_cd(char	**args, char **env);
 
+
+
+char    *ft_getenv(char **env, char *var);
 #endif

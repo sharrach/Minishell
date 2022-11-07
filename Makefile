@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/04 12:25:25 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/06 13:34:46 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS	=	srcs/main.c\
 			srcs/ft_cd.c\
 			srcs/ft_pwd.c\
 			srcs/ft_echo.c\
+			srcs/ft_getenv.c\
 			srcs/utils.c
 
 OBJS	=	$(SRCS:.c=.o)

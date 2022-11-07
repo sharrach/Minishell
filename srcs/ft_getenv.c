@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*   ft_getenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/04 09:48:38 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/06 15:38:13 by sharrach         ###   ########.fr       */
+/*   Created: 2022/11/06 13:26:21 by sharrach          #+#    #+#             */
+/*   Updated: 2022/11/06 15:35:36 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_cd(char	**args, char **env)
+char	*ft_getenv(char **env, char *var)
 {
-	char	*path;
+	int	i;
 
-	path = args[1];
-	if (ft_arrlen(args) == 1)
-		path = ft_getenv(env, "HOME");
-	if (ft_arrlen(args) > 2)
+	i = 0;
+	while (env[i])
 	{
-		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
-		return (1);
+		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0 && env[i][ft_strlen(var)] == '=')
+			return (&env[i][ft_strlen(var) + 1]);
+		i++;
 	}
-	if (chdir(path) == -1)
-	{
-		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-		perror(path);
-		return (1);
-	}
-	return (0);
+	return (NULL);
 }
