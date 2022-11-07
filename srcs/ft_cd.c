@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 09:48:38 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/06 15:38:13 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/07 12:37:39 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_cd(char	**args, char **env)
 	char	*path;
 
 	path = args[1];
-	if (ft_arrlen(args) == 1)
+	if (ft_arrlen(args) == 1 || (ft_arrlen(args) == 2 && args[1] == "--"))
 		path = ft_getenv(env, "HOME");
 	if (ft_arrlen(args) > 2)
 	{
