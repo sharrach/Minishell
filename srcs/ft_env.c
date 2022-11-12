@@ -6,20 +6,18 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 09:49:03 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/06 13:26:12 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/11 16:11:35 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_env(char **env)
+void	ft_env(t_env *env)
 {
-	int i;
-	
-	i = 0;
-	while (env[i])
+	while (env)
 	{
-		printf("%s\n", env[i]);
-		i++;
+		if (env->content)
+			printf("%s=%s\n", env->var, env->content);
+		env = env->next;
 	}
 }

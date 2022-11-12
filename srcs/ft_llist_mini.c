@@ -6,11 +6,24 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:02:41 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/01 17:22:12 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/09 19:28:35 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	ft_mini_lstsize(t_mini *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		i ++;
+		lst = lst->next;
+	}
+	return (i);
+}
 
 t_mini	*ft_mini_lstlast(t_mini *lst)
 {

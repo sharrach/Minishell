@@ -6,13 +6,13 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:06:26 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/06 15:46:30 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/09 14:34:19 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char    **get_paths(char *env[])
+static char    **get_paths(t_env *env)
 {
 	char    **paths;
 	char    *path;
@@ -24,7 +24,7 @@ static char    **get_paths(char *env[])
 	return (paths);
 }
 
-int ft_get_cmd_path(char **cmd, char *env[])
+int ft_get_cmd_path(char **cmd, t_env *env)
 {
 	char    **paths;
 	char    *path;

@@ -6,23 +6,43 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 09:50:09 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/04 09:50:28 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/09 19:28:35 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+static size_t	ft_varlen(char *str)
+{
+	size_t	i; 
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			break ;
+		i++;
+	}
+	return (i);
+}
+
 void	ft_duplicate_env(t_vars *vars, char **env)
 {
-	int	i;
+	int		i;
+	int		varlen;
+	char	*var;
+	char	*content;
 
-	vars->env = ft_calloc(ft_arrlen(env) + 1, sizeof(char *));
-	if (!vars->env)
-		return ;
+	vars->env = NULL;
 	i = 0;
-	while(env[i])
+	while (env[i])
 	{
-		vars->env[i] = ft_strdup(env[i]);
+		varlen = ft_varlen(env[i]);
+		var = ft_substr(env[i], 0, varlen);
+		if (ft_strchr(env[i], '='))
+			varlen += 1;
+		content = ft_substr(env[i], varlen, ft_strlen(env[i]) - varlen);
+		ft_env_lstadd_back(&vars->env, ft_env_lstnew(var, content));
 		i++;
 	}
 }

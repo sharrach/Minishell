@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/06 13:34:46 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/11 16:54:51 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRCS	=	srcs/main.c\
 			srcs/pipes_red.c\
 			srcs/ft_llist_mini.c\
 			srcs/ft_llist_redir.c\
+			srcs/ft_lst_env.c\
 			srcs/ft_tokenization.c\
 			srcs/ft_parsing.c\
 			srcs/ft_get_command.c\
@@ -26,8 +27,10 @@ SRCS	=	srcs/main.c\
 			srcs/ft_env.c\
 			srcs/ft_cd.c\
 			srcs/ft_pwd.c\
+			srcs/ft_unset.c\
 			srcs/ft_echo.c\
-			srcs/ft_getenv.c\
+			srcs/ft_export.c\
+			srcs/ft_getsetenv.c\
 			srcs/utils.c
 
 OBJS	=	$(SRCS:.c=.o)

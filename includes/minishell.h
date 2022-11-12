@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/06 14:02:54 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:30:50 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,23 @@ typedef	struct  s_mini
 	struct s_mini	*prev;
 }	t_mini;
 
+typedef struct	s_env
+{
+	char			*var;
+	char			*content;
+	struct s_env	*next;
+	struct s_env	*prev;
+}	t_env;
+
 typedef struct s_vars
 {
 	t_mini	*cmds;
-	char	**env;
-	char	**arg;
+	t_env	*env;
 	char	*input;
 }	t_vars;
 
 //linked list minishell
+int		ft_mini_lstsize(t_mini *lst);
 void	ft_mini_lstclear(t_mini **lst);
 t_mini	*ft_mini_lstnew(char **cmd, t_lst *redir);
 void	ft_mini_lstadd_back(t_mini **lst, t_mini *new);
@@ -76,10 +84,22 @@ void	ft_lst_lstadd_back(t_lst **lst, t_lst *new);
 t_lst	*ft_lst_lstnew(char *name, int type);
 void	ft_lst_lstclear(t_lst **lst);
 
-//using function
+// linkend list env
+int		ft_env_lstsize(t_env *lst);
+t_env	*ft_env_lstlast(t_env *env);
+void	ft_env_lstadd_back(t_env **env, t_env *new);
+t_env	*ft_env_lstnew(char *var, char *content);
+void	ft_env_lstclear(t_env **env);
+
+// freeing and array
 void    free_2d(char **arr);
+// count the lenght of an array
 size_t	ft_arrlen(char **arr);
-int ft_strcmp(const char *s1, const char *s2);
+// comparing two strings
+int		ft_strcmp(const char *s1, const char *s2);
+char	*ft_strcat(char *dest, const char *src);
+char	*ft_stradd(char const *s1, char const *s2);
+void	ft_strcpy(char *dst, const char *src);
 
 
 /// execution
@@ -88,7 +108,7 @@ void	ft_close_pipes(t_mini *cmds);
 void	ft_open_redirs(t_mini *cmds);
 
 //add path
-int 	ft_get_cmd_path(char **cmd, char *env[]);
+int 	ft_get_cmd_path(char **cmd, t_env *env);
 
 //minishell
 t_mini	*ft_parsing(t_lst *tokens);
@@ -98,14 +118,17 @@ t_lst	*ft_tokenization(char *input);
 void	ft_exec_commands(t_vars *vars);
 void	ft_duplicate_env(t_vars *vars, char **env);
 
+
 //built-ins
 int		ft_pwd(void);
-void	ft_duplicate_env(t_vars *vars, char **env);
-void	ft_env(char **env);
+void	ft_env(t_env *env);
 int		ft_echo(char **arg);
-int		ft_cd(char	**args, char **env);
+int		ft_cd(char **args, t_env **env);
+void	ft_unset(char **args, t_env **env);
+void	ft_export(char **args, t_env **env);
 
 
 
-char    *ft_getenv(char **env, char *var);
+void	ft_setenv(t_env **env, char *var, char *content);
+char	*ft_getenv(t_env *env, char *var);
 #endif
