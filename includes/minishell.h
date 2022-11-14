@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/11 18:30:50 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/14 18:35:31 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int		syntax_error(t_lst	*tokens);
 t_lst	*ft_tokenization(char *input);
 void	ft_exec_commands(t_vars *vars);
 void	ft_duplicate_env(t_vars *vars, char **env);
+t_env	*ft_duplicate_export(t_env *env);
 
 
 //built-ins
@@ -125,10 +126,10 @@ void	ft_env(t_env *env);
 int		ft_echo(char **arg);
 int		ft_cd(char **args, t_env **env);
 void	ft_unset(char **args, t_env **env);
-void	ft_export(char **args, t_env **env);
-
-
+void    ft_export(char **args, t_env **env);
+void    ft_exit(char **args);
 
 void	ft_setenv(t_env **env, char *var, char *content);
 char	*ft_getenv(t_env *env, char *var);
+size_t	ft_varlen(char *str);
 #endif

@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:36:50 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/09 19:28:35 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/12 17:58:38 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,5 @@ int main (int ac, char *av[], char *env[])
 		////////////////////
 		ft_exec_commands(&vars);
 	}
-	return 0;
+	return (0);
 }

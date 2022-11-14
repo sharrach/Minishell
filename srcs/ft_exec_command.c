@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:11:16 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/11 18:31:03 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/14 14:56:10 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_exec_command(t_vars *vars, t_mini *cmds)
 	else if (ft_strcmp(cmds->cmd[0], "export") == 0)
 		ft_export(cmds->cmd, &vars->env);
 	// else if (ft_strcmp(cmds->cmd[0], "exit") == 0)
-	// 	ft_exit();
+	// 	ft_exit(cmds->cmd);
 	else
 	{
 		if (!ft_get_cmd_path(&vars->cmds->cmd[0], vars->env))

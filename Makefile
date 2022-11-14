@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/11 16:54:51 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/13 17:15:47 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCS	=	srcs/main.c\
 			srcs/ft_unset.c\
 			srcs/ft_echo.c\
 			srcs/ft_export.c\
+			srcs/ft_exit.c\
 			srcs/ft_getsetenv.c\
 			srcs/utils.c
 
