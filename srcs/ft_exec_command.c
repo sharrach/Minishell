@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:11:16 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/14 14:56:10 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/14 19:43:59 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	ft_exec_command(t_vars *vars, t_mini *cmds)
 		ft_unset(cmds->cmd, &vars->env);
 	else if (ft_strcmp(cmds->cmd[0], "export") == 0)
 		ft_export(cmds->cmd, &vars->env);
-	// else if (ft_strcmp(cmds->cmd[0], "exit") == 0)
-	// 	ft_exit(cmds->cmd);
+	else if (ft_strcmp(cmds->cmd[0], "exit") == 0)
+		ft_exit(cmds->cmd);
 	else
 	{
 		if (!ft_get_cmd_path(&vars->cmds->cmd[0], vars->env))
@@ -86,7 +86,9 @@ void	ft_exec_commands(t_vars *vars)
 			|| ft_strcmp(vars->cmds->cmd[0], "echo") == 0
 			|| ft_strcmp(vars->cmds->cmd[0], "pwd") == 0
 			|| ft_strcmp(vars->cmds->cmd[0], "cd") == 0
-			|| ft_strcmp(vars->cmds->cmd[0], "unset") == 0))
+			|| ft_strcmp(vars->cmds->cmd[0], "unset") == 0
+			|| ft_strcmp(vars->cmds->cmd[0], "export") == 0
+			|| ft_strcmp(vars->cmds->cmd[0], "exit") == 0))
 		is_fork = 0;
 	while(vars->cmds)
 	{

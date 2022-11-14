@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/13 17:15:47 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/14 22:15:48 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ SRCS	=	srcs/main.c\
 
 OBJS	=	$(SRCS:.c=.o)
 
-CC		=	gcc
+CC		=	cc
 
 CFLAGS	=	-Wall -Wextra -Werror
 
