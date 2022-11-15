@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/14 22:15:55 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/15 18:23:57 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <linux/limits.h>
+# include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
-int	g_exit;
+// extern int	g_exit;
 
 enum e_tokens {
 	PIPE,
@@ -134,5 +135,6 @@ void    ft_exit(char **args);
 void	ft_setenv(t_env **env, char *var, char *content);
 char	*ft_getenv(t_env *env, char *var);
 size_t	ft_varlen(char *str);
+int	ft_expand(char **cmd, t_env *env);
 
 #endif

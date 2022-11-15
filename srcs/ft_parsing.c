@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:07:39 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/03 13:11:30 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/15 15:50:06 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,3 +74,4 @@ t_mini	*ft_parsing(t_lst *tokens)
 	}
 	return (cmds);
 }
+

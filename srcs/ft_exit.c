@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 18:56:56 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/14 22:08:35 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/15 18:21:17 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,26 @@ static int	ft_isnum(char *str)
 
 void	ft_exit(char **args)
 {
+	int g_exit;
+	
 	printf("exit\n");
-	if (ft_isnum(args[1]))
+	if (args[1])
 	{
-		if (ft_arrlen(args) == 2)
+		if (ft_isnum(args[1]))
+		{
+			if (ft_arrlen(args) > 2)
+			{
+				printf("minishell: exit: too many arguments\n");
+				g_exit = 1;
+				return ;
+			}
 			g_exit = ft_atoi(args[1]);
+		}
 		else
 		{
-			printf("minishell: exit: too many arguments\n");
-			g_exit = 1;
-			return ;
+			printf("minishell: exit: %s: numeric argument required\n", args[1]);
+			g_exit = 2;
 		}
-	}
-	else
-	{
-		printf("minishell: exit: %s: numeric argument required\n", args[1]);
-		g_exit = 2;
 	}
 	exit((unsigned char)g_exit);
 }

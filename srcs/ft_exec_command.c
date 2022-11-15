@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:11:16 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/14 19:43:59 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/15 18:18:03 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	ft_exec_commands(t_vars *vars)
 
 	is_fork = 1;
 	pid = 0;
+	ft_expand(vars->cmds->cmd, vars->env);
 	ft_open_pipes(vars->cmds);
 	ft_open_redirs(vars->cmds);
 	if (ft_mini_lstsize(vars->cmds) == 1
