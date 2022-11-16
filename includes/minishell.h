@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/15 18:23:57 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/16 14:21:17 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,10 @@ void	ft_exec_commands(t_vars *vars);
 void	ft_duplicate_env(t_vars *vars, char **env);
 t_env	*ft_duplicate_export(t_env *env);
 
+//get next line
+char	*get_next_line(int fd);
+char	*ft_strnljoin(char *s1, char *s2);
+void	ft_strcpy(char *dst, const char *src);
 
 //built-ins
 int		ft_pwd(void);
@@ -135,6 +139,8 @@ void    ft_exit(char **args);
 void	ft_setenv(t_env **env, char *var, char *content);
 char	*ft_getenv(t_env *env, char *var);
 size_t	ft_varlen(char *str);
-int	ft_expand(char **cmd, t_env *env);
+// int	ft_expand(char **cmd, t_env *env);
+
+void ft_heredoc(t_mini *cmds, char *dele);
 
 #endif

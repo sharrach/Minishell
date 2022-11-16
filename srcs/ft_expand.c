@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 17:14:04 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/15 19:57:59 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/16 16:11:57 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,10 @@ static int	ft_alphanum_check(char *str)
 	return (1);
 }
 
-static int	ft_check(char *str)
+static int	ft_check(char *str, int i)
 {
 	size_t	i;
 
-	i = 1;
 	while (str[i])
 	{
 		if (!ft_isalpha(str[i]) && str[i] != '_')
@@ -40,16 +39,94 @@ static int	ft_check(char *str)
 	return (i);
 }
 
-void	ft_expand(char **cmd, t_env *env)
+int ft_is_expandable(char   *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        if (str[i] == '$')
+          return(i);
+        i++;
+    }
+    return(100);
+}
+
+void	ft_expand(char ***cmd, t_env *env)
 {
 	char	*path;
 	char	*rest;
 	char	*var;
 	int     i;
 	int     len;
-	char	*str;
+	char	*beg;
 
 	i = 0;
+    while (cmd[i])
+    {
+       if(ft_is_expandable(cmd[i]) != 100)
+        {
+            if (ft_check(cmd[i], ft_is_expandable(cmd[i]) + 1))
+            beg = ft_substr(cmd[i], 0, i);
+        }
+    }
+    
+
+
+
+hjsdfg$PWD afsl$OLDPWD
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	while (cmd[i])
 	{
 		if (ft_strchr(cmd[i], '$'))

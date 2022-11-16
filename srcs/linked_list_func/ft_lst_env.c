@@ -6,11 +6,11 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 12:39:01 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/09 18:24:07 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/16 13:01:49 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	ft_env_lstsize(t_env *lst)
 {

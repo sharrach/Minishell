@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/15 17:29:17 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/16 13:59:51 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,11 @@ HEADER	=	includes/minishell.h
 
 SRCS	=	srcs/main.c\
 			srcs/pipes_red.c\
-			srcs/ft_llist_mini.c\
-			srcs/ft_llist_redir.c\
-			srcs/ft_lst_env.c\
+			srcs/linked_list_func/ft_llist_mini.c\
+			srcs//linked_list_func/ft_llist_redir.c\
+			srcs//linked_list_func/ft_lst_env.c\
+			srcs//get_next_line/get_next_line.c\
+			srcs//get_next_line/get_next_line_utils.c\
 			srcs/ft_tokenization.c\
 			srcs/ft_parsing.c\
 			srcs/ft_get_command.c\
@@ -31,9 +33,10 @@ SRCS	=	srcs/main.c\
 			srcs/ft_echo.c\
 			srcs/ft_export.c\
 			srcs/ft_exit.c\
-			srcs/ft_expand.c\
 			srcs/ft_getsetenv.c\
+			srcs/ft_heredoc.c\
 			srcs/utils.c
+			# srcs/ft_expand.c\
 
 OBJS	=	$(SRCS:.c=.o)
 
