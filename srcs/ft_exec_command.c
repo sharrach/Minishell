@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:11:16 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/16 15:27:09 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/17 19:33:17 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,28 @@ void	ft_exec_command(t_vars *vars, t_mini *cmds)
 	{
 		if (!ft_get_cmd_path(&vars->cmds->cmd[0], vars->env))
 		{
-			printf("%s: command not found\n", vars->cmds->cmd[0]);
+			ft_putstr_fd("minishell: ", STDERR_FILENO);
+			ft_putstr_fd(vars->cmds->cmd[0], STDERR_FILENO);
+			ft_putendl_fd(": command not found", STDERR_FILENO);
 			return ;
 		}
 		ft_execve(cmds->cmd, vars->env);
 	}
+}
+
+static int ft_builtins(char *name)
+{
+	if (!name)
+		return (0);
+	if ((ft_strcmp(name, "env") == 0
+			|| ft_strcmp(name, "echo") == 0
+			|| ft_strcmp(name, "pwd") == 0
+			|| ft_strcmp(name, "cd") == 0
+			|| ft_strcmp(name, "unset") == 0
+			|| ft_strcmp(name, "export") == 0
+			|| ft_strcmp(name, "exit") == 0))
+			return (1);
+	return (0);
 }
 
 void	ft_exec_commands(t_vars *vars)
@@ -81,16 +98,8 @@ void	ft_exec_commands(t_vars *vars)
 	pid = 0;
 	ft_expand(vars->cmds->cmd, vars->env);
 	ft_open_pipes(vars->cmds);
-	ft_open_redirs(vars->cmds);
-	// ft_heredoc(vars->cmds, vars->cmds->redir->content);
-	if (ft_mini_lstsize(vars->cmds) == 1
-		&& (ft_strcmp(vars->cmds->cmd[0], "env") == 0
-			|| ft_strcmp(vars->cmds->cmd[0], "echo") == 0
-			|| ft_strcmp(vars->cmds->cmd[0], "pwd") == 0
-			|| ft_strcmp(vars->cmds->cmd[0], "cd") == 0
-			|| ft_strcmp(vars->cmds->cmd[0], "unset") == 0
-			|| ft_strcmp(vars->cmds->cmd[0], "export") == 0
-			|| ft_strcmp(vars->cmds->cmd[0], "exit") == 0))
+	ft_open_redirs(vars->cmds, vars->env);
+	if ((ft_mini_lstsize(vars->cmds) == 1) && ft_builtins(vars->cmds->cmd[0]))
 		is_fork = 0;
 	while(vars->cmds)
 	{

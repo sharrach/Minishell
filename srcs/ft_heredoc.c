@@ -6,89 +6,33 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 11:52:29 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/16 14:55:48 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/17 18:33:46 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// void	ft_heredoc(char *del, t_vars *cmds)
-// {
-//     pid_t	reader;
-//     char	*line;
-//     int		fd[2];
-
-// 	if (pipe(fd) == -1)
-// 		perror("pipe");
-// 	reader = fork();
-// 	if (reader == 0)
-// 	{
-// 		close(fd[0]);
-// 		while (get_next_line(&line))
-// 		{
-// 			if (ft_strncmp(line, del, ft_strlen(del)) == 0)
-// 				exit(EXIT_SUCCESS);
-// 			printf("%s", line);
-// 		}
-// 	}
-// 	else
-// 	{// 		close(fd[1]);
-
-// 		dup2(fd[0], STDIN_FILENO);
-// 		wait(NULL);
-// 	}
-// }
-
-void ft_heredoc(t_mini *cmds, char *dele)
+int	ft_here_doc(char *del, t_env *env)
 {
-	t_lst *redir;
-	t_mini *cmd;
-	char	*here_doc;
-	// int		*heredoc;
+	int		p[2];
+	char	*line;
 
-	// env = NULL;
-	cmd = cmds;
-	// printf("here1\n");
-	while(cmd)
+	if (pipe(p) == -1)
+		return (perror("pipe"), STDIN_FILENO);
+	while (1)
 	{
-		// printf("here2\n");
-		redir = cmd->redir;
-		while (redir)
+		ft_putstr_fd("> ", STDOUT_FILENO);
+		line = get_next_line(STDIN_FILENO);
+		ft_expand_str(&line, env);
+		if (ft_strncmp(line, del, ft_strlen(del)) == 0
+			&& line[ft_strlen(del)] == '\n')
 		{
-			if (redir->type == IN_REDD)
-			{
-				// printf("here3\n");
-				while(1)
-				{
-					here_doc = get_next_line(1);
-					ft_putendl_fd("> ", STDOUT_FILENO);
-					if (!here_doc)
-						break;
-					if (redir->next)
-						dele = redir->next->content;
-					// printf("here4\n");
-					// printf("here5\n");
-					else if (ft_strncmp(here_doc, dele, ft_strlen(dele)) == 0)
-					{
-						printf("here6\n");
-						free(here_doc);
-						here_doc = 0;
-						break;
-					}
-					else
-					{
-
-						printf("here10\n");
-						ft_putendl_fd(here_doc, STDOUT_FILENO);
-						free(here_doc);
-						here_doc = 0;
-					}
-				}
-			}
-			redir = redir->next;
+			free(line);
+			break ;
 		}
-		cmd = cmd->next;
+		ft_putstr_fd(line, p[STDOUT_FILENO]);
+		free(line);
 	}
-	
-	
+	close(p[STDOUT_FILENO]);
+	return (p[STDIN_FILENO]);
 }

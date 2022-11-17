@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/16 13:59:51 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/17 17:28:29 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,8 +35,8 @@ SRCS	=	srcs/main.c\
 			srcs/ft_exit.c\
 			srcs/ft_getsetenv.c\
 			srcs/ft_heredoc.c\
+			srcs/ft_expand.c\
 			srcs/utils.c
-			# srcs/ft_expand.c\
 
 OBJS	=	$(SRCS:.c=.o)
 
@@ -63,11 +63,11 @@ all		:	$(NAME)
 
 clean	:
 			$(RM) $(OBJS)
-			make clean -C $(LIBFT)
+			# make clean -C $(LIBFT)
 
 fclean	:	clean
 			$(RM) $(NAME)
-			make fclean -C $(LIBFT)
+			# make fclean -C $(LIBFT)
 
 re		:	fclean all
 

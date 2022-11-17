@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/16 14:21:17 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/17 18:38:31 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <readline/history.h>
 
 // extern int	g_exit;
+#define BUFFER_SIZE 1
 
 enum e_tokens {
 	PIPE,
@@ -108,7 +109,7 @@ void	ft_strcpy(char *dst, const char *src);
 /// execution
 void	ft_open_pipes(t_mini *cmds);
 void	ft_close_pipes(t_mini *cmds);
-void	ft_open_redirs(t_mini *cmds);
+void	ft_open_redirs(t_mini *cmds, t_env *env);
 
 //add path
 int 	ft_get_cmd_path(char **cmd, t_env *env);
@@ -139,8 +140,25 @@ void    ft_exit(char **args);
 void	ft_setenv(t_env **env, char *var, char *content);
 char	*ft_getenv(t_env *env, char *var);
 size_t	ft_varlen(char *str);
-// int	ft_expand(char **cmd, t_env *env);
+void	ft_expand(char **cmd, t_env *env);
 
-void ft_heredoc(t_mini *cmds, char *dele);
+int		ft_here_doc(char *del, t_env *env);
+void	ft_expand_str(char **str, t_env *env);
 
 #endif
+
+// cat > hh >> hhh > hdf | echo hh
+
+// t_mini	*cmds:
+	// cmds[0]:
+		// char **cmd:
+			// cat
+		// t_lst *redir:
+			// type: >
+			// content: hh
+
+			// type: >>
+			// content: hhh
+
+			// type: >
+			// content: hdf

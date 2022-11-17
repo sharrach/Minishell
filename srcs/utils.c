@@ -6,12 +6,11 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:34:22 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/09 16:12:42 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/17 16:18:42 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 int ft_strcmp(const char *s1, const char *s2)
 {

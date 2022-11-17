@@ -6,170 +6,70 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 17:14:04 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/16 16:11:57 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/17 19:24:40 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	ft_alphanum_check(char *str)
+static int	ft_expand_varlen(char *str)
 {
-	size_t	i;
-
+	int i;
+	
 	i = 0;
 	while (str[i])
 	{
-		if (!ft_isalpha(str[i]) && str[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-static int	ft_check(char *str, int i)
-{
-	size_t	i;
-
-	while (str[i])
-	{
-		if (!ft_isalpha(str[i]) && str[i] != '_')
-			return (i);
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+				return (i);
 		i++;
 	}
 	return (i);
 }
 
-int ft_is_expandable(char   *str)
+void	ft_expand_str(char **str, t_env *env)
 {
-    int i;
+	int		i;
+	int		len;
+	char	*new_str;
+	char	*var;
+	int		quote;
 
-    i = 0;
-    while (str[i])
-    {
-        if (str[i] == '$')
-          return(i);
-        i++;
-    }
-    return(100);
+	new_str = ft_strdup("");
+	len = 0;
+	i = 0;
+	quote = 0;
+	while ((*str)[i])
+	{
+		if (!quote && ((*str)[i] == '\'' || (*str)[i] == '"'))
+			quote = (*str)[i];
+		else if (quote && (*str)[i] == quote)
+			quote = 0;
+		if ((*str)[i] == '$' && (!quote || quote == '"'))
+		{
+			new_str = ft_stradd(new_str, ft_substr((*str), i - len, len));
+			var = ft_substr((*str), i + 1, ft_expand_varlen(&(*str)[i + 1]));
+			if (ft_getenv(env, var))
+				new_str = ft_stradd(new_str, ft_getenv(env, var));
+			free(var);
+			len = 0;
+			i += ft_expand_varlen(&(*str)[i + 1]) + 1;
+		}
+		len++;
+		i++;
+	}
+	new_str = ft_stradd(new_str, ft_substr((*str), i - len, len));
+	free(*str);
+	*str = new_str;
 }
 
-void	ft_expand(char ***cmd, t_env *env)
+void	ft_expand(char **cmd, t_env *env)
 {
-	char	*path;
-	char	*rest;
-	char	*var;
-	int     i;
-	int     len;
-	char	*beg;
+	int	i;
 
 	i = 0;
-    while (cmd[i])
-    {
-       if(ft_is_expandable(cmd[i]) != 100)
-        {
-            if (ft_check(cmd[i], ft_is_expandable(cmd[i]) + 1))
-            beg = ft_substr(cmd[i], 0, i);
-        }
-    }
-    
-
-
-
-hjsdfg$PWD afsl$OLDPWD
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	while (cmd[i])
 	{
-		if (ft_strchr(cmd[i], '$'))
-		{
-			len = ft_strlen(cmd[i]) - ft_strlen(ft_strchr(cmd[i], '$'));
-			if (ft_alphanum_check(ft_strchr(cmd[i], '$') + 1))
-			{
-				// printf("DKHLAT\n");
-				// printf("%s\n", ft_strchr(cmd[i], '$') + 1);
-				while (env)
-				{
-					// printf("DKHLAT2\n");
-					if (ft_strcmp(env->var, ft_strchr(cmd[i], '$') + 1) == 0)
-					{ 
-						path = ft_getenv(env, ft_strchr(cmd[i], '$') + 1);
-						str = ft_substr(cmd[i], 0, len);
-						// printf("%s%s\n", str,path);
-					}
-					env = env->next;
-				}
-			}
-			else
-			{
-				len = (ft_check(ft_strchr(cmd[i], '$') + 1));
-				// printf("len: %d\n", len);
-				var = ft_substr((ft_strchr(cmd[i], '$') + 1), 0, len);
-				// printf("var: %s\n", var);
-				rest = ft_substr(ft_strchr(cmd[i], '$') + 1, len,
-					ft_strlen(cmd[i]) - ft_strlen(ft_strchr(cmd[i], '$')));
-				// printf("rest: %s\n", rest);
-				path = ft_getenv(env, var);
-				// printf("path: %s\n", path);
-				str = ft_substr(cmd[i], 0, ft_strlen(cmd[i]) - ft_strlen(ft_strchr(cmd[i], '$')));
-				// printf("DKHLAaaaaaaaaaaaaaT\n");
-				// printf("cmd[i]: %s\n", cmd[i]);
-				// printf("ft_strchr(cmd[i], '$') + 1): %s\n", ft_strchr(cmd[i], '$') + 1);
-				// printf("str: %s\n", str);
-				// printf("%s%s%s\n", str,path,rest);
-				// printf("DKHLAT\n");
-				// printf("%s%s\n\n\n\n\n\n\n", str,path);
-				// printf("%d\n",len);
-			}
-		}
+		ft_expand_str(&cmd[i], env);
 		i++;
 	}
 }

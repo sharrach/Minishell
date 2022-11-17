@@ -6,13 +6,11 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 11:42:11 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/16 14:03:32 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/17 16:37:36 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-#define BUFFER_SIZE 1
 
 static int	ft_read_fd(int fd, char **next_line)
 {
