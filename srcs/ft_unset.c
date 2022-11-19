@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 10:26:26 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/19 08:39:34 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/19 15:31:34 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	ft_env_lstdelone(t_env **env)
 	free(holder);
 }
 
-void	ft_unset(char **args, t_env **env)
+int	ft_unset(char **args, t_env **env)
 {
 	t_env	*holder;
 	int		is_del;
@@ -54,4 +54,5 @@ void	ft_unset(char **args, t_env **env)
 		if (!is_del)
 			holder = holder->next;
 	}
+	return (EXIT_SUCCESS);
 }

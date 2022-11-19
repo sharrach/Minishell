@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 18:56:56 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/19 11:13:09 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/19 17:03:31 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	ft_isnum(char *str)
 	return (1);
 }
 
-void	ft_exit(char **args)
+int	ft_exit(char **args)
 {
 	printf("exit\n");
 	if (args[1])
@@ -38,8 +38,7 @@ void	ft_exit(char **args)
 			if (ft_arrlen(args) > 2)
 			{
 				printf("minishell: exit: too many arguments\n");
-				g_exit = 1;
-				return ;
+				return (EXIT_FAILURE);
 			}
 			g_exit = ft_atoi(args[1]);
 		}
@@ -49,5 +48,5 @@ void	ft_exit(char **args)
 			g_exit = 255;
 		}
 	}
-	exit((unsigned char)g_exit);
+	return (exit((unsigned char)g_exit), EXIT_SUCCESS);
 }

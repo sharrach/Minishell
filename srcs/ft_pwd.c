@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 09:47:46 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/04 10:22:53 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/19 15:32:47 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,5 @@ int	ft_pwd(void)
 
 	getcwd(pwd, PATH_MAX);
 	printf("%s\n", pwd);
-	return (0);
+	return (EXIT_SUCCESS);
 }

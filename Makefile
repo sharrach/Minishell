@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/19 13:05:51 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/19 13:38:20 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRCS	=	srcs/main.c\
 			srcs/ft_expand.c\
 			srcs/utils.c
 
+
 OBJS	=	$(SRCS:.c=.o)
 
 CC		=	cc
@@ -51,10 +52,10 @@ LIBFT	=	libft
 LIB		=	$(LIBFT)/libft.a
 
 %.o:%.c		$(HEADER)
-			$(CC) $(CFLAGS) -I/Users/$(USER)/.brew/opt/readline/include -c $< -o $@ 
+			$(CC) $(CFLAGS) -c $< -o $@ 
 
 $(NAME)	:	$(LIB) $(OBJS) $(HEADER)
-			$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME) -lreadline -L/Users/$(USER)/.brew/opt/readline/lib
+			$(CC) $(CFLAGS) -lreadline $(OBJS) $(LIB) -o $(NAME)
 
 $(LIB):
 			make -C $(LIBFT)

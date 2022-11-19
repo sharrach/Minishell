@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 18:56:47 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/14 19:03:07 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/19 15:59:23 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,14 @@ static int	ft_alphanum_check(char *str)
 	return (1);
 }
 
-void	ft_export(char **args, t_env **env)
+int	ft_export(char **args, t_env **env)
 {
 	int		i;
 	char	*var;
 	char	*content;
 
 	if (ft_arrlen(args) == 1)
-	{
-		ft_export_print(env);
-		return ;
-	}
+		return (ft_export_print(env), EXIT_SUCCESS);
 	i = 1;
 	while (args[i])
 	{
@@ -106,4 +103,5 @@ void	ft_export(char **args, t_env **env)
 		free(content);
 		i++;
 	}
+	return (EXIT_SUCCESS);
 }

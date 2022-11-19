@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/19 09:51:38 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/19 15:47:18 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,12 +131,12 @@ void	ft_strcpy(char *dst, const char *src);
 
 //built-ins
 int		ft_pwd(void);
-void	ft_env(t_env *env);
+int	ft_env(t_env *env);
 int		ft_echo(char **arg);
 int		ft_cd(char **args, t_env **env);
-void	ft_unset(char **args, t_env **env);
-void    ft_export(char **args, t_env **env);
-void    ft_exit(char **args);
+int	ft_unset(char **args, t_env **env);
+int    ft_export(char **args, t_env **env);
+int    ft_exit(char **args);
 
 void	ft_setenv(t_env **env, char *var, char *content);
 char	*ft_getenv(t_env *env, char *var);
