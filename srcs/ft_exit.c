@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 18:56:56 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/15 18:21:17 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/19 11:13:09 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ static int	ft_isnum(char *str)
 
 void	ft_exit(char **args)
 {
-	int g_exit;
-	
 	printf("exit\n");
 	if (args[1])
 	{
@@ -48,7 +46,7 @@ void	ft_exit(char **args)
 		else
 		{
 			printf("minishell: exit: %s: numeric argument required\n", args[1]);
-			g_exit = 2;
+			g_exit = 255;
 		}
 	}
 	exit((unsigned char)g_exit);

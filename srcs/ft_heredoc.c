@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 11:52:29 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/17 18:33:46 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/19 11:38:58 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	ft_here_doc(char *del, t_env *env)
 
 	if (pipe(p) == -1)
 		return (perror("pipe"), STDIN_FILENO);
+	ft_expand_str(&del, env);
 	while (1)
 	{
 		ft_putstr_fd("> ", STDOUT_FILENO);

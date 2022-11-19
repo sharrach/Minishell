@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/17 18:38:31 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/19 09:51:38 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,16 @@
 # include <signal.h>
 # include <errno.h>
 # include <fcntl.h>
-# include <error.h>
+// # include <error.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <linux/limits.h>
+// # include <linux/limits.h>
+# include <limits.h>
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
-// extern int	g_exit;
+int	g_exit;
 #define BUFFER_SIZE 1
 
 enum e_tokens {
@@ -96,14 +97,14 @@ t_env	*ft_env_lstnew(char *var, char *content);
 void	ft_env_lstclear(t_env **env);
 
 // freeing and array
-void    free_2d(char **arr);
-// count the lenght of an array
-size_t	ft_arrlen(char **arr);
-// comparing two strings
-int		ft_strcmp(const char *s1, const char *s2);
-char	*ft_strcat(char *dest, const char *src);
-char	*ft_stradd(char const *s1, char const *s2);
-void	ft_strcpy(char *dst, const char *src);
+// void    free_2d(char **arr);
+// // count the lenght of an array
+// size_t	ft_arrlen(char **arr);
+// // comparing two strings
+// int		ft_strcmp(const char *s1, const char *s2);
+// char	*ft_strcat(char *dest, const char *src);
+// char	*ft_stradd(char const *s1, char const *s2);
+// void	ft_strcpy(char *dst, const char *src);
 
 
 /// execution

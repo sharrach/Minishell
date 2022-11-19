@@ -1,32 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_signals.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/04 10:23:24 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/19 09:48:40 by sharrach         ###   ########.fr       */
+/*   Created: 2022/11/19 10:45:12 by sharrach          #+#    #+#             */
+/*   Updated: 2022/11/19 10:45:22 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
-int ft_echo(char **arg)
-{
-	int i;
-	
-	i = 1;
-	while (ft_strcmp(arg[i], "-n") == 0)
-		i++;
-	while (arg[i])
-	{
-		printf("%s", arg[i]);
-		if (arg[i + 1])
-			printf(" ");
-		i ++;
-	}
-	if (ft_strcmp(arg[1], "-n"))
-		printf("\n");
-	return (g_exit);
-}

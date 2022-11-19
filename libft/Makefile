@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sharrach <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/13 11:34:06 by sharrach          #+#    #+#              #
-#    Updated: 2021/11/13 11:34:09 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/19 09:19:40 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,12 @@ SRCS =	ft_isalpha.c\
 		ft_strtrim.c\
 		ft_split.c\
 		ft_itoa.c\
+		ft_arrlen.c\
+		ft_free2d.c\
+		ft_stradd.c\
+		ft_strcat.c\
+		ft_strcmp.c\
+		ft_strcpy.c\
 		ft_strmapi.c\
 		ft_striteri.c\
 		ft_putchar_fd.c\

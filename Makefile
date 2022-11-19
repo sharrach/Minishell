@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/17 17:28:29 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/19 13:05:51 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,10 +51,10 @@ LIBFT	=	libft
 LIB		=	$(LIBFT)/libft.a
 
 %.o:%.c		$(HEADER)
-			$(CC) $(CFLAGS) -I/usr/include/readline/include -c $< -o $@ 
+			$(CC) $(CFLAGS) -I/Users/$(USER)/.brew/opt/readline/include -c $< -o $@ 
 
 $(NAME)	:	$(LIB) $(OBJS) $(HEADER)
-			$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME) -lreadline -L/usr/include/readline/lib
+			$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME) -lreadline -L/Users/$(USER)/.brew/opt/readline/lib
 
 $(LIB):
 			make -C $(LIBFT)
@@ -63,11 +63,11 @@ all		:	$(NAME)
 
 clean	:
 			$(RM) $(OBJS)
-			# make clean -C $(LIBFT)
+			make clean -C $(LIBFT)
 
 fclean	:	clean
 			$(RM) $(NAME)
-			# make fclean -C $(LIBFT)
+			make fclean -C $(LIBFT)
 
 re		:	fclean all
 

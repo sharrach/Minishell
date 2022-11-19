@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 10:26:26 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/15 13:57:58 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/19 08:39:34 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,8 @@ void	ft_unset(char **args, t_env **env)
 		i = 1;
 		while (args[i])
 		{
-			// printf("holder->var    %s\n",holder->var);
 			if (ft_strcmp(holder->var, args[i]) == 0)
 			{
-				// printf("holder->var   %s\n",holder->var);
 				if (!holder->prev)
 					*env = holder->next;
 				ft_env_lstdelone(&holder);

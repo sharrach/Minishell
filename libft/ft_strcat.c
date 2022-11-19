@@ -1,42 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/06 10:46:12 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/19 09:35:13 by sharrach         ###   ########.fr       */
+/*   Created: 2022/11/19 09:13:31 by sharrach          #+#    #+#             */
+/*   Updated: 2022/11/19 09:13:54 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*ft_str_cpy(char *dest, const char *src)
+char	*ft_strcat(char *dest, const char *src)
 {
-	size_t		i;
-	char		*s;
+	int	i;
+	int	j;
+	int	lendest;
+	int	lensrc;
+	int	lenofboth;
 
-	s = (char *)src;
 	i = 0;
-	while (s[i] != '\0')
-	{
-		dest[i] = s[i];
+	j = 0;
+	lendest = ft_strlen(dest);
+	lensrc = ft_strlen(src);
+	lenofboth = lendest + lensrc;
+	while (i < lendest)
 		i++;
+	while (i < lenofboth)
+	{
+		dest[i] = src[j];
+		i++;
+		j++;
 	}
 	dest[i] = '\0';
-	return (dest);
-}
-
-char	*ft_strdup(const char *src)
-{
-	char	*dest;
-	size_t	i;
-
-	i = ft_strlen(src);
-	dest = (char *)malloc((i + 1) * sizeof (char));
-	if (dest == NULL)
-		return (0);
-	ft_str_cpy(dest, src);
 	return (dest);
 }

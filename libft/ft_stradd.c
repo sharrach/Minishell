@@ -1,42 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_stradd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/06 10:46:12 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/19 09:35:13 by sharrach         ###   ########.fr       */
+/*   Created: 2022/11/19 09:14:28 by sharrach          #+#    #+#             */
+/*   Updated: 2022/11/19 09:16:39 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*ft_str_cpy(char *dest, const char *src)
+char	*ft_stradd(char const *s1, char const *s2)
 {
-	size_t		i;
-	char		*s;
+	char	*s;
 
-	s = (char *)src;
-	i = 0;
-	while (s[i] != '\0')
-	{
-		dest[i] = s[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-char	*ft_strdup(const char *src)
-{
-	char	*dest;
-	size_t	i;
-
-	i = ft_strlen(src);
-	dest = (char *)malloc((i + 1) * sizeof (char));
-	if (dest == NULL)
-		return (0);
-	ft_str_cpy(dest, src);
-	return (dest);
+	if (!s1 || !s2)
+		return (NULL);
+	s = ((char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (s == 0)
+		return (NULL);
+	ft_strcpy(s, (char *) s1);
+	ft_strcat(s, (char *) s2);
+	free((void *)s1);
+	return (s);
 }
