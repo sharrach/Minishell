@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/19 15:47:18 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/19 18:27:47 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <fcntl.h>
 // # include <error.h>
 # include <sys/types.h>
+# include <signal.h>
 # include <sys/wait.h>
 // # include <linux/limits.h>
 # include <limits.h>

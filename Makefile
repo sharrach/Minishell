@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/19 13:38:20 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/19 17:16:47 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,9 +35,7 @@ SRCS	=	srcs/main.c\
 			srcs/ft_exit.c\
 			srcs/ft_getsetenv.c\
 			srcs/ft_heredoc.c\
-			srcs/ft_expand.c\
-			srcs/utils.c
-
+			srcs/ft_expand.c
 
 OBJS	=	$(SRCS:.c=.o)
 
@@ -55,7 +53,7 @@ LIB		=	$(LIBFT)/libft.a
 			$(CC) $(CFLAGS) -c $< -o $@ 
 
 $(NAME)	:	$(LIB) $(OBJS) $(HEADER)
-			$(CC) $(CFLAGS) -lreadline $(OBJS) $(LIB) -o $(NAME)
+			$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME) -lreadline
 
 $(LIB):
 			make -C $(LIBFT)
