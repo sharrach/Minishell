@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 12:39:01 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/16 13:01:49 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/20 11:50:34 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_env	*ft_env_lstnew(char *var, char *content)
 	new = malloc(sizeof(t_env) * 1);
 	if (new == 0)
 		return (NULL);
-    new->var = var;
+	new->var = var;
 	new->content = content;
 	new->next = NULL;
 	new->prev = NULL;
@@ -66,14 +66,14 @@ void	ft_env_lstclear(t_env **env)
 	t_env	*holder;
 
 	if (!env)
-		return;
+		return ;
 	while (*env)
 	{
 		holder = *env;
 		*env = (*env)->next;
-        free(holder->var);
-        free(holder->content);
-        free(holder);
+		free(holder->var);
+		free(holder->content);
+		free(holder);
 	}
 	*env = NULL;
 }

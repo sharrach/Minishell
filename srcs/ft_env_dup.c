@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/04 09:50:09 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/12 17:36:308 by sharrach         ###   ########.fr       */
+/*   Created: 2022/11/20 11:25:01 by sharrach          #+#    #+#             */
+/*   Updated: 2022/11/20 11:25:29 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 size_t	ft_varlen(char *str)
 {
-	size_t	i; 
+	size_t	i;
 
 	i = 0;
 	while (str[i])

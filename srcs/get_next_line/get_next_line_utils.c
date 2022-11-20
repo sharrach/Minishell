@@ -6,12 +6,11 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 19:56:08 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/16 14:06:02 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/20 11:47:34 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 char	*ft_strnljoin(char *s1, char *s2)
 {

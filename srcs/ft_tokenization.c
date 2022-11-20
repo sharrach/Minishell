@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:09:14 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/04 11:26:21 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/20 12:18:29 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	syntax_error(t_lst	*tokens)
 {
 	if (tokens->type == PIPE)
 		return (1);
-	while(tokens)
+	while (tokens)
 	{
 		if (tokens->type != WORD
 			&& (!tokens->next || (tokens->next && tokens->next->type != WORD)))
@@ -51,22 +51,23 @@ int	ft_token_type(char *content)
 	return (type);
 }
 
-static void quote_redir_handle(char **input, int *i, int *size)
+static	void	quote_redir_handle(char **input, int *i, int *size)
 {
 	if (((*input)[*i + *size] == '>' && (*input)[*i + *size + 1] == '>')
 			|| ((*input)[*i + *size] == '<' && (*input)[*i + *size + 1] == '<'))
 		*size += 2;
-	else if (ft_strchr("|<>" ,(*input)[*i + *size]))
+	else if (ft_strchr("|<>", (*input)[*i + *size]))
 		(*size)++;
 	else
 	{
-		while ((*input)[*i + *size] && !ft_strchr("| <>" , (*input)[*i + *size]))
+		while ((*input)[*i + *size] && !ft_strchr("| <>", (*input)[*i + *size]))
 		{
 			if (((*input)[*i + *size] == '"' || (*input)[*i + *size] == '\'')
-				&& (*input)[*i + *size + 1] && ft_strchr(&(*input)[*i + *size + 1] , (*input)[*i + *size]))
-				*size = ft_strlen((*input)) - ft_strlen(ft_strchr(&(*input)[*i + *size + 1] , (*input)[*i + *size]));
+				&& (*input)[*i + *size + 1]
+					&& ft_strchr(&(*input)[*i + *size + 1], (*input)[*i + *size]))
+				*size = ft_strlen((*input)) - ft_strlen(ft_strchr(&(*input)[*i + *size + 1], (*input)[*i + *size]));
 			else if ((*input)[*i + *size] == '"' || (*input)[*i + *size] == '\'')
-				break;
+				break ;
 			(*size)++;
 		}
 	}
@@ -77,12 +78,12 @@ t_lst	*ft_tokenization(char *input)
 	t_lst	*tokens;
 	char	*content;
 	int		type;
-	int 	i;
+	int		i;
 	int		size;
 
 	tokens = NULL;
 	i = 0;
-	while(input[i])
+	while (input[i])
 	{
 		if (input[i] == ' ')
 		{

@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 17:14:04 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/17 19:24:40 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/20 11:27:17 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 static int	ft_expand_varlen(char *str)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (str[i])
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
-				return (i);
+			return (i);
 		i++;
 	}
 	return (i);

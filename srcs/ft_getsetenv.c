@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 13:26:21 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/12 17:52:30 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/20 11:30:40 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,3 @@ char	*ft_getenv(t_env *env, char *var)
 	}
 	return (NULL);
 }
-
-
-// "export"
-//print env ordered
-
-// "export VAR"
-// 1- ila kant VAR maghaydir liha walo
-// 2- ila makantch VAR fl env ghadi izidha walakin content = ""
-
-// "export VAR=" || "export VAR=CONTENT"
-// ghay9ele 3la VAR o ghadi ibedelha b dakchi li wra '='
-
-// NOTE:
-// fach tbghi tprinti env matprintich dakchi li mafihch content
-// 

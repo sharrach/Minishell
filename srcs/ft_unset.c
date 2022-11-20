@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 10:26:26 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/19 15:31:34 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/20 11:44:44 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_unset(char **args, t_env **env)
 {
 	t_env	*holder;
 	int		is_del;
-	int 	i;
+	int		i;
 
 	holder = *env;
 	while (holder)
@@ -46,7 +46,7 @@ int	ft_unset(char **args, t_env **env)
 					*env = holder->next;
 				ft_env_lstdelone(&holder);
 				is_del = 1;
-				break;
+				break ;
 				i++;
 			}
 			i++;

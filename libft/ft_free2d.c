@@ -6,21 +6,21 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 09:11:51 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/19 09:12:17 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/20 11:18:21 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void    free_2d(char **arr)
+void	free_2d(char **arr)
 {
-    int i;
-     
-    i = 0;
-    while(arr[i])
-    {
-        free(arr[i]);
-        i ++;
-    }
-    free(arr);
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i ++;
+	}
+	free(arr);
 }

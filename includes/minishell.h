@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/19 18:27:47 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/20 11:16:08 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # include <readline/history.h>
 
 int	g_exit;
-#define BUFFER_SIZE 1
+# define BUFFER_SIZE 1
 
 enum e_tokens {
 	PIPE,
@@ -45,7 +45,7 @@ enum e_tokens {
 	WORD
 };
 
-typedef	struct s_lst
+typedef struct s_lst
 {
 	char			*content;
 	int				type;
@@ -53,7 +53,7 @@ typedef	struct s_lst
 	struct s_lst	*prev;
 }	t_lst;
 
-typedef	struct  s_mini
+typedef struct s_mini
 {
 	char			**cmd;
 	int				pipe[2];
@@ -62,7 +62,7 @@ typedef	struct  s_mini
 	struct s_mini	*prev;
 }	t_mini;
 
-typedef struct	s_env
+typedef struct s_env
 {
 	char			*var;
 	char			*content;
@@ -97,24 +97,13 @@ void	ft_env_lstadd_back(t_env **env, t_env *new);
 t_env	*ft_env_lstnew(char *var, char *content);
 void	ft_env_lstclear(t_env **env);
 
-// freeing and array
-// void    free_2d(char **arr);
-// // count the lenght of an array
-// size_t	ft_arrlen(char **arr);
-// // comparing two strings
-// int		ft_strcmp(const char *s1, const char *s2);
-// char	*ft_strcat(char *dest, const char *src);
-// char	*ft_stradd(char const *s1, char const *s2);
-// void	ft_strcpy(char *dst, const char *src);
-
-
 /// execution
 void	ft_open_pipes(t_mini *cmds);
 void	ft_close_pipes(t_mini *cmds);
 void	ft_open_redirs(t_mini *cmds, t_env *env);
 
 //add path
-int 	ft_get_cmd_path(char **cmd, t_env *env);
+int		ft_get_cmd_path(char **cmd, t_env *env);
 
 //minishell
 t_mini	*ft_parsing(t_lst *tokens);
@@ -132,12 +121,12 @@ void	ft_strcpy(char *dst, const char *src);
 
 //built-ins
 int		ft_pwd(void);
-int	ft_env(t_env *env);
+int		ft_env(t_env *env);
 int		ft_echo(char **arg);
 int		ft_cd(char **args, t_env **env);
-int	ft_unset(char **args, t_env **env);
-int    ft_export(char **args, t_env **env);
-int    ft_exit(char **args);
+int		ft_unset(char **args, t_env **env);
+int		ft_export(char **args, t_env **env);
+int		ft_exit(char **args);
 
 void	ft_setenv(t_env **env, char *var, char *content);
 char	*ft_getenv(t_env *env, char *var);
@@ -146,6 +135,12 @@ void	ft_expand(char **cmd, t_env *env);
 
 int		ft_here_doc(char *del, t_env *env);
 void	ft_expand_str(char **str, t_env *env);
+
+//signals
+void	ft_signals(int sig);
+void	handle_c(int sig);
+void	handle_slash(int sig);
+void	display_prompt(int sig);
 
 #endif
 

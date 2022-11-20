@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/19 17:16:47 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/20 09:39:59 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ SRCS	=	srcs/main.c\
 			srcs/ft_exit.c\
 			srcs/ft_getsetenv.c\
 			srcs/ft_heredoc.c\
-			srcs/ft_expand.c
+			srcs/ft_expand.c\
+			srcs/ft_signals.c
 
 OBJS	=	$(SRCS:.c=.o)
 

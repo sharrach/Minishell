@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 18:56:47 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/19 15:59:23 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/20 12:23:02 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static void	ft_export_print(t_env **env)
 		holder2 = head;
 		while (holder2)
 		{
-			if (holder2->next && ft_strcmp(holder2->var, holder2->next->var) > 0)
+			if (holder2->next
+				&& ft_strcmp(holder2->var, holder2->next->var) > 0)
 				ft_swap(&holder2);
 			holder2 = holder2->next;
 		}
@@ -81,10 +82,11 @@ int	ft_export(char **args, t_env **env)
 	i = 1;
 	while (args[i])
 	{
-		if ((args[i][0] >= '0' && args[i][0] <= '9') || !ft_alphanum_check(args[i]))
+		if ((args[i][0] >= '0' && args[i][0] <= '9')
+			|| !ft_alphanum_check(args[i]))
 		{
 			printf("misihell: export: `%s': not a valid identifier\n", args[i++]);
-			continue;
+			continue ;
 		}
 		var = ft_substr(args[i], 0, ft_varlen(args[i]));
 		content = NULL;

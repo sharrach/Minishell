@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 18:56:56 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/19 17:13:39 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/20 11:26:37 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	ft_isnum(char *str)
 {
 	int	i;
-	
+
 	i = 0;
 	while (str[i] && (str[i] == '-' || str[i] == '+'))
 		i++;

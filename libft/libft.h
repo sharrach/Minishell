@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 20:49:48 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/19 09:19:41 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/20 11:21:14 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 //------------------add-for-minishell----------------------
 size_t	ft_arrlen(char **arr);
-void    free_2d(char **arr);
+void	free_2d(char **arr);
 char	*ft_stradd(char const *s1, char const *s2);
 char	*ft_strcat(char *dest, const char *src);
 int		ft_strcmp(const char *s1, const char *s2);

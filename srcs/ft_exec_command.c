@@ -46,7 +46,7 @@ void	ft_dup_fds(t_mini *cmds)
 static void	ft_execve(char **cmd, t_env *env)
 {
 	char	**envp;
-	int 	i;
+	int		i;
 
 	envp = (char **)ft_calloc(ft_env_lstsize(env) + 1, sizeof(char *));
 	if (!envp)
@@ -89,7 +89,6 @@ void	ft_exec_command(t_vars *vars, t_mini *cmds)
 		}
 		ft_execve(cmds->cmd, vars->env);
 	}
-	exit(g_exit);
 }
 
 void	ft_exec_commands(t_vars *vars)

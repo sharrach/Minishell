@@ -6,19 +6,19 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:36:50 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/12 17:58:38 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/20 11:51:46 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static  void handle_signals(int signo) {
-	if (signo == SIGINT) {
+static	void	handle_signals(int signo)
+{
+	if (signo == SIGINT)
 		printf("You pressed Ctrl+C\n");
-	}
 }
 
-int main (int ac, char *av[], char *env[])
+int	main(int ac, char *av[], char *env[])
 {
 	t_vars	vars;
 	t_lst	*tokens;
@@ -33,11 +33,11 @@ int main (int ac, char *av[], char *env[])
 	{
 		vars.input = readline("Tzz-shell> ");
 		if (!vars.input)
-			break;
+			break ;
 		add_history(vars.input);
 		tokens = ft_tokenization(vars.input);
 		if (!tokens)
-			break;
+			break ;
 		//////////////////////
 		// t_lst *tmp = tokens;
 		// while (tmp != NULL)
@@ -50,7 +50,7 @@ int main (int ac, char *av[], char *env[])
 		if (syntax_error(tokens))
 		{
 			printf("Syntax error\n");
-			continue;
+			continue ;
 		}
 		vars.cmds = ft_parsing(tokens);
 		//////////////////////

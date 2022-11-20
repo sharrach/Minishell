@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:07:39 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/15 15:50:06 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/20 12:29:52 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_mini	*ft_parsing(t_lst *tokens)
 	t_lst	*redir;
 	char	**cmd;
 	int		w_count;
-	int 	i;
+	int		i;
 	t_lst	*tmp;
 
 	cmds = NULL;
@@ -26,11 +26,12 @@ t_mini	*ft_parsing(t_lst *tokens)
 	w_count = 0;
 	i = 0;
 	tmp = tokens;
-	while(tmp && tmp->type != PIPE)
+	while (tmp && tmp->type != PIPE)
 	{
 		if (tmp->type == WORD && (tmp->prev == NULL
-			|| (tmp->prev->type != IN_RED && tmp->prev->type != OUT_RED
-				&& tmp->prev->type != IN_REDD && tmp->prev->type != OUT_REDD)))
+				|| (tmp->prev->type != IN_RED && tmp->prev->type != OUT_RED
+					&& tmp->prev->type != IN_REDD
+					&& tmp->prev->type != OUT_REDD)))
 			w_count++;
 		tmp = tmp->next;
 	}
@@ -40,8 +41,10 @@ t_mini	*ft_parsing(t_lst *tokens)
 	while (tokens)
 	{
 		if (tokens->type == WORD && (tokens->prev == NULL
-			|| (tokens->prev->type != IN_RED && tokens->prev->type != OUT_RED
-				&& tokens->prev->type != IN_REDD && tokens->prev->type != OUT_REDD)))
+				|| (tokens->prev->type != IN_RED
+					&& tokens->prev->type != OUT_RED
+					&& tokens->prev->type != IN_REDD
+					&& tokens->prev->type != OUT_REDD)))
 			cmd[i++] = tokens->content;
 		if (tokens->type == PIPE || !tokens->next)
 		{
@@ -50,19 +53,17 @@ t_mini	*ft_parsing(t_lst *tokens)
 		}
 		if (tokens->type == IN_RED || tokens->type == OUT_RED
 			|| tokens->type == IN_REDD || tokens->type == OUT_REDD)
-		{
 			ft_lst_lstadd_back(&redir, ft_lst_lstnew(tokens->next->content, tokens->type));
-		}
 		if (tokens->type == PIPE && tokens->next)
 		{
 			w_count = 0;
 			i = 0;
 			tmp = tokens;
-			while(tmp && tmp->type != PIPE)
+			while (tmp && tmp->type != PIPE)
 			{
 				if (tmp->type == WORD && (tmp->prev == NULL
-					|| (tmp->prev->type != IN_RED && tmp->prev->type != OUT_RED
-						&& tmp->prev->type != IN_REDD && tmp->prev->type != OUT_REDD)))
+						|| (tmp->prev->type != IN_RED && tmp->prev->type != OUT_RED
+							&& tmp->prev->type != IN_REDD && tmp->prev->type != OUT_REDD)))
 					w_count++;
 				tmp = tmp->next;
 			}
@@ -74,4 +75,3 @@ t_mini	*ft_parsing(t_lst *tokens)
 	}
 	return (cmds);
 }
-
