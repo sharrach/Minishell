@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 18:56:47 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/21 11:36:32 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/21 18:37:33 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	ft_swap(t_env **env)
 	(*env)->next->var = tmp_var;
 	(*env)->next->content = tmp_content;
 }
+
 // when exprot $PWD$PWD
 static void	ft_export_print(t_env **env)
 {

@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:36:50 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/21 13:18:30 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/21 16:50:21 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,30 @@
 
 static	void	handle_signals(int signo)
 {
+	if (signo == SIGQUIT)
+	{
+		rl_clear_signals();
+		rl_redisplay();
+		rl_clear_signals();
+	}
 	if (signo == SIGINT)
-		printf("Youuuuuuuuuu pressed Ctrl+C\n");
+	{	
+
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_clear_signals();
+		rl_redisplay();
+	}
 	// printf("Youuuuuuuuuu pressed Ctrl+C\n");
 	// // g_exit = 1;
-	ft_putstr_fd("\n", STDOUT_FILENO);
+	
+	// ft_putstr_fd("\n", STDOUT_FILENO);
 	// printf("Youuuuuuuuuu pressed Ctrl+C\n");
-	rl_on_new_line();
+	// rl_replace_line("", 0);
+	// rl_on_new_line();
 	// rl_on_new_line_with_prompt();
-	rl_replace_line("", 0);
-	printf("Youuuuuuuuuu pressed Ctrl+C\n");
+	// printf("Youuuuuuuuuu pressed Ctrl+C\n");
 	// (void)signo;
 }
 
@@ -35,8 +49,7 @@ int	main(int ac, char *av[], char *env[])
 	(void)ac;
 	(void)av;
 	signal(SIGINT, handle_signals);
-	if (signal(SIGINT, handle_signals) == SIG_ERR)
-		printf("failed to register interrupts with kernel\n");
+	signal(SIGQUIT, handle_signals);
 	ft_duplicate_env(&vars, env);
 	while (1)
 	{
