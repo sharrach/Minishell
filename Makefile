@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/20 09:39:59 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/21 13:35:10 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,10 @@ SRCS	=	srcs/main.c\
 			srcs/ft_expand.c\
 			srcs/ft_signals.c
 
+INC = -I/goinfre/sharrach/.brew/opt/readline/include
+
+RFLAGS = -lreadline -L/goinfre/sharrach/.brew/opt/readline/lib
+
 OBJS	=	$(SRCS:.c=.o)
 
 CC		=	cc
@@ -51,10 +55,10 @@ LIBFT	=	libft
 LIB		=	$(LIBFT)/libft.a
 
 %.o:%.c		$(HEADER)
-			$(CC) $(CFLAGS) -c $< -o $@ 
+			$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(NAME)	:	$(LIB) $(OBJS) $(HEADER)
-			$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME) -lreadline
+			@$(CC) $(CFLAGS) $^ -o $@ $(RFLAGS)
 
 $(LIB):
 			make -C $(LIBFT)
