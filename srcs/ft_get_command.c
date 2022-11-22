@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:06:26 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/20 11:29:42 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/22 13:46:13 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	ft_get_cmd_path(char **cmd, t_env *env)
 {
 	char	**paths;
 	char	*path;
-	char	*add_slash;
 	int		i;
 
 	paths = get_paths(env);
@@ -37,17 +36,17 @@ int	ft_get_cmd_path(char **cmd, t_env *env)
 	i = 0;
 	while (paths[i])
 	{
-		add_slash = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(add_slash, *cmd);
-		free(add_slash);
+		path = ft_strjoin(paths[i], "/");
+		path = ft_stradd(path, *cmd);
 		if (!access(path, F_OK) && !access(path, X_OK))
 		{
 			free_2d(paths);
 			free(*cmd);
-			return (*cmd = path, 1);
+			*cmd = path;
+			return (1);
 		}
-		i++;
 		free(path);
+		i++;
 	}
 	free_2d(paths);
 	return (0);

@@ -43,6 +43,18 @@ void	ft_dup_fds(t_mini *cmds)
 	}
 }
 
+// void	ft_close_fds(t_mini *cmds)
+// {
+// 	while (cmds)
+// 	{
+// 		if (cmds->pipe[STDIN_FILENO] != STDIN_FILENO)
+// 			close(cmds->pipe[STDIN_FILENO]);
+// 		if (cmds->pipe[STDOUT_FILENO] != STDOUT_FILENO)
+// 			close(cmds->pipe[STDOUT_FILENO]);
+// 		cmds = cmds->next;
+// 	}
+// }
+
 static void	ft_execve(char **cmd, t_env *env)
 {
 	char	**envp;
@@ -95,6 +107,7 @@ void	ft_exec_commands(t_vars *vars)
 {
 	int		is_fork;
 	pid_t	pid;
+	t_mini	*cmds;
 
 	is_fork = 1;
 	pid = 0;
@@ -103,7 +116,8 @@ void	ft_exec_commands(t_vars *vars)
 	ft_open_redirs(vars->cmds, vars->env);
 	if (ft_mini_lstsize(vars->cmds) == 1 && ft_builtins(vars->cmds->cmd[0]))
 		is_fork = 0;
-	while (vars->cmds)
+	cmds = vars->cmds;
+	while (cmds)
 	{
 		if (is_fork)
 			pid = fork();
@@ -111,21 +125,25 @@ void	ft_exec_commands(t_vars *vars)
 			perror("fork");
 		if (pid == 0)
 		{
-			ft_dup_fds(vars->cmds);
-			ft_exec_command(vars, vars->cmds);
+			ft_dup_fds(cmds);
+			ft_exec_command(vars, cmds);
 		}
-		if (vars->cmds->pipe[STDIN_FILENO] != STDIN_FILENO)
+		if (cmds->prev)
 		{
-			close(vars->cmds->pipe[STDIN_FILENO]);
-			vars->cmds->pipe[STDIN_FILENO] = STDIN_FILENO;
+			if (cmds->pipe[STDIN_FILENO] != STDIN_FILENO)
+			{
+				close(cmds->pipe[STDIN_FILENO]);
+				cmds->pipe[STDIN_FILENO] = STDIN_FILENO;
+			}
+			if (cmds->prev->pipe[STDOUT_FILENO] != STDOUT_FILENO)
+			{
+				close(cmds->prev->pipe[STDOUT_FILENO]);
+				cmds->prev->pipe[STDOUT_FILENO] = STDOUT_FILENO;
+			}
 		}
-		if (vars->cmds->pipe[STDOUT_FILENO] != STDOUT_FILENO)
-		{
-			close(vars->cmds->pipe[STDOUT_FILENO]);
-			vars->cmds->pipe[STDOUT_FILENO] = STDOUT_FILENO;
-		}
-		vars->cmds = vars->cmds->next;
+		cmds = cmds->next;
 	}
+	// ft_close_fds(vars->cmds);
 	if (is_fork)
 		waitpid(pid, NULL, 0);
 }

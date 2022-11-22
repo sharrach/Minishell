@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 10:23:24 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/20 12:13:01 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/22 10:27:26 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static	void	ft_newl(char ***arg, int *i, int *nl)
 	*i = 1;
 	j = 1;
 	*nl = 1;
-	while ((*arg)[*i] && (*arg)[*i][0] == '-')
+	while ((*arg)[*i] && (*arg)[*i][0] == '-' && (*arg)[*i][1] == 'n')
 	{
 		j = 1;
 		while ((*arg)[*i][j] && (*arg)[*i][j] == 'n')
