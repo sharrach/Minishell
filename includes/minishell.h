@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/20 11:16:08 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/22 21:16:27 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-int	g_exit;
 # define BUFFER_SIZE 1
 
 enum e_tokens {
@@ -44,6 +43,14 @@ enum e_tokens {
 	DB_QUOTE,
 	WORD
 };
+
+typedef struct s_gvar
+{
+	int	exit;
+	int	sig;
+}	t_gvar;
+
+t_gvar	gvar;
 
 typedef struct s_lst
 {
@@ -99,7 +106,6 @@ void	ft_env_lstclear(t_env **env);
 
 /// execution
 void	ft_open_pipes(t_mini *cmds);
-void	ft_close_pipes(t_mini *cmds);
 void	ft_open_redirs(t_mini *cmds, t_env *env);
 
 //add path
@@ -137,10 +143,8 @@ int		ft_here_doc(char *del, t_env *env);
 void	ft_expand_str(char **str, t_env *env);
 
 //signals
-void	ft_signals(int sig);
-void	handle_c(int sig);
-void	handle_slash(int sig);
-void	display_prompt(int sig);
+void	ft_handle_signals(int signo);
+void	ft_handle_child_signals(int signo);
 
 #endif
 

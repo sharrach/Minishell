@@ -31,29 +31,21 @@ void	ft_dup_fds(t_mini *cmds)
 {
 	if (cmds->pipe[STDIN_FILENO] != STDIN_FILENO)
 	{
+		if (cmds->prev->pipe[STDOUT_FILENO] != STDOUT_FILENO)
+			close(cmds->prev->pipe[STDOUT_FILENO]);
 		dup2(cmds->pipe[STDIN_FILENO], STDIN_FILENO);
 		close(cmds->pipe[STDIN_FILENO]);
 		cmds->pipe[STDIN_FILENO] = STDIN_FILENO;
 	}
 	if (cmds->pipe[STDOUT_FILENO] != STDOUT_FILENO)
 	{
+		if (cmds->next->pipe[STDIN_FILENO] != STDIN_FILENO)
+			close(cmds->next->pipe[STDIN_FILENO]);
 		dup2(cmds->pipe[STDOUT_FILENO], STDOUT_FILENO);
 		close(cmds->pipe[STDOUT_FILENO]);
 		cmds->pipe[STDOUT_FILENO] = STDOUT_FILENO;
 	}
 }
-
-// void	ft_close_fds(t_mini *cmds)
-// {
-// 	while (cmds)
-// 	{
-// 		if (cmds->pipe[STDIN_FILENO] != STDIN_FILENO)
-// 			close(cmds->pipe[STDIN_FILENO]);
-// 		if (cmds->pipe[STDOUT_FILENO] != STDOUT_FILENO)
-// 			close(cmds->pipe[STDOUT_FILENO]);
-// 		cmds = cmds->next;
-// 	}
-// }
 
 static void	ft_execve(char **cmd, t_env *env)
 {
@@ -77,25 +69,25 @@ static void	ft_execve(char **cmd, t_env *env)
 void	ft_exec_command(t_vars *vars, t_mini *cmds)
 {
 	if (ft_strcmp(cmds->cmd[0], "env") == 0)
-		g_exit = ft_env(vars->env);
+		gvar.exit = ft_env(vars->env);
 	else if (ft_strcmp(cmds->cmd[0], "echo") == 0)
-		g_exit = ft_echo(cmds->cmd);
+		gvar.exit = ft_echo(cmds->cmd);
 	else if (ft_strcmp(cmds->cmd[0], "pwd") == 0)
-		g_exit = ft_pwd();
+		gvar.exit = ft_pwd();
 	else if (ft_strcmp(cmds->cmd[0], "cd") == 0)
-		g_exit = ft_cd(cmds->cmd, &vars->env);
+		gvar.exit = ft_cd(cmds->cmd, &vars->env);
 	else if (ft_strcmp(cmds->cmd[0], "unset") == 0)
-		g_exit = ft_unset(cmds->cmd, &vars->env);
+		gvar.exit = ft_unset(cmds->cmd, &vars->env);
 	else if (ft_strcmp(cmds->cmd[0], "export") == 0)
-		g_exit = ft_export(cmds->cmd, &vars->env);
+		gvar.exit = ft_export(cmds->cmd, &vars->env);
 	else if (ft_strcmp(cmds->cmd[0], "exit") == 0)
-		g_exit = ft_exit(cmds->cmd);
+		gvar.exit = ft_exit(cmds->cmd);
 	else
 	{
-		if (!ft_get_cmd_path(&vars->cmds->cmd[0], vars->env))
+		if (!ft_get_cmd_path(&cmds->cmd[0], vars->env))
 		{
 			ft_putstr_fd("minishell: ", STDERR_FILENO);
-			ft_putstr_fd(vars->cmds->cmd[0], STDERR_FILENO);
+			ft_putstr_fd(cmds->cmd[0], STDERR_FILENO);
 			ft_putendl_fd(": command not found", STDERR_FILENO);
 			exit(127);
 		}
@@ -105,9 +97,9 @@ void	ft_exec_command(t_vars *vars, t_mini *cmds)
 
 void	ft_exec_commands(t_vars *vars)
 {
+	t_mini	*cmd;
 	int		is_fork;
 	pid_t	pid;
-	t_mini	*cmds;
 
 	is_fork = 1;
 	pid = 0;
@@ -116,8 +108,8 @@ void	ft_exec_commands(t_vars *vars)
 	ft_open_redirs(vars->cmds, vars->env);
 	if (ft_mini_lstsize(vars->cmds) == 1 && ft_builtins(vars->cmds->cmd[0]))
 		is_fork = 0;
-	cmds = vars->cmds;
-	while (cmds)
+	cmd = vars->cmds;
+	while (cmd)
 	{
 		if (is_fork)
 			pid = fork();
@@ -125,25 +117,21 @@ void	ft_exec_commands(t_vars *vars)
 			perror("fork");
 		if (pid == 0)
 		{
-			ft_dup_fds(cmds);
-			ft_exec_command(vars, cmds);
+			ft_dup_fds(cmd);
+			ft_exec_command(vars, cmd);
 		}
-		if (cmds->prev)
+		if (cmd->pipe[STDIN_FILENO] != STDIN_FILENO)
 		{
-			if (cmds->pipe[STDIN_FILENO] != STDIN_FILENO)
-			{
-				close(cmds->pipe[STDIN_FILENO]);
-				cmds->pipe[STDIN_FILENO] = STDIN_FILENO;
-			}
-			if (cmds->prev->pipe[STDOUT_FILENO] != STDOUT_FILENO)
-			{
-				close(cmds->prev->pipe[STDOUT_FILENO]);
-				cmds->prev->pipe[STDOUT_FILENO] = STDOUT_FILENO;
-			}
+			close(cmd->pipe[STDIN_FILENO]);
+			cmd->pipe[STDIN_FILENO] = STDIN_FILENO;
 		}
-		cmds = cmds->next;
+		if (cmd->pipe[STDOUT_FILENO] != STDOUT_FILENO)
+		{
+			close(cmd->pipe[STDOUT_FILENO]);
+			cmd->pipe[STDOUT_FILENO] = STDOUT_FILENO;
+		}
+		cmd = cmd->next;
 	}
-	// ft_close_fds(vars->cmds);
 	if (is_fork)
 		waitpid(pid, NULL, 0);
 }

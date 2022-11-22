@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/22 10:56:35 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/21 14:29:06 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,10 +55,10 @@ LIBFT	=	libft
 LIB		=	$(LIBFT)/libft.a
 
 %.o: %.c $(HEADER)
-			$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(NAME)	:	$(LIB) $(OBJS) $(HEADER)
-			$(CC) $(CFLAGS) $(RFLAGS) $(LIB) -lreadline $(OBJS) -o $(NAME)
+			cc $(CFLAGS) $(RFLAGS) $(LIB) -lreadline $(OBJS) -o $(NAME)
 
 
 $(LIB):
