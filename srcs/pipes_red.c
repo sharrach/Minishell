@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 11:40:16 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/22 14:09:50 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/23 14:00:51 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,20 @@ void	ft_open_pipes(t_mini *cmds)
 	}
 }
 
+void	ft_close_pipes(t_mini *cmd)
+{
+	if (cmd->pipe[STDIN_FILENO] != STDIN_FILENO)
+	{
+		close(cmd->pipe[STDIN_FILENO]);
+		cmd->pipe[STDIN_FILENO] = STDIN_FILENO;
+	}
+	if (cmd->pipe[STDOUT_FILENO] != STDOUT_FILENO)
+	{
+		close(cmd->pipe[STDOUT_FILENO]);
+		cmd->pipe[STDOUT_FILENO] = STDOUT_FILENO;
+	}
+}
+
 static void	ft_out_red(t_mini **cmds, t_lst **redir)
 {
 	t_lst	*t1;
@@ -48,7 +62,6 @@ static void	ft_out_red(t_mini **cmds, t_lst **redir)
 			close(t2->pipe[STDOUT_FILENO]);
 		t2->pipe[1] = open(t1->content, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	}
-
 }
 
 void	ft_open_redirs(t_mini *cmds, t_env *env)

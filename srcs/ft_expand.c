@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 17:14:04 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/22 14:40:45 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/23 17:12:19 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ void	ft_expand_str(char **str, t_env *env)
 			quote = 0;
 		if ((*str)[i] == '$' && (!quote || quote == '"'))
 		{
+			if((*str)[i + 1] && (*str)[i + 1] == '?')
+			{
+				new_str = ft_itoa(gvar.exit);
+				break;
+			}
 			new_str = ft_stradd(new_str, ft_substr((*str), i - len, len));
 			var = ft_substr((*str), i + 1, ft_expand_varlen(&(*str)[i + 1]));
 			if (ft_getenv(env, var))
@@ -69,6 +74,7 @@ void	ft_expand(char **cmd, t_env *env)
 	i = 0;
 	while (cmd[i])
 	{
+
 		ft_expand_str(&cmd[i], env);
 		i++;
 	}

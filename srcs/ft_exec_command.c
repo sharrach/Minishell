@@ -97,8 +97,8 @@ void	ft_exec_command(t_vars *vars, t_mini *cmds)
 
 void	ft_exec_commands(t_vars *vars)
 {
-	t_mini	*cmd;
 	int		is_fork;
+	int		status;
 	pid_t	pid;
 
 	is_fork = 1;
@@ -108,30 +108,32 @@ void	ft_exec_commands(t_vars *vars)
 	ft_open_redirs(vars->cmds, vars->env);
 	if (ft_mini_lstsize(vars->cmds) == 1 && ft_builtins(vars->cmds->cmd[0]))
 		is_fork = 0;
-	cmd = vars->cmds;
-	while (cmd)
+	while (vars->cmds)
 	{
 		if (is_fork)
+		{
+			signal(SIGINT, SIG_IGN);
 			pid = fork();
+		}
 		if (pid == -1)
 			perror("fork");
 		if (pid == 0)
 		{
-			ft_dup_fds(cmd);
-			ft_exec_command(vars, cmd);
+			signal(SIGINT, NULL);
+			signal(SIGQUIT, NULL);
+			ft_dup_fds(vars->cmds);
+			ft_exec_command(vars, vars->cmds);
 		}
-		if (cmd->pipe[STDIN_FILENO] != STDIN_FILENO)
-		{
-			close(cmd->pipe[STDIN_FILENO]);
-			cmd->pipe[STDIN_FILENO] = STDIN_FILENO;
-		}
-		if (cmd->pipe[STDOUT_FILENO] != STDOUT_FILENO)
-		{
-			close(cmd->pipe[STDOUT_FILENO]);
-			cmd->pipe[STDOUT_FILENO] = STDOUT_FILENO;
-		}
-		cmd = cmd->next;
+		ft_close_pipes(vars->cmds);
+		vars->cmds = vars->cmds->next;
 	}
 	if (is_fork)
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &status, 0);
+	gvar.exit = WEXITSTATUS(status);
+	if (WTERMSIG(status) == SIGINT)
+		gvar.exit = 130;
+	else if (WTERMSIG(status) == SIGQUIT)
+		gvar.exit = 131;
+	signal(SIGINT, ft_handle_signals);
+	signal(SIGQUIT, SIG_IGN);
 }

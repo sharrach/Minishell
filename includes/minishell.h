@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/22 21:16:27 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/23 15:57:14 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ enum e_tokens {
 typedef struct s_gvar
 {
 	int	exit;
-	int	sig;
 }	t_gvar;
 
 t_gvar	gvar;
@@ -106,6 +105,7 @@ void	ft_env_lstclear(t_env **env);
 
 /// execution
 void	ft_open_pipes(t_mini *cmds);
+void	ft_close_pipes(t_mini *cmd);
 void	ft_open_redirs(t_mini *cmds, t_env *env);
 
 //add path
@@ -144,22 +144,5 @@ void	ft_expand_str(char **str, t_env *env);
 
 //signals
 void	ft_handle_signals(int signo);
-void	ft_handle_child_signals(int signo);
 
 #endif
-
-// cat > hh >> hhh > hdf | echo hh
-
-// t_mini	*cmds:
-	// cmds[0]:
-		// char **cmd:
-			// cat
-		// t_lst *redir:
-			// type: >
-			// content: hh
-
-			// type: >>
-			// content: hhh
-
-			// type: >
-			// content: hdf
