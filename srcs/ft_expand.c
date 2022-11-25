@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 17:14:04 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/23 17:12:19 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/24 15:56:14 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,11 @@ void	ft_expand_str(char **str, t_env *env)
 			len = 0;
 			i += ft_expand_varlen(&(*str)[i + 1]) + 1;
 		}
-		len++;
-		i++;
+		else
+		{
+			len++;
+			i++;
+		}
 	}
 	new_str = ft_stradd(new_str, ft_substr((*str), i - len, len));
 	free(*str);

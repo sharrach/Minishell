@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 10:26:26 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/23 18:04:27 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/24 16:07:09 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	ft_env_lstdelone(t_env **env)
 	free(holder->content);
 	free(holder);
 }
-// add error not valid indentifier 
+// add error not valid indentifier
 
 int	ft_unset(char **args, t_env **env)
 {

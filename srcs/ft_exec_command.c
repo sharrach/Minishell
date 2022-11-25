@@ -31,7 +31,7 @@ void	ft_dup_fds(t_mini *cmds)
 {
 	if (cmds->pipe[STDIN_FILENO] != STDIN_FILENO)
 	{
-		if (cmds->prev->pipe[STDOUT_FILENO] != STDOUT_FILENO)
+		if (cmds->prev && cmds->prev->pipe[STDOUT_FILENO] != STDOUT_FILENO)
 			close(cmds->prev->pipe[STDOUT_FILENO]);
 		dup2(cmds->pipe[STDIN_FILENO], STDIN_FILENO);
 		close(cmds->pipe[STDIN_FILENO]);
@@ -39,7 +39,7 @@ void	ft_dup_fds(t_mini *cmds)
 	}
 	if (cmds->pipe[STDOUT_FILENO] != STDOUT_FILENO)
 	{
-		if (cmds->next->pipe[STDIN_FILENO] != STDIN_FILENO)
+		if (cmds->next && cmds->next->pipe[STDIN_FILENO] != STDIN_FILENO)
 			close(cmds->next->pipe[STDIN_FILENO]);
 		dup2(cmds->pipe[STDOUT_FILENO], STDOUT_FILENO);
 		close(cmds->pipe[STDOUT_FILENO]);
@@ -99,6 +99,7 @@ void	ft_exec_commands(t_vars *vars)
 {
 	int		is_fork;
 	int		status;
+	int		std[2];
 	pid_t	pid;
 
 	is_fork = 1;
@@ -108,6 +109,11 @@ void	ft_exec_commands(t_vars *vars)
 	ft_open_redirs(vars->cmds, vars->env);
 	if (ft_mini_lstsize(vars->cmds) == 1 && ft_builtins(vars->cmds->cmd[0]))
 		is_fork = 0;
+	if (!is_fork)
+	{
+		std[STDIN_FILENO] = dup(STDIN_FILENO);
+		std[STDOUT_FILENO] = dup(STDOUT_FILENO);
+	}
 	while (vars->cmds)
 	{
 		if (is_fork)
@@ -125,10 +131,24 @@ void	ft_exec_commands(t_vars *vars)
 			ft_exec_command(vars, vars->cmds);
 		}
 		ft_close_pipes(vars->cmds);
+		printf("here\n");
 		vars->cmds = vars->cmds->next;
 	}
 	if (is_fork)
+	{
 		waitpid(pid, &status, 0);
+		printf("here\n");
+		while (waitpid(-1, NULL, 0) != -1)
+			;
+	}
+	ft_close_pipes(vars->cmds);
+	if (!is_fork)
+	{
+		dup2(std[STDOUT_FILENO], STDOUT_FILENO);
+		close(std[STDOUT_FILENO]);
+		dup2(std[STDIN_FILENO], STDIN_FILENO);
+		close(std[STDIN_FILENO]);
+	}
 	gvar.exit = WEXITSTATUS(status);
 	if (WTERMSIG(status) == SIGINT)
 		gvar.exit = 130;

@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 10:45:12 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/23 15:50:45 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/24 15:54:36 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ void	ft_handle_signals(int signo)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		gvar.exit = 1;
 	}
 }
