@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/23 15:57:14 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:19:27 by iellyass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int		ft_get_cmd_path(char **cmd, t_env *env);
 //minishell
 t_mini	*ft_parsing(t_lst *tokens);
 int		ft_token_type(char *content);
-int		syntax_error(t_lst	*tokens);
+int		ft_syntax_error(t_lst	*tokens);
 t_lst	*ft_tokenization(char *input);
 void	ft_exec_commands(t_vars *vars);
 void	ft_duplicate_env(t_vars *vars, char **env);
@@ -144,5 +144,8 @@ void	ft_expand_str(char **str, t_env *env);
 
 //signals
 void	ft_handle_signals(int signo);
+
+//quotes
+void	ft_remove_quote(char **cmd);
 
 #endif

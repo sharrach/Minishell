@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
+#    By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/13 11:34:06 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/19 09:19:40 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/25 15:19:51 by iellyass         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRCS =	ft_isalpha.c\
 		ft_isalnum.c\
 		ft_isascii.c\
 		ft_isprint.c\
+		ft_isspace.c\
 		ft_strlen.c\
 		ft_memset.c\
 		ft_bzero.c\
@@ -45,6 +46,7 @@ SRCS =	ft_isalpha.c\
 		ft_arrlen.c\
 		ft_free2d.c\
 		ft_stradd.c\
+		ft_stradd2.c\
 		ft_strcat.c\
 		ft_strcmp.c\
 		ft_strcpy.c\

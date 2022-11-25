@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:36:50 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/25 09:55:24 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:22:08 by iellyass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int ac, char *av[], char *env[])
 		tokens = ft_tokenization(vars.input);
 		if (!tokens)
 			continue ;
-		if (syntax_error(tokens))
+		if (ft_syntax_error(tokens))
 		{
 			printf("Syntax error\n");
 			continue ;

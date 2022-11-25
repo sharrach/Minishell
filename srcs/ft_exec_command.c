@@ -105,6 +105,7 @@ void	ft_exec_commands(t_vars *vars)
 	is_fork = 1;
 	pid = 0;
 	ft_expand(vars->cmds->cmd, vars->env);
+	ft_remove_quote(vars->cmds->cmd);
 	ft_open_pipes(vars->cmds);
 	ft_open_redirs(vars->cmds, vars->env);
 	if (ft_mini_lstsize(vars->cmds) == 1 && ft_builtins(vars->cmds->cmd[0]))

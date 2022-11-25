@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tokenization.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:09:14 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/20 14:56:42 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:21:20 by iellyass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	syntax_error(t_lst	*tokens)
+int	ft_syntax_error(t_lst *tokens)
 {
 	if (tokens->type == PIPE)
 		return (1);
@@ -51,10 +51,12 @@ int	ft_token_type(char *content)
 	return (type);
 }
 
-static	void	quote_redir_handle(char **input, int *i, int *size)
+static void	ft_get_token_size(char **input, int *i, int *size)
 {
+	char	*str;
+	
 	if (((*input)[*i + *size] == '>' && (*input)[*i + *size + 1] == '>')
-			|| ((*input)[*i + *size] == '<' && (*input)[*i + *size + 1] == '<'))
+		|| ((*input)[*i + *size] == '<' && (*input)[*i + *size + 1] == '<'))
 		*size += 2;
 	else if (ft_strchr("|<>", (*input)[*i + *size]))
 		(*size)++;
@@ -62,15 +64,18 @@ static	void	quote_redir_handle(char **input, int *i, int *size)
 	{
 		while ((*input)[*i + *size] && !ft_strchr("| <>", (*input)[*i + *size]))
 		{
+			str = ft_strchr(&(*input)[*i + *size + 1], (*input)[*i + *size]);
 			if (((*input)[*i + *size] == '"' || (*input)[*i + *size] == '\'')
-				&& (*input)[*i + *size + 1]
-					&& ft_strchr(&(*input)[*i + *size + 1], (*input)[*i + *size]))
-				*size = ft_strlen((*input)) - ft_strlen(ft_strchr(&(*input)[*i + *size + 1], (*input)[*i + *size]));
-			else if ((*input)[*i + *size] == '"' || (*input)[*i + *size] == '\'')
+				&& (*input)[*i + *size + 1] && str)
+				*size = ft_strlen((*input)) - ft_strlen(str);
+			else if ((*input)[*i + *size] == '"'
+				|| (*input)[*i + *size] == '\'')
 				break ;
 			(*size)++;
 		}
 	}
+	if (*size == 0 && input[*i] == input[*i + *size])
+		*size = 1;
 }
 
 t_lst	*ft_tokenization(char *input)
@@ -85,15 +90,13 @@ t_lst	*ft_tokenization(char *input)
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] == ' ')
+		if (ft_isspace(input[i]))
 		{
 			i++;
 			continue ;
 		}
 		size = 0;
-		quote_redir_handle(&input, &i, &size);
-		if (size == 0 && input[i] == input[i + size])
-			size = 1;
+		ft_get_token_size(&input, &i, &size);
 		content = ft_substr(input, i, size);
 		type = ft_token_type(content);
 		ft_lst_lstadd_back(&tokens, ft_lst_lstnew(content, type));

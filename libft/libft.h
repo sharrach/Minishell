@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 20:49:48 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/20 11:21:14 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:19:55 by iellyass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int		ft_isalpha(int c);
 int		ft_isascii(int c);
 int		ft_isdigit(int c);
 int		ft_isprint(int c);
+int		ft_isspace(int c);
 void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
@@ -70,6 +71,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 size_t	ft_arrlen(char **arr);
 void	free_2d(char **arr);
 char	*ft_stradd(char const *s1, char const *s2);
+char	*ft_stradd2(char const *s1, char const *s2);
 char	*ft_strcat(char *dest, const char *src);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_strcpy(char *dst, const char *src);
