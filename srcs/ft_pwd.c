@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/18 13:34:22 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/01 17:22:27 by sharrach         ###   ########.fr       */
+/*   Created: 2022/11/04 09:47:46 by sharrach          #+#    #+#             */
+/*   Updated: 2022/11/20 11:39:19 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    free_2d(char **arr)
+int	ft_pwd(void)
 {
-    int i;
-     
-    i = 0;
-    while(arr[i])
-    {
-        free(arr[i]);
-        i ++;
-    }
-    free(arr);
+	char	pwd[PATH_MAX];
+
+	getcwd(pwd, PATH_MAX);
+	printf("%s\n", pwd);
+	return (EXIT_SUCCESS);
 }

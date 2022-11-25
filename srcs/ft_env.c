@@ -1,42 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/06 10:46:12 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/19 09:35:13 by sharrach         ###   ########.fr       */
+/*   Created: 2022/11/04 09:49:03 by sharrach          #+#    #+#             */
+/*   Updated: 2022/11/19 15:40:43 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-static char	*ft_str_cpy(char *dest, const char *src)
+int	ft_env(t_env *env)
 {
-	size_t		i;
-	char		*s;
-
-	s = (char *)src;
-	i = 0;
-	while (s[i] != '\0')
+	while (env)
 	{
-		dest[i] = s[i];
-		i++;
+		if (env->content)
+			printf("%s=%s\n", env->var, env->content);
+		env = env->next;
 	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-char	*ft_strdup(const char *src)
-{
-	char	*dest;
-	size_t	i;
-
-	i = ft_strlen(src);
-	dest = (char *)malloc((i + 1) * sizeof (char));
-	if (dest == NULL)
-		return (0);
-	ft_str_cpy(dest, src);
-	return (dest);
+	return (0);
 }

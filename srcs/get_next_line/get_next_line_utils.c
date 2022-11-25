@@ -1,41 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/06 14:59:57 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/19 09:37:35 by sharrach         ###   ########.fr       */
+/*   Created: 2021/12/12 19:56:08 by sharrach          #+#    #+#             */
+/*   Updated: 2022/11/20 11:47:34 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "../../includes/minishell.h"
 
-static	char	*ft_str_cpy(char *dst, const char *src)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (dst);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strnljoin(char *s1, char *s2)
 {
 	char	*s;
+	int		s_len;
+	int		s2_len;
+	int		i;
 
-	if (!s1 || !s2)
-		return (NULL);
-	s = ((char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1));
+	s2_len = 0;
+	while (s2[s2_len] && s2[s2_len] != '\n')
+		s2_len++;
+	if (s2[s2_len] == '\n')
+		s2_len++;
+	s = ((char *)malloc(ft_strlen(s1) + s2_len + 1));
 	if (s == 0)
 		return (NULL);
-	ft_str_cpy(s, (char *) s1);
-	ft_strcat(s, (char *) s2);
+	ft_strcpy(s, (char *) s1);
+	s_len = ft_strlen(s);
+	i = 0;
+	while (i < s2_len)
+	{
+		s[s_len + i] = s2[i];
+		i++;
+	}
+	s[s_len + i] = '\0';
+	free (s1);
 	return (s);
 }
