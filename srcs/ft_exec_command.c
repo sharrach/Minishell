@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/03 13:11:16 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/19 16:09:1 by hel-makh         ###   ########.fr       */
+/*   Created: 2022/11/25 16:21:03 by sharrach          #+#    #+#             */
+/*   Updated: 2022/11/25 18:18:11 by iellyass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,11 @@ void	ft_exec_commands(t_vars *vars)
 		waitpid(pid, &status, 0);
 		while (waitpid(-1, NULL, 0) != -1)
 			;
+		gvar.exit = WEXITSTATUS(status);
+		if (WTERMSIG(status) == SIGINT)
+			gvar.exit = 130;
+		else if (WTERMSIG(status) == SIGQUIT)
+			gvar.exit = 131;
 	}
 	if (!is_fork)
 	{
@@ -147,11 +152,6 @@ void	ft_exec_commands(t_vars *vars)
 		dup2(std[STDIN_FILENO], STDIN_FILENO);
 		close(std[STDIN_FILENO]);
 	}
-	gvar.exit = WEXITSTATUS(status);
-	if (WTERMSIG(status) == SIGINT)
-		gvar.exit = 130;
-	else if (WTERMSIG(status) == SIGQUIT)
-		gvar.exit = 131;
 	signal(SIGINT, ft_handle_signals);
 	signal(SIGQUIT, SIG_IGN);
 }

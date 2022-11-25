@@ -6,7 +6,7 @@
 /*   By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:09:14 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/25 15:21:20 by iellyass         ###   ########.fr       */
+/*   Updated: 2022/11/25 17:42:59 by iellyass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,30 +51,29 @@ int	ft_token_type(char *content)
 	return (type);
 }
 
-static void	ft_get_token_size(char **input, int *i, int *size)
+static void	ft_get_token_size(char **input, int i, int *size)
 {
 	char	*str;
 	
-	if (((*input)[*i + *size] == '>' && (*input)[*i + *size + 1] == '>')
-		|| ((*input)[*i + *size] == '<' && (*input)[*i + *size + 1] == '<'))
+	if (((*input)[i + *size] == '>' && (*input)[i + *size + 1] == '>')
+		|| ((*input)[i + *size] == '<' && (*input)[i + *size + 1] == '<'))
 		*size += 2;
-	else if (ft_strchr("|<>", (*input)[*i + *size]))
+	else if (ft_strchr("|<>", (*input)[i + *size]))
 		(*size)++;
 	else
 	{
-		while ((*input)[*i + *size] && !ft_strchr("| <>", (*input)[*i + *size]))
+		while ((*input)[i + *size] && !ft_strchr("| <>", (*input)[i + *size]))
 		{
-			str = ft_strchr(&(*input)[*i + *size + 1], (*input)[*i + *size]);
-			if (((*input)[*i + *size] == '"' || (*input)[*i + *size] == '\'')
-				&& (*input)[*i + *size + 1] && str)
-				*size = ft_strlen((*input)) - ft_strlen(str);
-			else if ((*input)[*i + *size] == '"'
-				|| (*input)[*i + *size] == '\'')
+			str = ft_strchr(&(*input)[i + *size + 1], (*input)[i + *size]);
+			if (((*input)[i + *size] == '"' || (*input)[i + *size] == '\'')
+				&& (*input)[i + *size + 1] && str)
+				*size = ft_strlen(&(*input)[i]) - ft_strlen(str);
+			else if ((*input)[i + *size] == '"' || (*input)[i + *size] == '\'')
 				break ;
 			(*size)++;
 		}
 	}
-	if (*size == 0 && input[*i] == input[*i + *size])
+	if (*size == 0 && input[i] == input[i + *size])
 		*size = 1;
 }
 
@@ -96,7 +95,7 @@ t_lst	*ft_tokenization(char *input)
 			continue ;
 		}
 		size = 0;
-		ft_get_token_size(&input, &i, &size);
+		ft_get_token_size(&input, i, &size);
 		content = ft_substr(input, i, size);
 		type = ft_token_type(content);
 		ft_lst_lstadd_back(&tokens, ft_lst_lstnew(content, type));

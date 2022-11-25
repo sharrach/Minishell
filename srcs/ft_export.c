@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 18:56:47 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/21 18:37:33 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/25 18:12:18 by iellyass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void	ft_swap(t_env **env)
 	(*env)->next->content = tmp_content;
 }
 
-// when exprot $PWD$PWD
 static void	ft_export_print(t_env **env)
 {
 	t_env	*head;
@@ -69,6 +68,8 @@ static int	ft_alphanum_check(char *str)
 			return (0);
 		i++;
 	}
+	if (i == 0)
+		return (0);
 	return (1);
 }
 
@@ -86,7 +87,9 @@ int	ft_export(char **args, t_env **env)
 		if ((args[i][0] >= '0' && args[i][0] <= '9')
 			|| !ft_alphanum_check(args[i]))
 		{
-			printf("misihell: export: `%s': not a valid identifier\n", args[i++]);
+			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+			ft_putstr_fd(args[i++], STDERR_FILENO);
+			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 			continue ;
 		}
 		var = ft_substr(args[i], 0, ft_varlen(args[i]));
