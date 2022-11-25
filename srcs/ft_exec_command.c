@@ -131,17 +131,14 @@ void	ft_exec_commands(t_vars *vars)
 			ft_exec_command(vars, vars->cmds);
 		}
 		ft_close_pipes(vars->cmds);
-		printf("here\n");
 		vars->cmds = vars->cmds->next;
 	}
 	if (is_fork)
 	{
 		waitpid(pid, &status, 0);
-		printf("here\n");
 		while (waitpid(-1, NULL, 0) != -1)
 			;
 	}
-	ft_close_pipes(vars->cmds);
 	if (!is_fork)
 	{
 		dup2(std[STDOUT_FILENO], STDOUT_FILENO);

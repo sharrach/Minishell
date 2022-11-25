@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
+#    By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/21 14:29:06 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/25 15:16:46 by iellyass         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,10 +38,6 @@ SRCS	=	srcs/main.c\
 			srcs/ft_expand.c\
 			srcs/ft_signals.c
 
-INC = -I/Users/sharrach/.brew/opt/readline/include
-
-RFLAGS = -lreadline -L/Users/sharrach/.brew/opt/readline/lib
-
 OBJS	=	$(SRCS:.c=.o)
 
 CC		=	cc
@@ -55,10 +51,10 @@ LIBFT	=	libft
 LIB		=	$(LIBFT)/libft.a
 
 %.o: %.c $(HEADER)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+			$(CC) $(CFLAGS) -I$(shell brew --prefix readline)/include -c $< -o $@
 
 $(NAME)	:	$(LIB) $(OBJS) $(HEADER)
-			cc $(CFLAGS) $(RFLAGS) $(LIB) -lreadline $(OBJS) -o $(NAME)
+			$(CC) $(CFLAGS) -lreadline -L$(shell brew --prefix readline)/lib $(LIB) $(OBJS) -o $(NAME)
 
 
 $(LIB):
