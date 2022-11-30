@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/30 12:29:59 by sharrach         ###   ########.fr        #
+#    Updated: 2022/11/30 12:41:42 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,8 +65,7 @@ endif
 			$(CC) $(CFLAGS) -I$(IFLAGS) -c $< -o $@
 
 $(NAME)	:	$(LIB) $(OBJS) $(HEADER)
-			$(CC) $(CFLAGS) -lreadline -L$(LFLAGS) $(LIB) $(OBJS) -o $(NAME)
-
+			$(CC) $(CFLAGS) $(OBJS) $(LIB) -lreadline -L$(LFLAGS) -o $(NAME)
 
 $(LIB):
 			make -C $(LIBFT)
