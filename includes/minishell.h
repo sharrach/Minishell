@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+        */
+/*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/25 15:19:27 by iellyass         ###   ########.fr       */
+/*   Updated: 2022/11/30 12:20:33 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_gvar
 	int	exit;
 }	t_gvar;
 
-t_gvar	gvar;
+extern t_gvar	gvar;
 
 typedef struct s_lst
 {
@@ -63,6 +63,7 @@ typedef struct s_mini
 {
 	char			**cmd;
 	int				pipe[2];
+	int				red[2];
 	t_lst			*redir;
 	struct s_mini	*next;
 	struct s_mini	*prev;

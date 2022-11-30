@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+         #
+#    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/25 15:21:47 by iellyass         ###   ########.fr        #
+#    Updated: 2022/11/30 12:29:59 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,10 @@ HEADER	=	includes/minishell.h
 SRCS	=	srcs/main.c\
 			srcs/pipes_red.c\
 			srcs/linked_list_func/ft_llist_mini.c\
-			srcs//linked_list_func/ft_llist_redir.c\
-			srcs//linked_list_func/ft_lst_env.c\
-			srcs//get_next_line/get_next_line.c\
-			srcs//get_next_line/get_next_line_utils.c\
+			srcs/linked_list_func/ft_llist_redir.c\
+			srcs/linked_list_func/ft_lst_env.c\
+			srcs/get_next_line/get_next_line.c\
+			srcs/get_next_line/get_next_line_utils.c\
 			srcs/ft_tokenization.c\
 			srcs/ft_parsing.c\
 			srcs/ft_get_command.c\
@@ -51,11 +51,21 @@ LIBFT	=	libft
 
 LIB		=	$(LIBFT)/libft.a
 
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S), Darwin)
+	IFLAGS	=	$(shell brew --prefix readline)/include
+	LFLAGS	=	$(shell brew --prefix readline)/lib
+endif
+ifeq ($(UNAME_S), Linux)
+	IFLAGS	=	/usr/include/readline/include
+	LFLAGS	=	/usr/include/readline/lib
+endif
+
 %.o: %.c $(HEADER)
-			$(CC) $(CFLAGS) -I$(shell brew --prefix readline)/include -c $< -o $@
+			$(CC) $(CFLAGS) -I$(IFLAGS) -c $< -o $@
 
 $(NAME)	:	$(LIB) $(OBJS) $(HEADER)
-			$(CC) $(CFLAGS) -lreadline -L$(shell brew --prefix readline)/lib $(LIB) $(OBJS) -o $(NAME)
+			$(CC) $(CFLAGS) -lreadline -L$(LFLAGS) $(LIB) $(OBJS) -o $(NAME)
 
 
 $(LIB):

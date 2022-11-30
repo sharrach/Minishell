@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+        */
+/*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:21:03 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/25 18:18:11 by iellyass         ###   ########.fr       */
+/*   Updated: 2022/11/30 12:26:20 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,13 @@ static int	ft_builtins(char *name)
 
 void	ft_dup_fds(t_mini *cmds)
 {
-	if (cmds->pipe[STDIN_FILENO] != STDIN_FILENO)
+	if (cmds->red[STDIN_FILENO] != STDIN_FILENO)
+	{
+		dup2(cmds->red[STDIN_FILENO], STDIN_FILENO);
+		close(cmds->red[STDIN_FILENO]);
+		cmds->red[STDIN_FILENO] = STDIN_FILENO;
+	}
+	else if (cmds->pipe[STDIN_FILENO] != STDIN_FILENO)
 	{
 		if (cmds->prev && cmds->prev->pipe[STDOUT_FILENO] != STDOUT_FILENO)
 			close(cmds->prev->pipe[STDOUT_FILENO]);
@@ -37,7 +43,13 @@ void	ft_dup_fds(t_mini *cmds)
 		close(cmds->pipe[STDIN_FILENO]);
 		cmds->pipe[STDIN_FILENO] = STDIN_FILENO;
 	}
-	if (cmds->pipe[STDOUT_FILENO] != STDOUT_FILENO)
+	if (cmds->red[STDOUT_FILENO] != STDOUT_FILENO)
+	{
+		dup2(cmds->red[STDOUT_FILENO], STDOUT_FILENO);
+		close(cmds->red[STDOUT_FILENO]);
+		cmds->red[STDOUT_FILENO] = STDOUT_FILENO;
+	}
+	else if (cmds->pipe[STDOUT_FILENO] != STDOUT_FILENO)
 	{
 		if (cmds->next && cmds->next->pipe[STDIN_FILENO] != STDIN_FILENO)
 			close(cmds->next->pipe[STDIN_FILENO]);

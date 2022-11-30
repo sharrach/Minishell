@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:02:41 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/20 11:49:03 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/30 12:20:55 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ t_mini	*ft_mini_lstnew(char **cmd, t_lst *redir)
 	new->cmd = cmd;
 	new->pipe[STDIN_FILENO] = STDIN_FILENO;
 	new->pipe[STDOUT_FILENO] = STDOUT_FILENO;
+	new->red[STDIN_FILENO] = STDIN_FILENO;
+	new->red[STDOUT_FILENO] = STDOUT_FILENO;
 	new->redir = redir;
 	new->next = NULL;
 	new->prev = NULL;
