@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/30 12:20:33 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/12/14 17:17:45 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include <signal.h>
 # include <sys/wait.h>
 // # include <linux/limits.h>
-# include <limits.h>
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -106,8 +105,9 @@ void	ft_env_lstclear(t_env **env);
 
 /// execution
 void	ft_open_pipes(t_mini *cmds);
-void	ft_close_pipes(t_mini *cmd);
+void	ft_close_fds(t_mini **cmd);
 void	ft_open_redirs(t_mini *cmds, t_env *env);
+void	ft_close_all_fds(t_mini *cmds);
 
 //add path
 int		ft_get_cmd_path(char **cmd, t_env *env);

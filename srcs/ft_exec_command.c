@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:21:03 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/30 12:43:15 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/12/14 17:41:09 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,29 +33,25 @@ void	ft_dup_fds(t_mini *cmds)
 	{
 		dup2(cmds->red[STDIN_FILENO], STDIN_FILENO);
 		close(cmds->red[STDIN_FILENO]);
-		cmds->red[STDIN_FILENO] = STDIN_FILENO;
 	}
 	else if (cmds->pipe[STDIN_FILENO] != STDIN_FILENO)
 	{
-		if (cmds->prev && cmds->prev->pipe[STDOUT_FILENO] != STDOUT_FILENO)
-			close(cmds->prev->pipe[STDOUT_FILENO]);
 		dup2(cmds->pipe[STDIN_FILENO], STDIN_FILENO);
 		close(cmds->pipe[STDIN_FILENO]);
-		cmds->pipe[STDIN_FILENO] = STDIN_FILENO;
+		if (cmds->prev && cmds->prev->pipe[STDOUT_FILENO] != STDOUT_FILENO)
+			close(cmds->prev->pipe[STDOUT_FILENO]);
 	}
 	if (cmds->red[STDOUT_FILENO] != STDOUT_FILENO)
 	{
 		dup2(cmds->red[STDOUT_FILENO], STDOUT_FILENO);
 		close(cmds->red[STDOUT_FILENO]);
-		cmds->red[STDOUT_FILENO] = STDOUT_FILENO;
 	}
 	else if (cmds->pipe[STDOUT_FILENO] != STDOUT_FILENO)
 	{
-		if (cmds->next && cmds->next->pipe[STDIN_FILENO] != STDIN_FILENO)
-			close(cmds->next->pipe[STDIN_FILENO]);
 		dup2(cmds->pipe[STDOUT_FILENO], STDOUT_FILENO);
 		close(cmds->pipe[STDOUT_FILENO]);
-		cmds->pipe[STDOUT_FILENO] = STDOUT_FILENO;
+		if (cmds->next && cmds->next->pipe[STDIN_FILENO] != STDIN_FILENO)
+			close(cmds->next->pipe[STDIN_FILENO]);
 	}
 }
 
@@ -75,25 +71,29 @@ static void	ft_execve(char **cmd, t_env *env)
 		i++;
 		env = env->next;
 	}
-	execve(cmd[0], cmd, envp);
+	if (execve(cmd[0], cmd, envp) == -1)
+	{
+		perror("minishell: execve");
+		exit(EXIT_FAILURE);
+	}
 }
 
 void	ft_exec_command(t_vars *vars, t_mini *cmds)
 {
 	if (ft_strcmp(cmds->cmd[0], "env") == 0)
-		gvar.exit = ft_env(vars->env);
+		exit(ft_env(vars->env));
 	else if (ft_strcmp(cmds->cmd[0], "echo") == 0)
-		gvar.exit = ft_echo(cmds->cmd);
+		exit(ft_echo(cmds->cmd));
 	else if (ft_strcmp(cmds->cmd[0], "pwd") == 0)
-		gvar.exit = ft_pwd();
+		exit(ft_pwd());
 	else if (ft_strcmp(cmds->cmd[0], "cd") == 0)
-		gvar.exit = ft_cd(cmds->cmd, &vars->env);
+		exit(ft_cd(cmds->cmd, &vars->env));
 	else if (ft_strcmp(cmds->cmd[0], "unset") == 0)
-		gvar.exit = ft_unset(cmds->cmd, &vars->env);
+		exit(ft_unset(cmds->cmd, &vars->env));
 	else if (ft_strcmp(cmds->cmd[0], "export") == 0)
-		gvar.exit = ft_export(cmds->cmd, &vars->env);
+		exit(ft_export(cmds->cmd, &vars->env));
 	else if (ft_strcmp(cmds->cmd[0], "exit") == 0)
-		gvar.exit = ft_exit(cmds->cmd);
+		exit(ft_exit(cmds->cmd));
 	else
 	{
 		if (!ft_get_cmd_path(&cmds->cmd[0], vars->env))
@@ -109,6 +109,7 @@ void	ft_exec_command(t_vars *vars, t_mini *cmds)
 
 void	ft_exec_commands(t_vars *vars)
 {
+	t_mini	*cmds;
 	int		is_fork;
 	int		status;
 	int		std[2];
@@ -116,8 +117,6 @@ void	ft_exec_commands(t_vars *vars)
 
 	is_fork = 1;
 	pid = 0;
-	ft_expand(vars->cmds->cmd, vars->env);
-	ft_remove_quote(vars->cmds->cmd);
 	ft_open_pipes(vars->cmds);
 	ft_open_redirs(vars->cmds, vars->env);
 	if (ft_mini_lstsize(vars->cmds) == 1 && ft_builtins(vars->cmds->cmd[0]))
@@ -127,8 +126,11 @@ void	ft_exec_commands(t_vars *vars)
 		std[STDIN_FILENO] = dup(STDIN_FILENO);
 		std[STDOUT_FILENO] = dup(STDOUT_FILENO);
 	}
-	while (vars->cmds)
+	cmds = vars->cmds;
+	while (cmds)
 	{
+		ft_expand(cmds->cmd, vars->env);
+		ft_remove_quote(cmds->cmd);
 		if (is_fork)
 		{
 			signal(SIGINT, SIG_IGN);
@@ -140,11 +142,12 @@ void	ft_exec_commands(t_vars *vars)
 		{
 			signal(SIGINT, NULL);
 			signal(SIGQUIT, NULL);
-			ft_dup_fds(vars->cmds);
-			ft_exec_command(vars, vars->cmds);
+			ft_dup_fds(cmds);
+			ft_close_all_fds(vars->cmds);
+			ft_exec_command(vars, cmds);
 		}
-		ft_close_pipes(vars->cmds);
-		vars->cmds = vars->cmds->next;
+		ft_close_fds(&cmds);
+		cmds = cmds->next;
 	}
 	if (is_fork)
 	{
