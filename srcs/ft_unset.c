@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+        */
+/*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 10:26:26 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/25 18:15:36 by iellyass         ###   ########.fr       */
+/*   Updated: 2022/12/15 16:01:45 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	ft_alphanum_check(char *str)
+static int	ft_alphanum_check2(char *str)
 {
 	size_t	i;
 
@@ -70,8 +70,7 @@ int	ft_unset(char **args, t_env **env)
 	i = 1;
 	while (args[i])
 	{
-		if ((args[i][0] >= '0' && args[i][0] <= '9')
-			|| !ft_alphanum_check(args[i]))
+		if (ft_isdigit(args[i][0]) || !ft_alphanum_check2(args[i]))
 		{
 			ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
 			ft_putstr_fd(args[i], STDERR_FILENO);

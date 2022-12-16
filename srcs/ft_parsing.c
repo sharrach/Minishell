@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:07:39 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/21 10:58:36 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/12/15 16:32:56 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 
 static	int	ft_w_count(t_lst **tmp)
 {
-	int	w_count;
+	int		w_count;
 	t_lst 	*tmp2;
 
 	tmp2 = *tmp;
 	w_count = 0;
 	while (tmp2 && tmp2->type != PIPE)
 	{
-		if (tmp2->type == WORD && (tmp2->prev == NULL
+		if (tmp2->type == WORD
+			&& (tmp2->prev == NULL
 				|| (tmp2->prev->type != IN_RED
 					&& tmp2->prev->type != OUT_RED
 					&& tmp2->prev->type != IN_REDD
@@ -68,7 +69,7 @@ t_mini	*ft_parsing(t_lst *tokens)
 		if (tokens->type == PIPE && tokens->next)
 		{
 			i = 0;
-			tmp = tokens;
+			tmp = tokens->next;
 			w_count = ft_w_count(&tmp);
 			cmd = (char **)ft_calloc(w_count + 1, sizeof(char *));
 			if (!cmd)

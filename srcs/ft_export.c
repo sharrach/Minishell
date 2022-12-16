@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+        */
+/*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 18:56:47 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/25 18:12:18 by iellyass         ###   ########.fr       */
+/*   Updated: 2022/12/15 16:00:12 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ int	ft_export(char **args, t_env **env)
 	i = 1;
 	while (args[i])
 	{
-		if ((args[i][0] >= '0' && args[i][0] <= '9')
-			|| !ft_alphanum_check(args[i]))
+		if (ft_isdigit(args[i][0]) || !ft_alphanum_check(args[i]))
 		{
 			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
 			ft_putstr_fd(args[i++], STDERR_FILENO);

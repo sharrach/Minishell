@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/30 12:41:42 by sharrach         ###   ########.fr        #
+#    Updated: 2022/12/15 16:48:31 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ SRCS	=	srcs/main.c\
 			srcs/ft_heredoc.c\
 			srcs/ft_expand.c\
 			srcs/ft_signals.c\
-			srcs/ft_remove_quote.c
+			srcs/ft_remove_quotes.c
 
 OBJS	=	$(SRCS:.c=.o)
 

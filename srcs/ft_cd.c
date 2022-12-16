@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 09:48:38 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/20 11:22:11 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/12/15 15:26:20 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	ft_cd(char **args, t_env **env)
 {
 	char	*path;
-	char	old_path[PATH_MAX];
 	char	new_path[PATH_MAX];
 
 	if (ft_arrlen(args) > 2)
@@ -29,11 +28,15 @@ int	ft_cd(char **args, t_env **env)
 		path = ft_getenv(*env, "OLDPWD");
 	if (!path)
 		return (ft_putendl_fd("minishell: cd: OLDPWD not set", 2), 1);
-	getcwd(old_path, PATH_MAX);
 	if (chdir(path) == -1)
 		return (ft_putstr_fd("minishell: cd: ", 2), perror(path), 1);
-	ft_setenv(env, "OLDPWD", old_path);
-	getcwd(new_path, PATH_MAX);
+	if (ft_getenv(*env, "PWD"))
+		ft_setenv(env, "OLDPWD", ft_getenv(*env, "PWD"));
+	else
+		ft_setenv(env, "OLDPWD", "");
+	if (getcwd(new_path, PATH_MAX) == NULL && errno == ENOENT)
+		perror("minishell: cd: error retrieving current directory: "
+			"getcwd: cannot access parent directories");
 	ft_setenv(env, "PWD", new_path);
-	return (0);
+	return (EXIT_SUCCESS);
 }

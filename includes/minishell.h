@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/14 17:17:45 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/12/15 18:30:08 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # include <sys/types.h>
 # include <signal.h>
 # include <sys/wait.h>
-// # include <linux/limits.h>
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -46,6 +45,7 @@ enum e_tokens {
 typedef struct s_gvar
 {
 	int	exit;
+	int	here_doc;
 }	t_gvar;
 
 extern t_gvar	gvar;
@@ -106,7 +106,7 @@ void	ft_env_lstclear(t_env **env);
 /// execution
 void	ft_open_pipes(t_mini *cmds);
 void	ft_close_fds(t_mini **cmd);
-void	ft_open_redirs(t_mini *cmds, t_env *env);
+int		ft_open_redirs(t_mini *cmds, t_env *env);
 void	ft_close_all_fds(t_mini *cmds);
 
 //add path
@@ -147,6 +147,7 @@ void	ft_expand_str(char **str, t_env *env);
 void	ft_handle_signals(int signo);
 
 //quotes
-void	ft_remove_quote(char **cmd);
+void	ft_remove_quotes(char **cmd);
+void	ft_remove_quotes_str(char **str);
 
 #endif

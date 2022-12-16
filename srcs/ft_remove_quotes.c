@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_remove_quote.c                                  :+:      :+:    :+:   */
+/*   ft_remove_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+        */
+/*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 16:19:23 by iellyass          #+#    #+#             */
-/*   Updated: 2022/11/24 17:45:05 by iellyass         ###   ########.fr       */
+/*   Updated: 2022/12/15 16:50:53 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	ft_quote_len(char *str, char c)
 	return (i);
 }
 
-static void	ft_remove(char **str)
+void	ft_remove_quotes_str(char **str)
 {
 	char	*new_str;
 	int		len;
@@ -53,14 +53,14 @@ static void	ft_remove(char **str)
 	*str = new_str;
 }
 
-void	ft_remove_quote(char **cmd)
+void	ft_remove_quotes(char **cmd)
 {
 	int	i;
 
 	i = 0;
 	while (cmd[i])
 	{
-		ft_remove(&cmd[i]);
+		ft_remove_quotes_str(&cmd[i]);
 		i++;
 	}
 }

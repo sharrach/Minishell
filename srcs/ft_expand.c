@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+        */
+/*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 17:14:04 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/25 15:28:21 by iellyass         ###   ########.fr       */
+/*   Updated: 2022/12/15 16:16:41 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_expand_str(char **str, t_env *env)
 		else if (quote && (*str)[i] == quote)
 			quote = 0;
 		if ((*str)[i] == '$'
-			&& (ft_isalnum((*str)[i + 1]) || ft_strchr("_?", (*str)[i + 1]))
+			&& (ft_isalpha((*str)[i + 1]) || ft_strchr("_?", (*str)[i + 1]))
 			&& (!quote || quote == '"'))
 		{
 			new_str = ft_stradd2(new_str, ft_substr((*str), i - len, len));

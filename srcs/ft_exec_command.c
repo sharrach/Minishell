@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:21:03 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/14 17:41:09 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/12/15 18:29:29 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,22 +78,22 @@ static void	ft_execve(char **cmd, t_env *env)
 	}
 }
 
-void	ft_exec_command(t_vars *vars, t_mini *cmds)
+void	ft_exec_command(t_vars *vars, t_mini *cmds, int is_fork)
 {
 	if (ft_strcmp(cmds->cmd[0], "env") == 0)
-		exit(ft_env(vars->env));
+		gvar.exit = ft_env(vars->env);
 	else if (ft_strcmp(cmds->cmd[0], "echo") == 0)
-		exit(ft_echo(cmds->cmd));
+		gvar.exit = ft_echo(cmds->cmd);
 	else if (ft_strcmp(cmds->cmd[0], "pwd") == 0)
-		exit(ft_pwd());
+		gvar.exit = ft_pwd();
 	else if (ft_strcmp(cmds->cmd[0], "cd") == 0)
-		exit(ft_cd(cmds->cmd, &vars->env));
+		gvar.exit = ft_cd(cmds->cmd, &vars->env);
 	else if (ft_strcmp(cmds->cmd[0], "unset") == 0)
-		exit(ft_unset(cmds->cmd, &vars->env));
+		gvar.exit = ft_unset(cmds->cmd, &vars->env);
 	else if (ft_strcmp(cmds->cmd[0], "export") == 0)
-		exit(ft_export(cmds->cmd, &vars->env));
+		gvar.exit = ft_export(cmds->cmd, &vars->env);
 	else if (ft_strcmp(cmds->cmd[0], "exit") == 0)
-		exit(ft_exit(cmds->cmd));
+		gvar.exit = ft_exit(cmds->cmd);
 	else
 	{
 		if (!ft_get_cmd_path(&cmds->cmd[0], vars->env))
@@ -105,6 +105,8 @@ void	ft_exec_command(t_vars *vars, t_mini *cmds)
 		}
 		ft_execve(cmds->cmd, vars->env);
 	}
+	if (is_fork)
+		exit(gvar.exit);
 }
 
 void	ft_exec_commands(t_vars *vars)
@@ -118,7 +120,8 @@ void	ft_exec_commands(t_vars *vars)
 	is_fork = 1;
 	pid = 0;
 	ft_open_pipes(vars->cmds);
-	ft_open_redirs(vars->cmds, vars->env);
+	if (!ft_open_redirs(vars->cmds, vars->env))
+		return ;
 	if (ft_mini_lstsize(vars->cmds) == 1 && ft_builtins(vars->cmds->cmd[0]))
 		is_fork = 0;
 	if (!is_fork)
@@ -130,7 +133,7 @@ void	ft_exec_commands(t_vars *vars)
 	while (cmds)
 	{
 		ft_expand(cmds->cmd, vars->env);
-		ft_remove_quote(cmds->cmd);
+		ft_remove_quotes(cmds->cmd);
 		if (is_fork)
 		{
 			signal(SIGINT, SIG_IGN);
@@ -144,7 +147,7 @@ void	ft_exec_commands(t_vars *vars)
 			signal(SIGQUIT, NULL);
 			ft_dup_fds(cmds);
 			ft_close_all_fds(vars->cmds);
-			ft_exec_command(vars, cmds);
+			ft_exec_command(vars, cmds, is_fork);
 		}
 		ft_close_fds(&cmds);
 		cmds = cmds->next;
