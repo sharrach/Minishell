@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:21:03 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/15 18:29:29 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/12/18 13:36:04 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,17 @@ void	ft_exec_command(t_vars *vars, t_mini *cmds, int is_fork)
 		gvar.exit = ft_exit(cmds->cmd);
 	else
 	{
-		if (!ft_get_cmd_path(&cmds->cmd[0], vars->env))
+		if (access(cmds->cmd[0], F_OK) == 0)
+		{
+			if (access(cmds->cmd[0], X_OK) != 0)
+			{
+				ft_putstr_fd("minishell: ", STDERR_FILENO);
+				ft_putstr_fd(cmds->cmd[0], STDERR_FILENO);
+				ft_putendl_fd(": Permission denied", STDERR_FILENO);
+				exit(126);
+			}
+		}
+		else if (!ft_get_cmd_path(&cmds->cmd[0], vars->env))
 		{
 			ft_putstr_fd("minishell: ", STDERR_FILENO);
 			ft_putstr_fd(cmds->cmd[0], STDERR_FILENO);
