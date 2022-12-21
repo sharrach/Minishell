@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/15 18:30:08 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/12/21 14:09:52 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int		ft_open_redirs(t_mini *cmds, t_env *env);
 void	ft_close_all_fds(t_mini *cmds);
 
 //add path
-int		ft_get_cmd_path(char **cmd, t_env *env);
+int	ft_get_cmd_path(char **cmd, t_env *env);
 
 //minishell
 t_mini	*ft_parsing(t_lst *tokens);
@@ -132,6 +132,7 @@ int		ft_env(t_env *env);
 int		ft_echo(char **arg);
 int		ft_cd(char **args, t_env **env);
 int		ft_unset(char **args, t_env **env);
+void	ft_unset_var(char *arg, t_env **env);
 int		ft_export(char **args, t_env **env);
 int		ft_exit(char **args);
 
@@ -149,5 +150,11 @@ void	ft_handle_signals(int signo);
 //quotes
 void	ft_remove_quotes(char **cmd);
 void	ft_remove_quotes_str(char **str);
+
+//utils
+void	ft_perr(char *cmd, char *error);
+
+
+void ft_shlvl_increment(t_env *env);
 
 #endif

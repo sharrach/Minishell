@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:21:03 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/18 13:36:04 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/12/21 14:32:49 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,14 @@ static void	ft_execve(char **cmd, t_env *env)
 	}
 }
 
+void	ft_perr(char *cmd, char *error)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putendl_fd(error, STDERR_FILENO);
+}
+
 void	ft_exec_command(t_vars *vars, t_mini *cmds, int is_fork)
 {
 	if (ft_strcmp(cmds->cmd[0], "env") == 0)
@@ -100,20 +108,13 @@ void	ft_exec_command(t_vars *vars, t_mini *cmds, int is_fork)
 		{
 			if (access(cmds->cmd[0], X_OK) != 0)
 			{
-				ft_putstr_fd("minishell: ", STDERR_FILENO);
-				ft_putstr_fd(cmds->cmd[0], STDERR_FILENO);
-				ft_putendl_fd(": Permission denied", STDERR_FILENO);
+				ft_perr(cmds->cmd[0], "Permission denied");
 				exit(126);
 			}
 		}
-		else if (!ft_get_cmd_path(&cmds->cmd[0], vars->env))
-		{
-			ft_putstr_fd("minishell: ", STDERR_FILENO);
-			ft_putstr_fd(cmds->cmd[0], STDERR_FILENO);
-			ft_putendl_fd(": command not found", STDERR_FILENO);
-			exit(127);
-		}
-		ft_execve(cmds->cmd, vars->env);
+		else
+			ft_get_cmd_path(&cmds->cmd[0], vars->env);
+		ft_execve(cmds->cmd, vars->env);	
 	}
 	if (is_fork)
 		exit(gvar.exit);

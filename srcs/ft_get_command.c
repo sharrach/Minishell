@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:06:26 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/20 11:29:42 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/12/21 13:57:59 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,21 @@ int	ft_get_cmd_path(char **cmd, t_env *env)
 
 	paths = get_paths(env);
 	if (!paths)
-		return (0);
+		return (ft_perr(cmd[0], "No such file or directory"), exit(127), 0);
 	i = 0;
 	while (paths[i])
 	{
 		add_slash = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(add_slash, *cmd);
 		free(add_slash);
-		if (!access(path, F_OK) && !access(path, X_OK))
-		{
-			free_2d(paths);
-			free(*cmd);
-			return (*cmd = path, 1);
-		}
+		if (access(path, F_OK) == 0 && access(path, X_OK) != 0)
+			return (free_2d(paths), ft_perr(cmd[0], "Permission denied"),
+				exit(126), 0);
+		else if (access(path, F_OK) == 0 && access(path, X_OK) == 0)
+			return (free_2d(paths), free(*cmd), *cmd = path, 1);
 		i++;
 		free(path);
 	}
 	free_2d(paths);
-	return (0);
+	return (ft_perr(cmd[0], "command not found"), exit(127), 0);
 }

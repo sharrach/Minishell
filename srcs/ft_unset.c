@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 10:26:26 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/15 16:01:45 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/12/21 14:09:41 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	ft_env_lstdelone(t_env **env)
 	free(holder);
 }
 
-static void	ft_unset_var(char *arg, t_env **env)
+void	ft_unset_var(char *arg, t_env **env)
 {
 	t_env	*holder;
 	
