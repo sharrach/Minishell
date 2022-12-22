@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:21:03 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/21 14:32:49 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/12/22 13:47:18 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,8 +154,11 @@ void	ft_exec_commands(t_vars *vars)
 			perror("fork");
 		if (pid == 0)
 		{
-			signal(SIGINT, NULL);
-			signal(SIGQUIT, NULL);
+			if (is_fork)
+			{
+				signal(SIGINT, NULL);
+				signal(SIGQUIT, NULL);
+			}
 			ft_dup_fds(cmds);
 			ft_close_all_fds(vars->cmds);
 			ft_exec_command(vars, cmds, is_fork);
@@ -170,9 +173,16 @@ void	ft_exec_commands(t_vars *vars)
 			;
 		gvar.exit = WEXITSTATUS(status);
 		if (WTERMSIG(status) == SIGINT)
+		{
+			ft_putstr_fd("\n", STDOUT_FILENO);
 			gvar.exit = 130;
+		}
 		else if (WTERMSIG(status) == SIGQUIT)
+		{
+			ft_putendl_fd("Quit", STDOUT_FILENO);
 			gvar.exit = 131;
+		}
+		sigaction(SIGINT, &vars->act, NULL);
 	}
 	if (!is_fork)
 	{
@@ -181,6 +191,4 @@ void	ft_exec_commands(t_vars *vars)
 		dup2(std[STDIN_FILENO], STDIN_FILENO);
 		close(std[STDIN_FILENO]);
 	}
-	signal(SIGINT, ft_handle_signals);
-	signal(SIGQUIT, SIG_IGN);
 }

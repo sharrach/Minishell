@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:36:50 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/22 13:00:07 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/12/22 13:47:04 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	main(int ac, char *av[], char *env[])
 
 	(void)ac;
 	(void)av;
-	signal(SIGINT, ft_handle_signals);
+	vars.act.sa_handler = &ft_handle_signals;
+	sigaction(SIGINT, &vars.act, NULL);
 	signal(SIGQUIT, SIG_IGN);
 	ft_duplicate_env(&vars, env);
 	ft_shlvl_increment(vars.env);

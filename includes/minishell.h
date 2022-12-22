@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/22 12:55:45 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/12/22 13:47:11 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,10 @@ typedef struct s_env
 
 typedef struct s_vars
 {
-	t_mini	*cmds;
-	t_env	*env;
-	char	*input;
+	t_mini				*cmds;
+	t_env				*env;
+	char				*input;
+	struct sigaction	act;
 }	t_vars;
 
 //linked list minishell
