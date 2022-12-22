@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 11:40:16 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/15 18:29:49 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/12/22 12:59:59 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	ft_open_redirs(t_mini *cmds, t_env *env)
 			}
 			else if (redir->type == IN_REDD)
 			{
-				cmds->red[STDIN_FILENO] = ft_here_doc(redir->content, env);
+				cmds->red[STDIN_FILENO] = ft_here_doc(&redir->content, env);
 				if (cmds->red[STDIN_FILENO] == STDIN_FILENO)
 					return (0);
 			}

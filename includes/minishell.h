@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/21 14:09:52 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/12/22 12:55:45 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ char	*ft_getenv(t_env *env, char *var);
 size_t	ft_varlen(char *str);
 void	ft_expand(char **cmd, t_env *env);
 
-int		ft_here_doc(char *del, t_env *env);
+int		ft_here_doc(char **del, t_env *env);
 void	ft_expand_str(char **str, t_env *env);
 
 //signals

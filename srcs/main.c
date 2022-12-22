@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:36:50 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/21 14:19:53 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/12/22 13:00:07 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	main(int ac, char *av[], char *env[])
 		vars.input = readline("Tzz-shell> ");
 		if (!vars.input)
 			break ;
-		add_history(vars.input);
+		if (vars.input[0])
+			add_history(vars.input);
 		tokens = ft_tokenization(vars.input);
 		if (!tokens)
 			continue ;
@@ -40,7 +41,9 @@ int	main(int ac, char *av[], char *env[])
 			continue ;
 		}
 		vars.cmds = ft_parsing(tokens);
+		ft_lst_lstclear(&tokens);
 		ft_exec_commands(&vars);
+		ft_mini_lstclear(&vars.cmds);
 	}
 	return (0);
 }
