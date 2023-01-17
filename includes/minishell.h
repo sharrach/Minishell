@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/22 13:47:11 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:04:07 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,5 +157,6 @@ void	ft_perr(char *cmd, char *error);
 
 
 void ft_shlvl_increment(t_env *env);
+int	ft_alphanum_check(char *str);
 
 #endif

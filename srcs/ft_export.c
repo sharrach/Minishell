@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 18:56:47 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/15 16:00:12 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/16 20:46:12 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@ static void	ft_swap(t_env **env)
 	(*env)->content = (*env)->next->content;
 	(*env)->next->var = tmp_var;
 	(*env)->next->content = tmp_content;
+}
+
+static void check_content(t_env	*holder)
+{
+	while (holder)
+	{
+		if (holder->content)
+			printf("declare -x %s=\"%s\"\n", holder->var, holder->content);
+		else
+			printf("declare -x %s\n", holder->var);
+		holder = holder->next;
+	}
 }
 
 static void	ft_export_print(t_env **env)
@@ -46,31 +58,41 @@ static void	ft_export_print(t_env **env)
 		holder = holder->next;
 	}
 	holder = head;
-	while (holder)
-	{
-		if (holder->content)
-			printf("declare -x %s=\"%s\"\n", holder->var, holder->content);
-		else
-			printf("declare -x %s\n", holder->var);
-		holder = holder->next;
-	}
+	check_content(holder);
 	ft_env_lstclear(&head);
 }
 
-static int	ft_alphanum_check(char *str)
+static int print_error(char str, char *str2)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < ft_varlen(str))
+	if (ft_isdigit(str) || !ft_alphanum_check(str2))
 	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
-		i++;
+		ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+		ft_putstr_fd(str2, STDERR_FILENO);
+		ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+		return (1);
 	}
-	if (i == 0)
-		return (0);
-	return (1);
+	return (0);
+}
+
+static char *ft_get_content(t_env **env, char *var, char *arg)
+{
+	char	*content;
+
+	if (arg[ft_varlen(arg)] == '=')
+		content = ft_substr(arg, ft_varlen(arg)
+		+ 1, ft_strlen(arg) - (ft_varlen(arg) + 1));
+	else if (arg[ft_varlen(arg)] ==
+			'+' && arg[ft_varlen(arg) + 1] == '=')
+	{
+		if (ft_getenv(*env, var))
+			content = ft_strjoin
+				(ft_getenv(*env, var), &arg[ft_varlen(arg) + 2]);
+		else
+			content = ft_strdup(&arg[ft_varlen(arg) + 2]);
+	}
+	else
+		content = NULL;
+	return (content);
 }
 
 int	ft_export(char **args, t_env **env)
@@ -84,25 +106,13 @@ int	ft_export(char **args, t_env **env)
 	i = 1;
 	while (args[i])
 	{
-		if (ft_isdigit(args[i][0]) || !ft_alphanum_check(args[i]))
+		if (print_error(args[i][0],args[i]) == 1)
 		{
-			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
-			ft_putstr_fd(args[i++], STDERR_FILENO);
-			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+			i++;
 			continue ;
 		}
 		var = ft_substr(args[i], 0, ft_varlen(args[i]));
-		content = NULL;
-		if (args[i][ft_varlen(args[i])] == '=')
-			content = ft_substr(args[i], ft_varlen(args[i]) + 1, ft_strlen(args[i]) - (ft_varlen(args[i]) + 1));
-		else if (args[i][ft_varlen(args[i])] == '+'
-			&& args[i][ft_varlen(args[i]) + 1] == '=')
-		{
-			if (ft_getenv(*env, var))
-				content = ft_strjoin(ft_getenv(*env, var), &args[i][ft_varlen(args[i]) + 2]);
-			else
-				content = ft_strdup(&args[i][ft_varlen(args[i]) + 2]);
-		}
+		content = ft_get_content(env, var, args[i]);
 		ft_setenv(env, var, content);
 		free(var);
 		free(content);

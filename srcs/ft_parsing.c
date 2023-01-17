@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:07:39 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/22 12:31:30 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/17 14:27:17 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ t_mini	*ft_parsing(t_lst *tokens)
 		}
 		if (tokens->type == IN_RED || tokens->type == OUT_RED
 			|| tokens->type == IN_REDD || tokens->type == OUT_REDD)
-			ft_lst_lstadd_back(&redir, ft_lst_lstnew(ft_strdup(tokens->next->content), tokens->type));
+			ft_lst_lstadd_back(&redir,
+				ft_lst_lstnew(ft_strdup(tokens->next->content), tokens->type));
 		if (tokens->type == PIPE && tokens->next)
 		{
 			i = 0;

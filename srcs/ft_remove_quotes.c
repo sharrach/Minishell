@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 16:19:23 by iellyass          #+#    #+#             */
-/*   Updated: 2022/12/15 16:50:53 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/16 16:24:04 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	ft_remove_quotes_str(char **str)
 		{
 			new_str = ft_stradd2(new_str, ft_substr((*str), i - len, len));
 			new_str = ft_stradd2(new_str,
-				ft_substr(*str, i + 1, ft_quote_len(&(*str)[i + 1], (*str)[i])));
+				ft_substr(*str, i + 1,
+					ft_quote_len(&(*str)[i + 1], (*str)[i])));
 			len = -1;
 			i += ft_quote_len(&(*str)[i + 1], (*str)[i]);
 		}

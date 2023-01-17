@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 17:14:04 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/15 16:16:41 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:13:49 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,8 @@ void	ft_expand_str(char **str, t_env *env)
 			quote = (*str)[i];
 		else if (quote && (*str)[i] == quote)
 			quote = 0;
-		if ((*str)[i] == '$'
-			&& (ft_isalpha((*str)[i + 1]) || ft_strchr("_?", (*str)[i + 1]))
-			&& (!quote || quote == '"'))
+		if ((*str)[i] == '$' && (ft_isalpha((*str)[i + 1])
+			|| ft_strchr("_?", (*str)[i + 1])) && (!quote || quote == '"'))
 		{
 			new_str = ft_stradd2(new_str, ft_substr((*str), i - len, len));
 			var = ft_substr(*str, i + 1, ft_expand_varlen(&(*str)[i + 1]));

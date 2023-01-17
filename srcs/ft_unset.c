@@ -6,27 +6,11 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 10:26:26 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/21 14:09:41 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/16 16:22:07 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static int	ft_alphanum_check2(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < ft_varlen(str))
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
-		i++;
-	}
-	if (i == 0)
-		return (0);
-	return (1);
-}
 
 static void	ft_env_lstdelone(t_env **env)
 {
@@ -70,7 +54,7 @@ int	ft_unset(char **args, t_env **env)
 	i = 1;
 	while (args[i])
 	{
-		if (ft_isdigit(args[i][0]) || !ft_alphanum_check2(args[i]))
+		if (ft_isdigit(args[i][0]) || !ft_alphanum_check(args[i]))
 		{
 			ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
 			ft_putstr_fd(args[i], STDERR_FILENO);

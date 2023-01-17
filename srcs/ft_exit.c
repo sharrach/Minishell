@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 18:56:56 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/14 17:39:02 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/16 20:54:38 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,5 @@ int	ft_exit(char **args)
 			gvar.exit = 255;
 		}
 	}
-	return ((unsigned char)gvar.exit);
+	exit ((unsigned char)gvar.exit);
 }
