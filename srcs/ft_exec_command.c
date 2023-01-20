@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:21:03 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/16 20:07:20 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/20 15:58:45 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,32 +86,39 @@ void	ft_perr(char *cmd, char *error)
 	ft_putendl_fd(error, STDERR_FILENO);
 }
 
-static int builtin_check(t_vars *vars, t_mini *cmds)
+static int ft_builtin_check(t_vars *vars, t_mini *cmds)
 {
 	if (ft_strcmp(cmds->cmd[0], "env") == 0)
-		return (gvar.exit = ft_env(vars->env), 0);
+		return (gvar.exit = ft_env(vars->env), 1);
 	else if (ft_strcmp(cmds->cmd[0], "echo") == 0)
-		return (gvar.exit = ft_echo(cmds->cmd), 0);
+		return (gvar.exit = ft_echo(cmds->cmd), 1);
 	else if (ft_strcmp(cmds->cmd[0], "pwd") == 0)
-		return (gvar.exit = ft_pwd(), 0);
+		return (gvar.exit = ft_pwd(), 1);
 	else if (ft_strcmp(cmds->cmd[0], "cd") == 0)
-		return (gvar.exit = ft_cd(cmds->cmd, &vars->env), 0);
+		return (gvar.exit = ft_cd(cmds->cmd, &vars->env), 1);
 	else if (ft_strcmp(cmds->cmd[0], "unset") == 0)
-		return (gvar.exit = ft_unset(cmds->cmd, &vars->env), 0);
+		return (gvar.exit = ft_unset(cmds->cmd, &vars->env), 1);
 	else if (ft_strcmp(cmds->cmd[0], "export") == 0)
-		return (gvar.exit = ft_export(cmds->cmd, &vars->env), 0);
+		return (gvar.exit = ft_export(cmds->cmd, &vars->env), 1);
 	else if (ft_strcmp(cmds->cmd[0], "exit") == 0)
-		return (gvar.exit = ft_exit(cmds->cmd), 0);
-	return (1);
+		return (gvar.exit = ft_exit(cmds->cmd), 1);
+	return (0);
 }
 
 void	ft_exec_command(t_vars *vars, t_mini *cmds, int is_fork)
 {
-	if (builtin_check(vars, cmds) == 1)
+	struct stat buf;
+
+	if (!ft_builtin_check(vars, cmds))
 	{
 		if (access(cmds->cmd[0], F_OK) == 0)
 		{
-			if (access(cmds->cmd[0], X_OK) != 0)
+			if (stat(cmds->cmd[0], &buf) == 0 && S_ISDIR(buf.st_mode))
+			{
+				ft_perr(cmds->cmd[0], "Is a directory");
+				exit(126);
+			}
+			else if (access(cmds->cmd[0], X_OK) == -1)
 			{
 				ft_perr(cmds->cmd[0], "Permission denied");
 				exit(126);
@@ -119,7 +126,7 @@ void	ft_exec_command(t_vars *vars, t_mini *cmds, int is_fork)
 		}
 		else
 			ft_get_cmd_path(&cmds->cmd[0], vars->env);
-		ft_execve(cmds->cmd, vars->env);	
+		ft_execve(cmds->cmd, vars->env);
 	}
 	if (is_fork)
 		exit(gvar.exit);
@@ -173,6 +180,7 @@ static void ft_exec_cmnd(t_mini *cmds, t_vars *vars, int is_fork, pid_t *pid)
 		cmds = cmds->next;
 	}
 }
+
 static void ft_dup_close(int *std)
 {
 	dup2(std[STDOUT_FILENO], STDOUT_FILENO);
@@ -181,6 +189,7 @@ static void ft_dup_close(int *std)
 	close(std[STDIN_FILENO]);
 
 }
+
 void	ft_exec_commands(t_vars *vars)
 {
 	t_mini	*cmds;

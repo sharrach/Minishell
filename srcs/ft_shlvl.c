@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:34:31 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/21 14:29:00 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:41:13 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 static void	ft_unset_oldpwd(t_env *env)
 {
+	struct stat buf;
     char	*content;
 
 	content = ft_getenv(env, "OLDPWD");
 	if (content)
 	{
-		if (chdir(content) == -1)
+		if (stat(content, &buf) == -1 || (stat(content, &buf) == 0
+				&& !S_ISDIR(buf.st_mode)))
 			ft_unset_var("OLDPWD", &env);
 	}
 }

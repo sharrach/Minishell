@@ -6,27 +6,11 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 17:14:04 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/16 19:13:49 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/18 16:11:02 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static int	ft_expand_varlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (i == 0 && str[i] == '?')
-			return (1);
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (i);
-		i++;
-	}
-	return (i);
-}
 
 void	ft_expand_str(char **str, t_env *env)
 {

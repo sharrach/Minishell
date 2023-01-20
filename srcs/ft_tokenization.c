@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tokenization.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+        */
+/*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:09:14 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/25 17:42:59 by iellyass         ###   ########.fr       */
+/*   Updated: 2023/01/19 15:38:37 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_syntax_error(t_lst *tokens)
 	while (tokens)
 	{
 		if (tokens->type != WORD
-			&& (!tokens->next || (tokens->next && tokens->next->type != WORD)))
+			&& (!tokens->next || (tokens->next && (tokens->next->type != WORD))))
 			return (1);
 		if (tokens->type == QUOTE || tokens->type == DB_QUOTE)
 			return (1);

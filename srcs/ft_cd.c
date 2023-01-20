@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 09:48:38 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/19 14:38:02 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:03:44 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,12 @@ int	ft_cd(char **args, t_env **env)
 	else
 		ft_setenv(env, "OLDPWD", "");
 	if (getcwd(new_path, PATH_MAX) == NULL && errno == ENOENT)
-		perror("minishell: cd: error retrieving current directory: "
+		{
+
+			perror("minishell: cd: error retrieving current directory: "
 			"getcwd: cannot access parent directories");
-	ft_setenv(env, "PWD", new_path);
+		}
+	if (ft_getenv(*env, "PWD"))
+		ft_setenv(env, "PWD", new_path);
 	return (EXIT_SUCCESS);
 }

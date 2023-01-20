@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/16 19:04:07 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/20 15:34:08 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+#include <sys/stat.h>
 
 # define BUFFER_SIZE 1
 
@@ -154,7 +155,7 @@ void	ft_remove_quotes_str(char **str);
 
 //utils
 void	ft_perr(char *cmd, char *error);
-
+int		ft_expand_varlen(char *str);
 
 void ft_shlvl_increment(t_env *env);
 int	ft_alphanum_check(char *str);

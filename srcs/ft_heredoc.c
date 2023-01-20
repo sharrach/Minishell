@@ -6,11 +6,49 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 11:52:29 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/17 15:02:36 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/19 20:38:11 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	ft_expand_heredoc(char **str, t_env *env)
+{
+	char	*new_str;
+	char	*var;
+	int		len;
+	int		i;
+
+	new_str = ft_strdup("");
+	len = 0;
+	i = 0;
+	while ((*str)[i])
+	{
+		if ((*str)[i] == '$' && (ft_isalpha((*str)[i + 1])
+			|| ft_strchr("_?", (*str)[i + 1])))
+		{
+			new_str = ft_stradd2(new_str, ft_substr((*str), i - len, len));
+			var = ft_substr(*str, i + 1, ft_expand_varlen(&(*str)[i + 1]));
+			if (ft_strcmp(var, "?") == 0)
+				new_str = ft_stradd2(new_str, ft_itoa(gvar.exit));
+			else if (ft_getenv(env, var))
+				new_str = ft_stradd(new_str, ft_getenv(env, var));
+			free(var);
+			len = -1;
+			i += ft_expand_varlen(&(*str)[i + 1]);
+		}
+		len++;
+		i++;
+	}
+	new_str = ft_stradd2(new_str, ft_substr((*str), i - len, len));
+	free(*str);
+	*str = new_str;
+}
+
+// static void ft_inside_while()
+// {
+
+// }
 
 int	ft_here_doc(char **del, t_env *env)
 {
@@ -20,7 +58,7 @@ int	ft_here_doc(char **del, t_env *env)
 
 	if (pipe(p) == -1)
 		return (perror("pipe"), STDIN_FILENO);
-	ft_expand_str(del, env);
+	// ft_expand_str(del, env);
 	is_expand = 0;
 	if (!ft_strchr(*del, '\'') && !ft_strchr(*del, '"'))
 		is_expand = 1;
@@ -37,7 +75,7 @@ int	ft_here_doc(char **del, t_env *env)
 			break ;
 		}
 		if (is_expand)
-			ft_expand_str(&line, env);
+			ft_expand_heredoc(&line, env);
 		ft_putstr_fd(line, p[STDOUT_FILENO]);
 		free(line);
 	}
