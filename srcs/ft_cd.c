@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 09:48:38 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/20 16:03:44 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/20 18:43:14 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	ft_cd(char **args, t_env **env)
 {
 	char	*path;
 	char	new_path[PATH_MAX];
+	char	*pwd;
 
 	if (ft_arrlen(args) > 2)
 		return (ft_putendl_fd("minishell: cd: too many arguments", 2), 1);
@@ -35,11 +36,15 @@ int	ft_cd(char **args, t_env **env)
 	else
 		ft_setenv(env, "OLDPWD", "");
 	if (getcwd(new_path, PATH_MAX) == NULL && errno == ENOENT)
-		{
-
-			perror("minishell: cd: error retrieving current directory: "
-			"getcwd: cannot access parent directories");
-		}
+	{
+		pwd = ft_getenv(*env, "PWD");
+		if (ft_strcmp(args[1], ".") == 0)
+			ft_setenv(env, "PWD", ft_strjoin(pwd, "/."));
+		else if (ft_strcmp(args[1], "..") == 0)
+			ft_setenv(env, "PWD", ft_strjoin(pwd, "/.."));
+		return (perror("minishell: chdir: error retrieving current directory: "
+		"getcwd: cannot access parent directories"), 0);
+	}
 	if (ft_getenv(*env, "PWD"))
 		ft_setenv(env, "PWD", new_path);
 	return (EXIT_SUCCESS);
