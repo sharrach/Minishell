@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 18:56:56 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/24 19:34:33 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 20:24:03 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,19 @@ int	ft_exit(char **args)
 	{
 		if (ft_isnum(args[1]))
 		{
+			printf("1<<%lld\n", ft_atoi(args[1]));
 			if (ft_arrlen(args) > 2)
 			{
 				printf("minishell: exit: too many arguments\n");
 				return (EXIT_FAILURE);
 			}
-			g_var.exit = ft_atoi(args[1]);
-		}
-		else if (ft_atoi(args[1]) >= 2147483647)
-		{
-			if (ft_atoi(args[1]) > 9223372036854775807)
+			if (ft_atoi(args[1]) > 9223372036854775807 || ft_atoi(args[1]) <= -9223372036854775807)
 			{
 				printf("minishell: exit: %s: numeric argument required\n", args[1]);
 				g_var.exit = 255;
 			}
-			g_var.exit = ft_atoi(args[1]);
+			else
+				g_var.exit = ft_atoi(args[1]);
 		}
 		else
 		{

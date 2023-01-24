@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 15:34:10 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/24 19:28:10 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 19:50:31 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 long long	ft_atoi(const char *str)
 {
-	int		i;
-	int		sign;
-	long	nb;
+	int			i;
+	int			sign;
+	long long	nb;
 
 	i = 0;
 	sign = 1;
