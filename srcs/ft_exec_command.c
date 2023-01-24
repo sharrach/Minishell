@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:21:03 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/23 12:30:34 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 13:17:40 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,16 @@ static void	ft_sig_status(pid_t pid, t_vars *vars)
 	waitpid(pid, &status, 0);
 	while (waitpid(-1, NULL, 0) != -1)
 		;
-	gvar.exit = WEXITSTATUS(status);
+	g_var.exit = WEXITSTATUS(status);
 	if (WTERMSIG(status) == SIGINT)
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
-		gvar.exit = 130;
+		g_var.exit = 130;
 	}
 	else if (WTERMSIG(status) == SIGQUIT)
 	{
 		ft_putendl_fd("Quit", STDOUT_FILENO);
-		gvar.exit = 131;
+		g_var.exit = 131;
 	}
 	sigaction(SIGINT, &vars->act, NULL);
 }
@@ -80,7 +80,7 @@ void	ft_exec_command(t_vars *vars, t_mini *cmds, int is_fork)
 		ft_execve(cmds->cmd, vars->env);
 	}
 	if (is_fork)
-		exit(gvar.exit);
+		exit(g_var.exit);
 }
 
 static void	ft_exec_cmnd(t_mini *cmds, t_vars *vars, int is_fork, pid_t *pid)

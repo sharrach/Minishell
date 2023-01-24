@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 11:52:29 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/24 11:22:18 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 13:17:40 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	ft_expand_heredoc(char **str, t_env *env)
 			new_str = ft_stradd2(new_str, ft_substr((*str), i - len, len));
 			var = ft_substr(*str, i + 1, ft_expand_varlen(&(*str)[i + 1]));
 			if (ft_strcmp(var, "?") == 0)
-				new_str = ft_stradd2(new_str, ft_itoa(gvar.exit));
+				new_str = ft_stradd2(new_str, ft_itoa(g_var.exit));
 			else if (ft_getenv(env, var))
 				new_str = ft_stradd(new_str, ft_getenv(env, var));
 			free(var);
@@ -80,8 +80,8 @@ int	ft_here_doc(char **del, t_env *env)
 	if (!ft_strchr(*del, '\'') && !ft_strchr(*del, '"'))
 		is_expand = 1;
 	ft_remove_quotes_str(del);
-	gvar.here_doc = 1;
-	while (gvar.here_doc)
+	g_var.here_doc = 1;
+	while (g_var.here_doc)
 	{
 		if (!ft_here_doc_loop(&line, del))
 			break ;
@@ -91,7 +91,7 @@ int	ft_here_doc(char **del, t_env *env)
 		free(line);
 	}
 	close(p[STDOUT_FILENO]);
-	if (!gvar.here_doc)
+	if (!g_var.here_doc)
 		return (close(p[STDIN_FILENO]), STDIN_FILENO);
-	return (gvar.here_doc = 0, p[STDIN_FILENO]);
+	return (g_var.here_doc = 0, p[STDIN_FILENO]);
 }

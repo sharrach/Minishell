@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 17:14:04 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/24 11:31:45 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 13:17:40 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_expand_str(char **str, t_env *env, int quote, int len)
 			new_str = ft_stradd2(new_str, ft_substr((*str), i - len, len));
 			var = ft_substr(*str, i + 1, ft_expand_varlen(&(*str)[i + 1]));
 			if (ft_strcmp(var, "?") == 0)
-				new_str = ft_stradd2(new_str, ft_itoa(gvar.exit));
+				new_str = ft_stradd2(new_str, ft_itoa(g_var.exit));
 			else if (ft_getenv(env, var))
 				new_str = ft_stradd(new_str, ft_getenv(env, var));
 			free(var);

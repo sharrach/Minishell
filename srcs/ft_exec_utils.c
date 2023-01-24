@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:59:36 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/23 12:30:55 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 13:17:40 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,19 @@ int	ft_builtins(char *name)
 int	ft_builtin_check(t_vars *vars, t_mini *cmds)
 {
 	if (ft_strcmp(cmds->cmd[0], "env") == 0)
-		return (gvar.exit = ft_env(vars->env), 1);
+		return (g_var.exit = ft_env(vars->env), 1);
 	else if (ft_strcmp(cmds->cmd[0], "echo") == 0)
-		return (gvar.exit = ft_echo(cmds->cmd), 1);
+		return (g_var.exit = ft_echo(cmds->cmd), 1);
 	else if (ft_strcmp(cmds->cmd[0], "pwd") == 0)
-		return (gvar.exit = ft_pwd(), 1);
+		return (g_var.exit = ft_pwd(), 1);
 	else if (ft_strcmp(cmds->cmd[0], "cd") == 0)
-		return (gvar.exit = ft_cd(cmds->cmd, &vars->env), 1);
+		return (g_var.exit = ft_cd(cmds->cmd, &vars->env), 1);
 	else if (ft_strcmp(cmds->cmd[0], "unset") == 0)
-		return (gvar.exit = ft_unset(cmds->cmd, &vars->env), 1);
+		return (g_var.exit = ft_unset(cmds->cmd, &vars->env), 1);
 	else if (ft_strcmp(cmds->cmd[0], "export") == 0)
-		return (gvar.exit = ft_export(cmds->cmd, &vars->env), 1);
+		return (g_var.exit = ft_export(cmds->cmd, &vars->env), 1);
 	else if (ft_strcmp(cmds->cmd[0], "exit") == 0)
-		return (gvar.exit = ft_exit(cmds->cmd), 1);
+		return (g_var.exit = ft_exit(cmds->cmd), 1);
 	return (0);
 }
 

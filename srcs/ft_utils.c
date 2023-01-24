@@ -6,11 +6,22 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 16:22:27 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/18 16:11:11 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 13:16:02 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	ft_open_heredoc(t_mini **cmds, t_env *env, t_lst **redir)
+{
+	if ((*redir)->type == IN_REDD)
+	{
+		(*cmds)->red[STDIN_FILENO] = ft_here_doc(&(*redir)->content, env);
+		if ((*cmds)->red[STDIN_FILENO] == STDIN_FILENO)
+			return (0);
+	}
+	return (1);
+}
 
 int	ft_alphanum_check(char *str)
 {
