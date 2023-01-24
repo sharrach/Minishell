@@ -6,36 +6,11 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 18:56:47 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/16 20:46:12 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/23 12:51:10 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static void	ft_swap(t_env **env)
-{
-	char	*tmp_var;
-	char	*tmp_content;
-
-	tmp_var = (*env)->var;
-	tmp_content = (*env)->content;
-	(*env)->var = (*env)->next->var;
-	(*env)->content = (*env)->next->content;
-	(*env)->next->var = tmp_var;
-	(*env)->next->content = tmp_content;
-}
-
-static void check_content(t_env	*holder)
-{
-	while (holder)
-	{
-		if (holder->content)
-			printf("declare -x %s=\"%s\"\n", holder->var, holder->content);
-		else
-			printf("declare -x %s\n", holder->var);
-		holder = holder->next;
-	}
-}
 
 static void	ft_export_print(t_env **env)
 {
@@ -62,7 +37,7 @@ static void	ft_export_print(t_env **env)
 	ft_env_lstclear(&head);
 }
 
-static int print_error(char str, char *str2)
+static int	print_error(char str, char *str2)
 {
 	if (ft_isdigit(str) || !ft_alphanum_check(str2))
 	{
@@ -74,15 +49,15 @@ static int print_error(char str, char *str2)
 	return (0);
 }
 
-static char *ft_get_content(t_env **env, char *var, char *arg)
+static char	*ft_get_content(t_env **env, char *var, char *arg)
 {
 	char	*content;
 
 	if (arg[ft_varlen(arg)] == '=')
-		content = ft_substr(arg, ft_varlen(arg)
-		+ 1, ft_strlen(arg) - (ft_varlen(arg) + 1));
-	else if (arg[ft_varlen(arg)] ==
-			'+' && arg[ft_varlen(arg) + 1] == '=')
+		content = ft_substr(arg, ft_varlen(arg) + 1,
+				ft_strlen(arg) - (ft_varlen(arg) + 1));
+	else if (arg[ft_varlen(arg)]
+		== '+' && arg[ft_varlen(arg) + 1] == '=')
 	{
 		if (ft_getenv(*env, var))
 			content = ft_strjoin
@@ -106,7 +81,7 @@ int	ft_export(char **args, t_env **env)
 	i = 1;
 	while (args[i])
 	{
-		if (print_error(args[i][0],args[i]) == 1)
+		if (print_error(args[i][0], args[i]) == 1)
 		{
 			i++;
 			continue ;

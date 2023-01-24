@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 13:26:21 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/16 16:23:30 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/23 12:32:51 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_setenv(t_env **env, char *var, char *content)
 	}
 	if (content)
 		ft_env_lstadd_back(env, ft_env_lstnew(ft_strdup(var),
-			ft_strdup(content)));
+				ft_strdup(content)));
 	else
 		ft_env_lstadd_back(env, ft_env_lstnew(ft_strdup(var), NULL));
 }

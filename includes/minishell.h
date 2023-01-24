@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/20 15:34:08 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:27:20 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-#include <sys/stat.h>
+# include <sys/stat.h>
 
 # define BUFFER_SIZE 1
 
@@ -110,12 +110,18 @@ void	ft_open_pipes(t_mini *cmds);
 void	ft_close_fds(t_mini **cmd);
 int		ft_open_redirs(t_mini *cmds, t_env *env);
 void	ft_close_all_fds(t_mini *cmds);
+/// execution utils
+void	ft_perr(char *cmd, char *error);
+int		ft_builtins(char *name);
+void	ft_dup_fds(t_mini *cmds);
+void	ft_dup_close(int *std);
+int		ft_builtin_check(t_vars *vars, t_mini *cmds);
 
 //add path
-int	ft_get_cmd_path(char **cmd, t_env *env);
+int		ft_get_cmd_path(char **cmd, t_env *env);
 
 //minishell
-t_mini	*ft_parsing(t_lst *tokens);
+t_mini	*ft_parsing(t_vars *vars, t_lst *tokens);
 int		ft_token_type(char *content);
 int		ft_syntax_error(t_lst	*tokens);
 t_lst	*ft_tokenization(char *input);
@@ -137,6 +143,9 @@ int		ft_unset(char **args, t_env **env);
 void	ft_unset_var(char *arg, t_env **env);
 int		ft_export(char **args, t_env **env);
 int		ft_exit(char **args);
+//built-ins utils
+void	ft_swap(t_env **env);
+void	check_content(t_env	*holder);
 
 void	ft_setenv(t_env **env, char *var, char *content);
 char	*ft_getenv(t_env *env, char *var);
@@ -144,7 +153,7 @@ size_t	ft_varlen(char *str);
 void	ft_expand(char **cmd, t_env *env);
 
 int		ft_here_doc(char **del, t_env *env);
-void	ft_expand_str(char **str, t_env *env);
+void	ft_expand_str(char **str, t_env *env, int quote, int len);
 
 //signals
 void	ft_handle_signals(int signo);
@@ -157,7 +166,7 @@ void	ft_remove_quotes_str(char **str);
 void	ft_perr(char *cmd, char *error);
 int		ft_expand_varlen(char *str);
 
-void ft_shlvl_increment(t_env *env);
-int	ft_alphanum_check(char *str);
+void	ft_shlvl_increment(t_env *env);
+int		ft_alphanum_check(char *str);
 
 #endif

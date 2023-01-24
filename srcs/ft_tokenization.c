@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:09:14 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/20 18:03:02 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/23 12:56:57 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,17 @@ int	ft_syntax_error(t_lst *tokens)
 	while (tokens)
 	{
 		if (tokens->type == PIPE
-			&& (tokens->next && ((tokens->next->type == IN_RED) 
-				|| (tokens->next->type == IN_REDD)
-				|| (tokens->next->type == OUT_RED)
-				|| (tokens->next->type == OUT_REDD))))
+			&& (tokens->next && ((tokens->next->type == IN_RED)
+					|| (tokens->next->type == IN_REDD)
+					|| (tokens->next->type == OUT_RED)
+					|| (tokens->next->type == OUT_REDD))))
 		{
 			tokens = tokens->next;
-			continue;
+			continue ;
 		}
 		if (tokens->type != WORD
-			&& (!tokens->next || (tokens->next && (tokens->next->type != WORD))))
+			&& (!tokens->next
+				|| (tokens->next && (tokens->next->type != WORD))))
 			return (1);
 		if (tokens->type == QUOTE || tokens->type == DB_QUOTE)
 			return (1);
@@ -63,7 +64,7 @@ int	ft_token_type(char *content)
 static void	ft_get_token_size(char **input, int i, int *size)
 {
 	char	*str;
-	
+
 	if (((*input)[i + *size] == '>' && (*input)[i + *size + 1] == '>')
 		|| ((*input)[i + *size] == '<' && (*input)[i + *size + 1] == '<'))
 		*size += 2;

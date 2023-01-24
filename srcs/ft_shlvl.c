@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:34:31 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/20 16:41:13 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/23 12:56:08 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	ft_unset_oldpwd(t_env *env)
 {
-	struct stat buf;
-    char	*content;
+	struct stat	buf;
+	char		*content;
 
 	content = ft_getenv(env, "OLDPWD");
 	if (content)
@@ -34,10 +34,10 @@ static void	ft_new_pwd(t_env *env)
 		ft_setenv(&env, "PWD", pwd);
 }
 
-void ft_shlvl_increment(t_env *env)
+void	ft_shlvl_increment(t_env *env)
 {
-    char	*content;
-    int		value;
+	char	*content;
+	int		value;
 
 	content = ft_getenv(env, "SHLVL");
 	if (content)

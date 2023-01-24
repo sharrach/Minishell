@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2023/01/16 16:24:40 by sharrach         ###   ########.fr        #
+#    Updated: 2023/01/23 13:14:17 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,8 @@ SRCS	=	srcs/main.c\
 			srcs/ft_expand.c\
 			srcs/ft_utils.c\
 			srcs/ft_signals.c\
+			srcs/ft_export_utils.c\
+			srcs/ft_exec_utils.c\
 			srcs/ft_remove_quotes.c\
 			srcs/ft_shlvl.c
 

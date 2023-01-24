@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:36:50 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/22 16:54:24 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:25:56 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int ac, char *av[], char *env[])
 	ft_shlvl_increment(vars.env);
 	while (1)
 	{
-		vars.input = readline("Tzz-shell> ");
+		vars.input = readline("mini-shell> ");
 		if (!vars.input)
 			break ;
 		if (vars.input[0])
@@ -41,7 +41,7 @@ int	main(int ac, char *av[], char *env[])
 			printf("Syntax error\n");
 			continue ;
 		}
-		vars.cmds = ft_parsing(tokens);
+		ft_parsing(&vars, tokens);
 		ft_lst_lstclear(&tokens);
 		ft_exec_commands(&vars);
 		ft_mini_lstclear(&vars.cmds);

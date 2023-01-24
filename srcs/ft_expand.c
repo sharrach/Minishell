@@ -6,30 +6,38 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 17:14:04 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/18 16:11:02 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:31:45 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_expand_str(char **str, t_env *env)
+static void	ft_quote(int *quote, char *str, int i)
+{
+	if (!*quote && (str[i] == '\'' || str[i] == '"'))
+		*quote = str[i];
+	else if (*quote && str[i] == *quote)
+		*quote = 0;
+}
+
+static void	ft_return(char **new_str, int *i, int *len, char **str)
+{
+	*new_str = ft_stradd2(*new_str, ft_substr((*str), *i - *len, *len));
+	free(*str);
+	*str = *new_str;
+}
+
+void	ft_expand_str(char **str, t_env *env, int quote, int len)
 {
 	char	*new_str;
 	char	*var;
-	int		quote;
-	int		len;
 	int		i;
 
 	new_str = ft_strdup("");
-	len = 0;
-	i = 0;
-	quote = 0;
-	while ((*str)[i])
+	i = -1;
+	while ((*str)[++i])
 	{
-		if (!quote && ((*str)[i] == '\'' || (*str)[i] == '"'))
-			quote = (*str)[i];
-		else if (quote && (*str)[i] == quote)
-			quote = 0;
+		ft_quote(&quote, *str, i);
 		if ((*str)[i] == '$' && (ft_isalpha((*str)[i + 1])
 			|| ft_strchr("_?", (*str)[i + 1])) && (!quote || quote == '"'))
 		{
@@ -44,11 +52,8 @@ void	ft_expand_str(char **str, t_env *env)
 			i += ft_expand_varlen(&(*str)[i + 1]);
 		}
 		len++;
-		i++;
 	}
-	new_str = ft_stradd2(new_str, ft_substr((*str), i - len, len));
-	free(*str);
-	*str = new_str;
+	ft_return(&new_str, &i, &len, str);
 }
 
 void	ft_expand(char **cmd, t_env *env)
@@ -58,7 +63,7 @@ void	ft_expand(char **cmd, t_env *env)
 	i = 0;
 	while (cmd[i])
 	{
-		ft_expand_str(&cmd[i], env);
+		ft_expand_str(&cmd[i], env, 0, 0);
 		i++;
 	}
 }

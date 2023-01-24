@@ -6,11 +6,25 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 11:52:29 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/19 20:38:11 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:22:18 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	ft_var_init(char **new_str, int *i, int *len)
+{
+		*new_str = ft_strdup("");
+		*len = 0;
+		*i = 0;
+}
+
+static void	ft_return(char **new_str, int *i, int *len, char **str)
+{
+	*new_str = ft_stradd2(*new_str, ft_substr((*str), *i - *len, *len));
+	free(*str);
+	*str = *new_str;
+}
 
 static void	ft_expand_heredoc(char **str, t_env *env)
 {
@@ -19,9 +33,7 @@ static void	ft_expand_heredoc(char **str, t_env *env)
 	int		len;
 	int		i;
 
-	new_str = ft_strdup("");
-	len = 0;
-	i = 0;
+	ft_var_init(&new_str, &i, &len);
 	while ((*str)[i])
 	{
 		if ((*str)[i] == '$' && (ft_isalpha((*str)[i + 1])
@@ -40,15 +52,21 @@ static void	ft_expand_heredoc(char **str, t_env *env)
 		len++;
 		i++;
 	}
-	new_str = ft_stradd2(new_str, ft_substr((*str), i - len, len));
-	free(*str);
-	*str = new_str;
+	ft_return(&new_str, &i, &len, str);
 }
 
-// static void ft_inside_while()
-// {
-
-// }
+static int	ft_here_doc_loop(char **line, char **del)
+{
+	ft_putstr_fd("> ", STDOUT_FILENO);
+	(*line) = get_next_line(STDIN_FILENO);
+	if (!(*line) || (ft_strncmp((*line), *del, ft_strlen(*del)) == 0
+			&& (*line)[ft_strlen(*del)] == '\n'))
+	{
+		free((*line));
+		return (0);
+	}
+	return (1);
+}
 
 int	ft_here_doc(char **del, t_env *env)
 {
@@ -58,7 +76,6 @@ int	ft_here_doc(char **del, t_env *env)
 
 	if (pipe(p) == -1)
 		return (perror("pipe"), STDIN_FILENO);
-	// ft_expand_str(del, env);
 	is_expand = 0;
 	if (!ft_strchr(*del, '\'') && !ft_strchr(*del, '"'))
 		is_expand = 1;
@@ -66,14 +83,8 @@ int	ft_here_doc(char **del, t_env *env)
 	gvar.here_doc = 1;
 	while (gvar.here_doc)
 	{
-		ft_putstr_fd("> ", STDOUT_FILENO);
-		line = get_next_line(STDIN_FILENO);
-		if (!line || (ft_strncmp(line, *del, ft_strlen(*del)) == 0
-			&& line[ft_strlen(*del)] == '\n'))
-		{
-			free(line);
+		if (!ft_here_doc_loop(&line, del))
 			break ;
-		}
 		if (is_expand)
 			ft_expand_heredoc(&line, env);
 		ft_putstr_fd(line, p[STDOUT_FILENO]);

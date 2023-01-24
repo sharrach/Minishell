@@ -6,77 +6,68 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:07:39 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/17 14:27:17 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:32:39 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static	int	ft_w_count(t_lst **tmp)
+static	int	ft_w_count(t_lst *tokens)
 {
 	int		w_count;
-	t_lst 	*tmp2;
 
-	tmp2 = *tmp;
 	w_count = 0;
-	while (tmp2 && tmp2->type != PIPE)
+	while (tokens && tokens->type != PIPE)
 	{
-		if (tmp2->type == WORD
-			&& (tmp2->prev == NULL
-				|| (tmp2->prev->type != IN_RED
-					&& tmp2->prev->type != OUT_RED
-					&& tmp2->prev->type != IN_REDD
-					&& tmp2->prev->type != OUT_REDD)))
+		if (tokens->type == WORD
+			&& (tokens->prev == NULL
+				|| (tokens->prev->type != IN_RED
+					&& tokens->prev->type != OUT_RED
+					&& tokens->prev->type != IN_REDD
+					&& tokens->prev->type != OUT_REDD)))
 			w_count++;
-		tmp2 = tmp2->next;
+		tokens = tokens->next;
 	}
 	return (w_count);
 }
 
-t_mini	*ft_parsing(t_lst *tokens)
+static void	ft_parsing_lists(t_vars *vars, t_lst *tokens,
+								t_lst **redir, char **cmd)
 {
-	t_mini	*cmds;
+	if (tokens->type == PIPE || !tokens->next)
+	{
+		ft_mini_lstadd_back(&vars->cmds, ft_mini_lstnew(cmd, *redir));
+		*redir = NULL;
+	}
+	if (tokens->type == IN_RED || tokens->type == OUT_RED
+		|| tokens->type == IN_REDD || tokens->type == OUT_REDD)
+		ft_lst_lstadd_back(redir,
+			ft_lst_lstnew(ft_strdup(tokens->next->content), tokens->type));
+}
+
+t_mini	*ft_parsing(t_vars *vars, t_lst *tokens)
+{
 	t_lst	*redir;
 	char	**cmd;
-	int		w_count;
 	int		i;
-	t_lst	*tmp;
 
-	cmds = NULL;
+	vars->cmds = NULL;
 	redir = NULL;
 	i = 0;
-	tmp = tokens;
-	w_count = ft_w_count(&tmp);
-	cmd = (char **)ft_calloc(w_count + 1, sizeof(char *));
-	if (!cmd)
-		return (NULL);
 	while (tokens)
 	{
+		if (i == 0)
+			cmd = ft_calloc(ft_w_count(tokens) + 1, sizeof(char *));
 		if (tokens->type == WORD && (tokens->prev == NULL
 				|| (tokens->prev->type != IN_RED
 					&& tokens->prev->type != OUT_RED
 					&& tokens->prev->type != IN_REDD
 					&& tokens->prev->type != OUT_REDD)))
 			cmd[i++] = ft_strdup(tokens->content);
-		if (tokens->type == PIPE || !tokens->next)
-		{
-			ft_mini_lstadd_back(&cmds, ft_mini_lstnew(cmd, redir));
-			redir = NULL;
-		}
-		if (tokens->type == IN_RED || tokens->type == OUT_RED
-			|| tokens->type == IN_REDD || tokens->type == OUT_REDD)
-			ft_lst_lstadd_back(&redir,
-				ft_lst_lstnew(ft_strdup(tokens->next->content), tokens->type));
+		ft_parsing_lists(vars, tokens, &redir, cmd);
 		if (tokens->type == PIPE && tokens->next)
-		{
 			i = 0;
-			tmp = tokens->next;
-			w_count = ft_w_count(&tmp);
-			cmd = (char **)ft_calloc(w_count + 1, sizeof(char *));
-			if (!cmd)
-				return (NULL);
-		}
 		tokens = tokens->next;
 	}
-	return (cmds);
+	return (vars->cmds);
 }

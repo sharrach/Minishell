@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 11:40:16 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/22 16:50:39 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:57:03 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,25 +54,36 @@ void	ft_close_fds(t_mini **cmd)
 	}
 }
 
-static void	ft_out_red(t_mini **cmd, t_lst *redir, t_env *env)
+static void		(t_mini **cmd, t_lst *redir, t_env *env)
 {
 	if ((redir->type == OUT_RED || redir->type == OUT_REDD)
 		&& (*cmd)->red[STDOUT_FILENO] != STDOUT_FILENO)
 		close((*cmd)->red[STDOUT_FILENO]);
 	if (redir->type == OUT_RED)
 	{
-		ft_expand_str(&redir->content, env);
+		ft_expand_str(&redir->content, env, 0, 0);
 		ft_remove_quotes_str(&redir->content);
-		(*cmd)->red[STDOUT_FILENO] =
-			open(redir->content, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		(*cmd)->red[STDOUT_FILENO]
+			= open(redir->content, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	}
 	else if (redir->type == OUT_REDD)
 	{
-		ft_expand_str(&redir->content, env);
+		ft_expand_str(&redir->content, env, 0, 0);
 		ft_remove_quotes_str(&redir->content);
-		(*cmd)->red[STDOUT_FILENO] =
-			open(redir->content, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		(*cmd)->red[STDOUT_FILENO]
+			= open(redir->content, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	}
+}
+
+static int	ft_open_heredoc(t_mini **cmds, t_env *env, t_lst	**redir)
+{
+	if ((*redir)->type == IN_REDD)
+	{
+		(*cmds)->red[STDIN_FILENO] = ft_here_doc(&(*redir)->content, env);
+		if ((*cmds)->red[STDIN_FILENO] == STDIN_FILENO)
+			return (0);
+	}
+	return (1);
 }
 
 int	ft_open_redirs(t_mini *cmds, t_env *env)
@@ -90,16 +101,12 @@ int	ft_open_redirs(t_mini *cmds, t_env *env)
 				close(cmds->red[STDIN_FILENO]);
 			if (redir->type == IN_RED)
 			{
-				ft_expand_str(&redir->content, env);
+				ft_expand_str(&redir->content, env, 0, 0);
 				ft_remove_quotes_str(&redir->content);
 				cmds->red[STDIN_FILENO] = open(redir->content, O_RDONLY);
 			}
-			else if (redir->type == IN_REDD)
-			{
-				cmds->red[STDIN_FILENO] = ft_here_doc(&redir->content, env);
-				if (cmds->red[STDIN_FILENO] == STDIN_FILENO)
-					return (0);
-			}
+			else if (!ft_open_heredoc(&cmds, env, &redir))
+				return (0);
 			redir = redir->next;
 		}
 		cmds = cmds->next;

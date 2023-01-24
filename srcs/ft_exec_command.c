@@ -6,54 +6,11 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:21:03 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/22 16:30:33 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/23 12:30:34 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static int	ft_builtins(char *name)
-{
-	if (!name)
-		return (0);
-	if (ft_strcmp(name, "env") == 0
-		|| ft_strcmp(name, "echo") == 0
-		|| ft_strcmp(name, "pwd") == 0
-		|| ft_strcmp(name, "cd") == 0
-		|| ft_strcmp(name, "unset") == 0
-		|| ft_strcmp(name, "export") == 0
-		|| ft_strcmp(name, "exit") == 0)
-		return (1);
-	return (0);
-}
-
-void	ft_dup_fds(t_mini *cmds)
-{
-	if (cmds->red[STDIN_FILENO] != STDIN_FILENO)
-	{
-		dup2(cmds->red[STDIN_FILENO], STDIN_FILENO);
-		close(cmds->red[STDIN_FILENO]);
-	}
-	else if (cmds->pipe[STDIN_FILENO] != STDIN_FILENO)
-	{
-		dup2(cmds->pipe[STDIN_FILENO], STDIN_FILENO);
-		close(cmds->pipe[STDIN_FILENO]);
-		if (cmds->prev && cmds->prev->pipe[STDOUT_FILENO] != STDOUT_FILENO)
-			close(cmds->prev->pipe[STDOUT_FILENO]);
-	}
-	if (cmds->red[STDOUT_FILENO] != STDOUT_FILENO)
-	{
-		dup2(cmds->red[STDOUT_FILENO], STDOUT_FILENO);
-		close(cmds->red[STDOUT_FILENO]);
-	}
-	else if (cmds->pipe[STDOUT_FILENO] != STDOUT_FILENO)
-	{
-		dup2(cmds->pipe[STDOUT_FILENO], STDOUT_FILENO);
-		close(cmds->pipe[STDOUT_FILENO]);
-		if (cmds->next && cmds->next->pipe[STDIN_FILENO] != STDIN_FILENO)
-			close(cmds->next->pipe[STDIN_FILENO]);
-	}
-}
 
 static void	ft_execve(char **cmd, t_env *env)
 {
@@ -78,36 +35,30 @@ static void	ft_execve(char **cmd, t_env *env)
 	}
 }
 
-void	ft_perr(char *cmd, char *error)
+static void	ft_sig_status(pid_t pid, t_vars *vars)
 {
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(cmd, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putendl_fd(error, STDERR_FILENO);
-}
+	int	status;
 
-static int ft_builtin_check(t_vars *vars, t_mini *cmds)
-{
-	if (ft_strcmp(cmds->cmd[0], "env") == 0)
-		return (gvar.exit = ft_env(vars->env), 1);
-	else if (ft_strcmp(cmds->cmd[0], "echo") == 0)
-		return (gvar.exit = ft_echo(cmds->cmd), 1);
-	else if (ft_strcmp(cmds->cmd[0], "pwd") == 0)
-		return (gvar.exit = ft_pwd(), 1);
-	else if (ft_strcmp(cmds->cmd[0], "cd") == 0)
-		return (gvar.exit = ft_cd(cmds->cmd, &vars->env), 1);
-	else if (ft_strcmp(cmds->cmd[0], "unset") == 0)
-		return (gvar.exit = ft_unset(cmds->cmd, &vars->env), 1);
-	else if (ft_strcmp(cmds->cmd[0], "export") == 0)
-		return (gvar.exit = ft_export(cmds->cmd, &vars->env), 1);
-	else if (ft_strcmp(cmds->cmd[0], "exit") == 0)
-		return (gvar.exit = ft_exit(cmds->cmd), 1);
-	return (0);
+	waitpid(pid, &status, 0);
+	while (waitpid(-1, NULL, 0) != -1)
+		;
+	gvar.exit = WEXITSTATUS(status);
+	if (WTERMSIG(status) == SIGINT)
+	{
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		gvar.exit = 130;
+	}
+	else if (WTERMSIG(status) == SIGQUIT)
+	{
+		ft_putendl_fd("Quit", STDOUT_FILENO);
+		gvar.exit = 131;
+	}
+	sigaction(SIGINT, &vars->act, NULL);
 }
 
 void	ft_exec_command(t_vars *vars, t_mini *cmds, int is_fork)
 {
-	struct stat buf;
+	struct stat	buf;
 
 	if (!ft_builtin_check(vars, cmds))
 	{
@@ -132,27 +83,7 @@ void	ft_exec_command(t_vars *vars, t_mini *cmds, int is_fork)
 		exit(gvar.exit);
 }
 
-static void ft_sig_status(pid_t pid, t_vars *vars)
-{	
-	int status;
-	waitpid(pid, &status, 0);
-	while (waitpid(-1, NULL, 0) != -1)
-		;
-	gvar.exit = WEXITSTATUS(status);
-	if (WTERMSIG(status) == SIGINT)
-	{
-		ft_putstr_fd("\n", STDOUT_FILENO);
-		gvar.exit = 130;
-	}
-	else if (WTERMSIG(status) == SIGQUIT)
-	{
-		ft_putendl_fd("Quit", STDOUT_FILENO);
-		gvar.exit = 131;
-	}
-	sigaction(SIGINT, &vars->act, NULL);
-}
-
-static void ft_exec_cmnd(t_mini *cmds, t_vars *vars, int is_fork, pid_t *pid)
+static void	ft_exec_cmnd(t_mini *cmds, t_vars *vars, int is_fork, pid_t *pid)
 {
 	while (cmds)
 	{
@@ -179,15 +110,6 @@ static void ft_exec_cmnd(t_mini *cmds, t_vars *vars, int is_fork, pid_t *pid)
 		ft_close_fds(&cmds);
 		cmds = cmds->next;
 	}
-}
-
-static void ft_dup_close(int *std)
-{
-	dup2(std[STDOUT_FILENO], STDOUT_FILENO);
-	close(std[STDOUT_FILENO]);
-	dup2(std[STDIN_FILENO], STDIN_FILENO);
-	close(std[STDIN_FILENO]);
-
 }
 
 void	ft_exec_commands(t_vars *vars)
