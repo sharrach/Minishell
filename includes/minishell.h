@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/24 11:27:20 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 16:29:29 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_gvar
 	int	here_doc;
 }	t_gvar;
 
-extern t_gvar	gvar;
+extern t_gvar	g_var;
 
 typedef struct s_lst
 {
@@ -155,6 +155,7 @@ void	ft_expand(char **cmd, t_env *env);
 int		ft_here_doc(char **del, t_env *env);
 void	ft_expand_str(char **str, t_env *env, int quote, int len);
 
+int		ft_open_heredoc(t_mini **cmds, t_env *env, t_lst **redir);
 //signals
 void	ft_handle_signals(int signo);
 

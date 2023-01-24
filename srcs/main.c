@@ -6,26 +6,18 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:36:50 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/24 11:25:56 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 13:18:20 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_gvar	gvar;
+t_gvar	g_var;
 
-int	main(int ac, char *av[], char *env[])
+static void	ft_readline(t_vars vars)
 {
-	t_vars	vars;
 	t_lst	*tokens;
 
-	(void)ac;
-	(void)av;
-	vars.act.sa_handler = &ft_handle_signals;
-	sigaction(SIGINT, &vars.act, NULL);
-	signal(SIGQUIT, SIG_IGN);
-	ft_duplicate_env(&vars, env);
-	ft_shlvl_increment(vars.env);
 	while (1)
 	{
 		vars.input = readline("mini-shell> ");
@@ -46,5 +38,19 @@ int	main(int ac, char *av[], char *env[])
 		ft_exec_commands(&vars);
 		ft_mini_lstclear(&vars.cmds);
 	}
+}
+
+int	main(int ac, char *av[], char *env[])
+{
+	t_vars	vars;
+
+	(void)ac;
+	(void)av;
+	vars.act.sa_handler = &ft_handle_signals;
+	sigaction(SIGINT, &vars.act, NULL);
+	signal(SIGQUIT, SIG_IGN);
+	ft_duplicate_env(&vars, env);
+	ft_shlvl_increment(vars.env);
+	ft_readline(vars);
 	return (0);
 }

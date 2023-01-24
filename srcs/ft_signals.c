@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 10:45:12 by sharrach          #+#    #+#             */
-/*   Updated: 2022/12/22 13:40:12 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 13:17:40 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ void	ft_handle_signals(int signo)
 {
 	if (signo == SIGINT)
 	{
-		if (gvar.here_doc)
+		if (g_var.here_doc)
 		{
-			gvar.here_doc = 0;
+			g_var.here_doc = 0;
 			ft_putstr_fd("\n", STDOUT_FILENO);
 			rl_replace_line("", 0);
 			rl_redisplay();
-			gvar.exit = 130;
+			g_var.exit = 130;
 		}
 		else
 		{
@@ -30,7 +30,7 @@ void	ft_handle_signals(int signo)
 			rl_replace_line("", 0);
 			rl_on_new_line();
 			rl_redisplay();
-			gvar.exit = 1;
+			g_var.exit = 1;
 		}
 	}
 }

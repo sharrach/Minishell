@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 11:40:16 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/24 12:16:40 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 13:15:44 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,6 @@ static void	ft_out_red(t_mini **cmd, t_lst *redir, t_env *env)
 		(*cmd)->red[STDOUT_FILENO]
 			= open(redir->content, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	}
-}
-
-static int	ft_open_heredoc(t_mini **cmds, t_env *env, t_lst	**redir)
-{
-	if ((*redir)->type == IN_REDD)
-	{
-		(*cmds)->red[STDIN_FILENO] = ft_here_doc(&(*redir)->content, env);
-		if ((*cmds)->red[STDIN_FILENO] == STDIN_FILENO)
-			return (0);
-	}
-	return (1);
 }
 
 int	ft_open_redirs(t_mini *cmds, t_env *env)
