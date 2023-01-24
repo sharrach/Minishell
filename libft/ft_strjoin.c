@@ -3,53 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sharrach <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 14:59:57 by sharrach          #+#    #+#             */
-/*   Updated: 2021/11/06 15:00:00 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/25 17:30:01 by iellyass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
-
-static	char	*ft_strcpy(char *dst, const char *src)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (dst);
-}
-
-static	char	*ft_strcat(char *dest, const char *src)
-{
-	int	i;
-	int	j;
-	int	lendest;
-	int	lensrc;
-	int	lenofboth;
-
-	i = 0;
-	j = 0;
-	lendest = ft_strlen(dest);
-	lensrc = ft_strlen(src);
-	lenofboth = lendest + lensrc;
-	while (i < lendest)
-		i++;
-	while (i < lenofboth)
-	{
-		dest[i] = src[j];
-		i++;
-		j++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
+#include "libft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {

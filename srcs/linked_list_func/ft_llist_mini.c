@@ -6,11 +6,24 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:02:41 by sharrach          #+#    #+#             */
-/*   Updated: 2022/11/01 17:22:12 by sharrach         ###   ########.fr       */
+/*   Updated: 2022/11/30 12:20:55 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
+
+int	ft_mini_lstsize(t_mini *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		i ++;
+		lst = lst->next;
+	}
+	return (i);
+}
 
 t_mini	*ft_mini_lstlast(t_mini *lst)
 {
@@ -42,8 +55,10 @@ t_mini	*ft_mini_lstnew(char **cmd, t_lst *redir)
 	if (new == 0)
 		return (NULL);
 	new->cmd = cmd;
-    new->pipe[STDIN_FILENO] = STDIN_FILENO;
-    new->pipe[STDOUT_FILENO] = STDOUT_FILENO;
+	new->pipe[STDIN_FILENO] = STDIN_FILENO;
+	new->pipe[STDOUT_FILENO] = STDOUT_FILENO;
+	new->red[STDIN_FILENO] = STDIN_FILENO;
+	new->red[STDOUT_FILENO] = STDOUT_FILENO;
 	new->redir = redir;
 	new->next = NULL;
 	new->prev = NULL;
@@ -55,14 +70,14 @@ void	ft_mini_lstclear(t_mini **lst)
 	t_mini	*holder;
 
 	if (!lst)
-		return;
+		return ;
 	while (*lst)
 	{
 		holder = *lst;
 		*lst = (*lst)->next;
-        free_2d(holder->cmd);
+		free_2d(holder->cmd);
 		ft_lst_lstclear(&holder->redir);
-        free(holder);
+		free(holder);
 	}
 	*lst = NULL;
 }

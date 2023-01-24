@@ -6,7 +6,7 @@
 #    By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/18 17:38:52 by sharrach          #+#    #+#              #
-#    Updated: 2022/11/01 17:23:34 by sharrach         ###   ########.fr        #
+#    Updated: 2023/01/24 16:29:41 by sharrach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,15 +15,37 @@ NAME	=	minishell
 HEADER	=	includes/minishell.h
 
 SRCS	=	srcs/main.c\
-			srcs/ft_llist_redir.c\
-			srcs/ft_llist_mini.c\
 			srcs/pipes_red.c\
-			srcs/get_command.c\
-			srcs/utils.c
+			srcs/linked_list_func/ft_llist_mini.c\
+			srcs/linked_list_func/ft_llist_redir.c\
+			srcs/linked_list_func/ft_lst_env.c\
+			srcs/get_next_line/get_next_line.c\
+			srcs/get_next_line/get_next_line_utils.c\
+			srcs/ft_tokenization.c\
+			srcs/ft_parsing.c\
+			srcs/ft_get_command.c\
+			srcs/ft_exec_command.c\
+			srcs/ft_env_dup.c\
+			srcs/ft_env.c\
+			srcs/ft_cd.c\
+			srcs/ft_pwd.c\
+			srcs/ft_unset.c\
+			srcs/ft_echo.c\
+			srcs/ft_export.c\
+			srcs/ft_exit.c\
+			srcs/ft_getsetenv.c\
+			srcs/ft_heredoc.c\
+			srcs/ft_expand.c\
+			srcs/ft_utils.c\
+			srcs/ft_signals.c\
+			srcs/ft_export_utils.c\
+			srcs/ft_exec_utils.c\
+			srcs/ft_remove_quotes.c\
+			srcs/ft_shlvl.c
 
 OBJS	=	$(SRCS:.c=.o)
 
-CC		=	gcc
+CC		=	cc
 
 CFLAGS	=	-Wall -Wextra -Werror
 
@@ -33,11 +55,21 @@ LIBFT	=	libft
 
 LIB		=	$(LIBFT)/libft.a
 
-%.o:%.c		$(HEADER)
-			$(CC) $(CFLAGS) -I/usr/include/readline/include -c $< -o $@ 
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S), Darwin)
+	IFLAGS	=	$(shell brew --prefix readline)/include
+	LFLAGS	=	$(shell brew --prefix readline)/lib
+endif
+ifeq ($(UNAME_S), Linux)
+	IFLAGS	=	/usr/include/readline/include
+	LFLAGS	=	/usr/include/readline/lib
+endif
+
+%.o: %.c $(HEADER)
+			$(CC) $(CFLAGS) -I$(IFLAGS) -c $< -o $@
 
 $(NAME)	:	$(LIB) $(OBJS) $(HEADER)
-			$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME) -lreadline -L/usr/include/readline/lib
+			$(CC) $(CFLAGS) $(OBJS) $(LIB) -lreadline -L$(LFLAGS) -o $(NAME)
 
 $(LIB):
 			make -C $(LIBFT)
