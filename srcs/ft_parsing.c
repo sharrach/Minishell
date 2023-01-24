@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iellyass <iellyass@1337.student.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:07:39 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/24 11:32:39 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:10:09 by iellyass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static	int	ft_w_count(t_lst *tokens)
 {
 	int		w_count;
-
 	w_count = 0;
 	while (tokens && tokens->type != PIPE)
 	{
