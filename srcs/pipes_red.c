@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 11:40:16 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/24 11:57:03 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:16:40 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_close_fds(t_mini **cmd)
 	}
 }
 
-static void		(t_mini **cmd, t_lst *redir, t_env *env)
+static void	ft_out_red(t_mini **cmd, t_lst *redir, t_env *env)
 {
 	if ((redir->type == OUT_RED || redir->type == OUT_REDD)
 		&& (*cmd)->red[STDOUT_FILENO] != STDOUT_FILENO)
