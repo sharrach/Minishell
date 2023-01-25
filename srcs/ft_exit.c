@@ -6,11 +6,38 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 18:56:56 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/24 20:24:03 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/25 11:55:52 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static long double	ft_datoi(const char *str)
+{
+	int			i;
+	int			sign;
+	long double	nb;
+
+	i = 0;
+	sign = 1;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+	{
+		i++;
+	}
+	if (str[i] == '-' || str[i] == '+' )
+	{
+		if (str[i] == '-')
+			sign *= -1;
+		i++;
+	}
+	nb = 0;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		nb = (nb * 10) + str[i] - 48;
+		i++;
+	}
+	return (sign * nb);
+}
 
 static int	ft_isnum(char *str)
 {
@@ -35,19 +62,16 @@ int	ft_exit(char **args)
 	{
 		if (ft_isnum(args[1]))
 		{
-			printf("1<<%lld\n", ft_atoi(args[1]));
 			if (ft_arrlen(args) > 2)
+				return (printf("minishell: exit: too many arguments\n"), 1);
+			if (ft_datoi(args[1]) > LLONG_MAX || ft_datoi(args[1]) < LLONG_MIN)
 			{
-				printf("minishell: exit: too many arguments\n");
-				return (EXIT_FAILURE);
-			}
-			if (ft_atoi(args[1]) > 9223372036854775807 || ft_atoi(args[1]) <= -9223372036854775807)
-			{
-				printf("minishell: exit: %s: numeric argument required\n", args[1]);
+				printf("minishell: exit: %s: numeric argument required\n",
+					args[1]);
 				g_var.exit = 255;
 			}
 			else
-				g_var.exit = ft_atoi(args[1]);
+				g_var.exit = (unsigned char)ft_atoi(args[1]);
 		}
 		else
 		{

@@ -6,13 +6,11 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 15:36:50 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/24 13:18:20 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/25 12:08:36 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-t_gvar	g_var;
 
 static void	ft_readline(t_vars vars)
 {

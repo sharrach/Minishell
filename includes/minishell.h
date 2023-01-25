@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 16:01:52 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/24 16:29:29 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/25 12:08:41 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_gvar
 	int	here_doc;
 }	t_gvar;
 
-extern t_gvar	g_var;
+t_gvar	g_var;
 
 typedef struct s_lst
 {

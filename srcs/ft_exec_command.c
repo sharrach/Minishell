@@ -6,7 +6,7 @@
 /*   By: sharrach <sharrach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:21:03 by sharrach          #+#    #+#             */
-/*   Updated: 2023/01/24 13:17:40 by sharrach         ###   ########.fr       */
+/*   Updated: 2023/01/25 12:02:45 by sharrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	ft_exec_command(t_vars *vars, t_mini *cmds, int is_fork)
 {
 	struct stat	buf;
 
+	ft_dup_fds(cmds);
+	ft_close_all_fds(vars->cmds);
 	if (!ft_builtin_check(vars, cmds))
 	{
 		if (access(cmds->cmd[0], F_OK) == 0)
@@ -83,7 +85,7 @@ void	ft_exec_command(t_vars *vars, t_mini *cmds, int is_fork)
 		exit(g_var.exit);
 }
 
-static void	ft_exec_cmnd(t_mini *cmds, t_vars *vars, int is_fork, pid_t *pid)
+static int	ft_exec_cmnd(t_mini *cmds, t_vars *vars, int is_fork, pid_t *pid)
 {
 	while (cmds)
 	{
@@ -95,7 +97,7 @@ static void	ft_exec_cmnd(t_mini *cmds, t_vars *vars, int is_fork, pid_t *pid)
 			*pid = fork();
 		}
 		if (*pid == -1)
-			perror("fork");
+			return (perror("fork"), 0);
 		if (*pid == 0)
 		{
 			if (is_fork)
@@ -103,13 +105,12 @@ static void	ft_exec_cmnd(t_mini *cmds, t_vars *vars, int is_fork, pid_t *pid)
 				signal(SIGINT, NULL);
 				signal(SIGQUIT, NULL);
 			}
-			ft_dup_fds(cmds);
-			ft_close_all_fds(vars->cmds);
 			ft_exec_command(vars, cmds, is_fork);
 		}
 		ft_close_fds(&cmds);
 		cmds = cmds->next;
 	}
+	return (1);
 }
 
 void	ft_exec_commands(t_vars *vars)
